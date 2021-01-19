@@ -1,4 +1,4 @@
-
+## Python
 
 
 
@@ -249,7 +249,7 @@ ex) 우체국에서 편지를 보낼 때, 지켜줘야 하는 것 : 우측상단
 
 
 
-#### 수업정리
+#### 수업정리  - 00.Python_intro
 
 ##### 1. 기초 문법(Syntax)
 
@@ -288,6 +288,8 @@ ex) 우체국에서 편지를 보낼 때, 지켜줘야 하는 것 : 우측상단
      x = y
      y = change
      print(x, y)
+     
+     2 1
      ```
 
 2. 식별자(Identifiers)
@@ -318,6 +320,8 @@ ex) 우체국에서 편지를 보낼 때, 지켜줘야 하는 것 : 우측상단
 
   - ```python
     a = 8.5 - 0.21
+    print(a)
+    8.28999999999999999
     b = 8.29
     a == b
     False
@@ -335,26 +339,577 @@ ex) 우체국에서 편지를 보낼 때, 지켜줘야 하는 것 : 우측상단
     True
     ```
 
-2. 글자(string) 타입
+  - 컴퓨터식 지수 표현 방식 e or E
 
-3. 참/거짓(Boolean) 타입
+  - ```python
+    pi = 3141592-6
+    print(pi, type(pi))
+    
+    3.141592 <class 'float'>
+  ```
+    
+  - round : 0 ~ 4는 내림, 짝수에서 5는 내림, 홀수에서 5는 올림, 6 ~ 9는 올림
+
+    ```python
+    round(5.5 - 3.22, 2)
+    
+    2.28
+    ```
+
+- complex(복소수, complex number)
+
+  - 실수부와 허수부를 가진다.
+
+  - 허수부는 j로 표현
+
+  - 문자열을 변환할때, 문자열의 중앙의 연산자 주위에 공백을 포함해서는 안된다.
+
+    ```python
+    complex('5 + 5j')  #ValueError
+    ```
+
+
+2. 문자(string) 타입
+
+- 기본 활용법
+
+  - Single quotes(')나 Double quotes(")를 활용하여 표현
+  - 문자열 안에 따옴표를 쓰려면 '안에  " or "안에 ' 를 활용하여 표현
+  - PEP-8 : 하나의 문장부호를 선택하여 유지하도록 한다. 보통(')
+  - 문자열은 +, * 연산이 가능, 변수화 사용 가능
+
+- 이스케이프 시퀀스
+
+  - | 문자 |       의미       |
+    | :--: | :--------------: |
+    |  \n  |     줄 바꿈      |
+    |  \t  | 탭 만큼 띄어쓰기 |
+    |  \r  |    캐리지리턴    |
+    |  \0  |       Null       |
+    | \\\  |      \ 출력      |
+    | \\'  |      ' 출력      |
+    | \\"  |      " 출력      |
+
+  - end 옵션
+
+    ```python
+    print('안녕하세요.', end='!')
+    print('반갑습니다.', end='!')
+    
+    안녕하세요!반갑습니다!
+    ```
+
+- String interpolation
+
+  - %-formatting
+
+  - str.format()
+
+  - f-strings : python 3.6 이후 version
+
+    ```python
+    score = 4.5
+    # %-formatting
+    print('나의 학점은 %s 입니다.', % score)
+    # str.format()
+    print('나의 학점은 {} 입니다.', format(score))
+    # f-strings
+    print(f'나의 학점은 {score} 입니다.')
+    
+    나의 학점은 4.5 입니다.
+    ```
+
+  - 다양한 형식 활용
+
+    - interpolation에서 출력형식 지정
+
+      ```python
+      import datetime
+      today_now = datetime.datetime.now()
+      print(today)
+      
+      2021-01.19 19:51:35.805035
+              
+      print(f'오늘은 {today:%y}년 {today:%m}월 {today:%d}일 {today:%A} 입니다.'   
+            
+      오늘은 21년 01월 19일 Tuesday 입니다.
+      ```
+
+    - interpolation에서 연산
+
+      ```python
+      pi = 3.141592
+      print(f'원주율은 {pi:4}, 반지름이 4인 원의 넓이는 {pi*4*4}')
+      
+      원주율은 3.142, 반지름이 4인 원의 넓이는 50.265472
+      ```
+
+2. 참/거짓(Boolean) 타입
+   - True와 False로 이루어짐
+   - 비교/논리 연산을 수행
+   - 0, 0.0, (), [], {}, '', None 은 False로 변환
+   - 0이 아닌 나머지는 True
+   - None 타입 : 값이 없음을 표현
 
 ##### 4. 형변환(Type conversion, Typecasting)
 
 1. 암시적 형변환(Implicit Type Conversion)
+
+   - 사용자가 의도하지 않았지만 파이썬 내부적으로 자동으로 형변환
+
+   - bool, Numbers(int, float, complex) 에서만 가능
+
+     ```python
+     True + 5 = 6
+     int_num = 5
+     float_num = 10
+     complex_num = 5+5j
+     int_num + float_num = 15 <class 'float'>
+     int_num + complex_num = 10+5j <class 'complex'
+     ```
+
 2. 명시적 형변환(Explicit Type Conversion)
+
+   - 암시적 형변환이 아니면 모두 명시적으로 형변환 필요
+
+   - 암시적으로 형변환 되는 모든 경우도 명시적 형변환 가능
+
+     - int() : string, float => int
+     - float() : string, float => float
+     - str() : int, float, list, tuple, dictionary => str
+
+   - string => integer : 형식에 맞는 숫자만 가능
+
+   - integer => string : 모두 가능
+
+     - 참고예제
+
+       ```python
+       aaa = '5.5'
+       int(aaa) ## => float 형식이기 때문에 불가능
+       bbb = 5.5
+       int(aaa) # => 3 float은 int로 변환 가능
+       ```
 
 ##### 5. 연산자(Operator)
 
 1. 산술 연산자
+
+   | 연산자 |   내용   |
+   | :----: | :------: |
+   |   +    |   덧셈   |
+   |   -    |   뺄셈   |
+   |   *    |   곱셈   |
+   |   /    |  나눗셈  |
+   |   //   |    몫    |
+   |   %    |  나머지  |
+   |   **   | 거듭제곱 |
+
+   - 함수 divmod
+
+     ```python
+     quotient, remaider = divmod(5, 2)
+     print(f'몫은 {quotient}, 나머지는 {remainder} 입니다.')
+     
+     몫은 2, 나머지는 1 입니다.
+     ```
+
 2. 비교 연산자
+
+   | 연산자 |          내용          |
+   | :----: | :--------------------: |
+   |   <    |          미만          |
+   |   <=   |          이하          |
+   |   >    |          초과          |
+   |   >=   |          이상          |
+   |   ==   |          같음          |
+   |   !=   |        같지않음        |
+   |   is   |    객체 아이덴티티     |
+   | is not | 부정된 객체 아이덴티티 |
+
 3. 논리 연산자
+
+   | 연산자  |             내용             |
+   | :------ | :--------------------------: |
+   | a and b |   a와 b 모두 True => True    |
+   | a or b  |  a와 b 모두 False => False   |
+   | not a   | True => False, False => True |
+
+   - &와 | 는 비트 연산자
+
+- 단축평가
+
+  - 첫 번째 값이 확실하면 두 번째 값은 확인 하지 않음
+
+  - 속도 향상
+
+    ```python
+    'x' and 'y' # y
+    'x' or 'y' # x
+    three_word = 'box'
+    ('x' and 'y') in three_word  # False
+    ('y' and 'x') in three_word  # True
+    ('x' or 'y') in three_word  # True x
+    ('y' or 'x') in three_word  # True x
+    ```
+
+    
+
 4. 복합 연산자
+
+   - 연산과 대입이 함께 이루어짐
+
+   - 반복문에서 개수를 카운트 할 때, 주로 활용
+
+     | 연산자  |    내용    |
+     | :-----: | :--------: |
+     | a += b  | a = a + b  |
+     |  a -=b  | a = a - b  |
+     | a *= b  | a = a * b  |
+     | a /= b  | a = a / b  |
+     | a //= b | a = a // b |
+     | a %= b  | a = a % b  |
+     | a **=b  | a = a ** b |
+
 5. 기타 주요 연산자
+
+- Concatenation
+
+  - 숫자가 아닌 자료형은 + 연산자를 통해 합칠 수 있음
+
+  ```python
+  'he' + 'llo' # 'hello'
+  
+  [1, 2, 3] + [4, 5, 6] # [1, 2, 3, 4, 5, 6]
+  ```
+
+- Containment Test
+
+  - in 연산자를 통해 요소가 속해있는지 여부 확인
+
+- Identity
+
+  - is 연산자를 통해 동일한 object 인지 확인
+
+  - 참고예제
+
+    ```python
+    # 값은 같은데 object는 다름
+    x = []
+    y = []
+    print(x == y, x is y)
+    True False
+    # 느낌표 때문에 다름
+    x = 'hello!'
+    y = 'hello!'
+    print(x is b)
+    False
+    # 파이썬에서 -5 부터 256 까지의 id는 동일
+    # id까지 같아야 object 판단에서 True가 나옴
+    ```
+
+- Indexing / Slicing
+
+  - []를 통해 값에 접근하고 [:]를 통해 리스트를 Slicing
+
+  - 참고예제
+
+    ```python
+    a = 'apple'
+    #Indexing
+    a[0]
+    'a'
+    #Slicing
+    a[0:3]
+    'app'
+    ```
+
 6. 연산자 우선순위
+
+   - 괄호를 통해 입력하는 것 추천
+
+     |  0   | Grouping () |
+     | :--: | :---------: |
+     |  1   |   Slicing   |
+     |  2   |  Indexing   |
+     |  3   |     **      |
+     |  4   |  부호 +, -  |
+     |  5   |   *, /, %   |
+     |  6   |    +, -     |
+     |  7   |   in, is    |
+     |  8   |     not     |
+     |  9   |     and     |
+     |  10  |     or      |
 
 ##### 6. 참고
 
 1. 표현식(Expression)
+
+   - 하나의 값(value)으로 환원 될 수 있는 문장(boolean도 가능)
 2. 문장(Statement)
+   - 파이썬에서 실행 가능한 최소한의 코드 단위
+   - 하나의 값(value), 표현식(Expression) 도 문장이 될 수 있음
+   - 문장 집합안에 표현식 집합이 있음
+
+
+
+#### 수업정리 - 01.Data_container
+
+##### 컨테이너(Container)
+
+: 여러 개의 값을 저장할 수 있는 것
+
+##### 1. 시퀀스(sequence)형 컨테이너
+
+: 데이터가 순서대로 나열된 형식
+
+- 특징
+
+  - 순서를 가질 수 있다.
+  - 특정 위치의 데이터를 가리킬 수 있다.
+
+- 종류
+
+  - 리스트(list)
+
+    - [], list()를 통해 만듬
+    - 값에 대한 접근은 list[i]
+
+    ```python
+    # list 만들기
+    menu = ['치킨', '피자', '족발']
+    print(menu)
+    print(menu[0])
+    
+    ['치킨', '피자', '족발']
+    '치킨'
+    ```
+
+  - 튜플(tuple)
+
+    - 수정 불가능, 불변(immutable), 읽기만 가능
+    - 직접 사용보단 내부에서 다양한 용도로 활용
+
+    ```python
+    # tuple 만들기
+    one_tuple = (1, 11)
+    two_tuple = 2, 22
+    o, t = 1, 2
+    print((one_tuple), (two_tuple), (o, t))
+    
+    (1, 11), 2, 22, 1 2
+    
+    # 하나의 값을 가질 때
+    first_tuple = ('hi',)
+    print(type(first_tuple))
+    print(len(first_tuple))
+    
+    <class 'tuple'>
+    1
+    
+    # 변경 불가능, 읽을 수는 있음
+    num_tuple = (1, 2)
+    print(num_tuple[0])  # 1
+    num_tuple[0] = '11'
+    print(num_tuple)  ## 오류
+    ```
+
+  - 레인지(range)
+
+    - 숫자의 시퀀스를 나타내기 위해 사용
+    - range(n) : 0부터 n-1까지의 값을 가짐
+    - range(n, m, s) : n부터 m-1까지 +s만큼 증가
+
+    ```python
+    # range 만들기
+    range(5)
+    print(range(5)) # range(0, 5)
+    
+    #list 값으로 바꿔서 확인
+    list(range(5))
+    print(range(5))  # [0, 1, 2, 3, 4]
+    list(range(0, -5, -1))
+    print(range(0, -5, -1))  # [0, -1, -2, -3, -4]
+    ```
+
+- 시퀀스에서 활용할 수 있는 연산자 / 함수
+
+  - in, not in, +(concatenation), *n, s[i], s[i : j], s[i : j : k], len(), min(), max(), s.count(x) - x의 개수
+
+##### 2. 비 시퀀스(Non-sequence)형 컨테이너
+
+: 데이터가 순서없이 나열된 형식
+
+- 종류
+
+  - 셋(set)
+    - 순서가 없고 중복된 값이 없다.
+    - 빈 집합을 만들려면 set() 사용 ({}로는 불가능)
+
+  ```python
+  # set 
+  set_2 = {2, 4, 6, 8}
+  print(set_2)  # {2, 4, 6, 8}
+  set_4 = {4, 8, 12, 16}
+  
+  # 차집합, 합집합, 교집합
+  set_2 - set_4  # {2, 6}
+  set_2 | set_4  # {2, 4, 6, 8, 12, 16}
+  set_2 & set_4  # {4, 8}
+  
+  # 중복 불가
+  {1, 1, 2, 2, 3, 4}  # {1, 2, 3, 4}
+  
+  # set을 활용한 list 중복값 제거
+  my_list = [1, 2, 1, 3, 4, 2]
+  list(set(my_list))  # [1, 2, 3, 4] - 순서가 보장되지 않음!
+  ```
+
+  - 딕셔너리(dictionary)
+
+    - key와 value가 쌍으로 이루어져 있으며, 궁극의 자료 구조
+    - key는 변경 불가능(immutable)한 데이터만 가능
+    - value는 list, dictionary를 포함한 모든 것 가능
+    - ()와 {}를 통해 비어있는 딕셔너리 만들기 가능
+    - 중복된 key 존재할 수 없음
+
+    ```python
+    # dictionary 만들기
+    region_num = {'서울': '02', '경기': '031', '대전': '042', '계룡': '042'}
+    print(region_num['대전'])
+    =>'042'
+    
+    region_num.keys()
+    => dict_keys(['서울', '경기', '대전', '계룡'])
+    
+    region_num.values()
+    region_num.values = region_num.values() # print 하는 법
+    print(region_num.values)
+    => dict_values(['02', '031', '042', '042'])
+    
+    region_num.items()
+    => dict_items([('서울': '02'), ('경기': '031'), ('대전': '042'), ('계룡': '042')])
+    
+    list(region_num.items())[2]
+    => ('대전', '042')
+    
+    type(list(region_num.items())[2])
+    => tuple
+    ```
+
+##### 3. 컨테이너형 형변환
+
+- 서로 변환 가능
+
+  - string, list, tuple, set 은 서로 변환 가능
+
+  - range와 dictionary 로는 불가능
+
+  - 참고 예제
+
+    ```python
+    # list 형 변환
+    l = [1, 2, 3]
+    str(l)  # '[1, 2, 3]'
+    tuple(l)  # (1, 2, 3)
+    set(l)  # {1, 2, 3}
+    range(l)  ## 오류
+    dict(l)  ## 오류
+    
+    # range 형 변환
+    r = range(1, 3)
+    str(r)  # '[1, 2, 3]'
+    list(r)  # [1, 2, 3]
+    set(r)  # {1, 2, 3}
+    tuple(r)  # (1, 2, 3)
+    dict(r)  ## 오류
+    
+    # dictionary 형 변환
+    d = {'mon': '8', 'day': 29}
+    str(d)  # '{'mon': '8', 'day': 29}' 
+    list(d)  # ['mon', 'day']
+    tuple(d)  # ('mon', 'day')
+    set(d)  # {'mon', 'day'}
+    # list, tuple, set은 키만 모아서
+    # 딕셔너리는 key를 통해서 value 에 접근한다.
+    # key를 알려주면 value에 접근할 수 있음
+    # value를 알려주면 그에 맞는 key는 찾을 수 없다.
+    range(d)  ## 오류
+    ```
+
+##### 4. 데이터의 분류
+
+: 하나의 값을 뽑아서 바꿀 수 있는 지에 따라 mutable과 immutable로 나뉜다.
+
+- immutable
+
+  - 변경 불가능
+  - 숫자(Number), 글자(String), Boolean, range(), tuple(), frozenset()
+
+- mutable
+
+  - 변경 가능
+  - list, dict, set
+
+- 데이터 복사
+
+  ```python
+  # immutable
+  n1 = 1
+  n2 = n1 
+  n2 = 2
+  print(n1)  # 1
+  print(n2)  # 2
+  
+  # mutable
+  n1 = [1, 2, 3]
+  n2 = n1
+  n2[0] = 1000
+  print(n1)  # [1000, 2, 3]
+  print(n2)  # [1000, 2, 3]
+  
+  # 위에서 n2만 바뀌게 하려면 새로운 리스트를 만들어야함
+  n1 = [1, 2, 3]
+  n2 = list(n1)
+  n2[0] = 100
+  print(num1)  # [1, 2, 3]
+  print(num2)  # [1000, 2, 3]
+  ```
+
+##### 5. 정리
+
+- Sequence : String, list, tuple, range
+- Non-Sequence : set, dictionary
+- immutable : String, tuple, range
+- mutable : list, set, dictionary
+
+
+
+### 01.19
+
+:memo: lab.ssafy
+
+- 내 컴퓨터로 파일을 다운 받고 싶을 때 : git clone 뒤에 clone-HTTPS 주소
+- pip pull origin master : 새로 업데이트할 때
+- get remote -v : 현재 등록된 remote를 보여준다
+- 유의사항 : 공유받은 handouts를 임의로 건들면 pull 할 때 문제가 발생할 수 있음
+- 위치변경x, 수정x, 복사해서 사용
+
+
+
+#### homework review
+
+- 주피터에서는 맨 아래의 값을 보여줌(굳이 print할 필요 없음)
+- 프로그래밍에서 num1 = num2 False 차이는 아주 작은 차이로 계산할 경우에는 가능
+  - ex) 수학 공식은 천만건 중에 하나라도 예외가 있으면 안됨
+  - ex) 공학에서 천만건 중에 1개 불량이면 좋은 것
+- 필요하다면 출력 후 보정
+
+
+
+#### 수업정리 - 02.control_flow
+
+
+
+
 
