@@ -346,15 +346,16 @@ ex) 우체국에서 편지를 보낼 때, 지켜줘야 하는 것 : 우측상단
     print(pi, type(pi))
     
     3.141592 <class 'float'>
-  ```
-    
+    ```
   - round : 0 ~ 4는 내림, 짝수에서 5는 내림, 홀수에서 5는 올림, 6 ~ 9는 올림
 
     ```python
     round(5.5 - 3.22, 2)
-    
+      
     2.28
     ```
+
+    
 
 - complex(복소수, complex number)
 
@@ -426,11 +427,11 @@ ex) 우체국에서 편지를 보낼 때, 지켜줘야 하는 것 : 우측상단
       ```python
       import datetime
       today_now = datetime.datetime.now()
-      print(today)
+      print(today_now)
       
       2021-01.19 19:51:35.805035
               
-      print(f'오늘은 {today:%y}년 {today:%m}월 {today:%d}일 {today:%A} 입니다.'   
+      print(f'오늘은 {today_now:%y}년 {today_now:%m}월 {today_now:%d}일 {today_now:%A} 입니다.'   
             
       오늘은 21년 01월 19일 Tuesday 입니다.
       ```
@@ -474,9 +475,9 @@ ex) 우체국에서 편지를 보낼 때, 지켜줘야 하는 것 : 우측상단
 
    - 암시적으로 형변환 되는 모든 경우도 명시적 형변환 가능
 
-     - int() : string, float => int
-     - float() : string, float => float
-     - str() : int, float, list, tuple, dictionary => str
+     - int() : string, float를  int로 변환
+     - float() : string, int를 float으로 변환
+     - str() : int, float, list, tuple, dictionary를  str로 변환
 
    - string => integer : 형식에 맞는 숫자만 가능
 
@@ -564,12 +565,12 @@ ex) 우체국에서 편지를 보낼 때, 지켜줘야 하는 것 : 우측상단
      | 연산자  |    내용    |
      | :-----: | :--------: |
      | a += b  | a = a + b  |
-     |  a -=b  | a = a - b  |
+     | a -= b  | a = a - b  |
      | a *= b  | a = a * b  |
      | a /= b  | a = a / b  |
      | a //= b | a = a // b |
      | a %= b  | a = a % b  |
-     | a **=b  | a = a ** b |
+     | a **= b | a = a ** b |
 
 5. 기타 주요 연산자
 
@@ -909,7 +910,296 @@ ex) 우체국에서 편지를 보낼 때, 지켜줘야 하는 것 : 우측상단
 
 #### 수업정리 - 02.control_flow
 
+#### 제어문(Control Statement)
 
+: 코드 실행의 순차적인 흐름을 제어
 
+##### 1. 조건문(Conditional Statement)
 
+if : 참 / 거짓을 판단할 수 있는 조건과 같이 사용되어야 한다.
 
+- 들여쓰기를 유의하여 작성(PEP8에서는 4spaces 권장)
+
+  ```python
+  # 내 생일 출력
+  birthday = input('날짜를 입력하세요 ex)02.27: ')
+  print(birthday)
+  
+  if birthday == '08.29':
+  	print('이광교님의 생일 입니다. 축하합니다.')
+  else:
+      print('이광교님의 생일이 아닙니다.')
+  ```
+
+  ```python
+  # 홀수 / 짝수 판별
+  # input은 str형이기 때문에 int로 형변환
+  num = int(input('숫자를 입력하세요. : '))
+  print(num)
+  
+  if num % 2:  # True = 1, False = 0 을 이용
+      print('홀수')
+  else:
+      print('짝수')
+  ```
+
+- elif
+
+  ```python
+  # 점수에 따른 학점 출력
+  score = int(input('점수를 입력하면 학점이 나옵니다.: '))
+  if score >= 90:
+      print('A')
+      if score >= 95:
+          print('A+')
+  elif score >= 80:
+      print('B')
+  elif score >= 70:
+      print('C')
+  elif score >= 60:
+      print('D')
+  else:
+      print('F')
+  ```
+
+- 조건 표현식
+
+  ```python
+  # 한줄에 표현
+  # 0과 비교
+  number = int(input('숫자를 입력하세요 : '))
+  print('0보다 크다.') if num < 0 else print('0 보다 크지 않다.')
+  ```
+
+  
+
+##### 2. 반복문(Loop Statement)
+
+- while
+
+  - 반드시 종료조건을 설정해야 함
+  - 코드는 4spaces 들여쓰기
+
+  ```python
+  # 1에서 주어진 수까지의 합
+  num = int(input())
+  i = 1
+  total = 0
+  
+  while i <= num:
+      total += i
+      i +=  1
+  print(total)
+  ```
+
+  ```python
+  # 주어진 수 거꾸로 한자리씩 출력
+  number = int(input())
+  print(number)
+  while number > 0:
+      print(number % 10)
+      number = number // 10
+  ```
+
+- for
+
+  ```python
+  # range 출력
+  for i in range(5):
+      print(i)
+      
+  0, 1, 2, 3, 4
+  ```
+
+  ```python
+  # 1 ~ 20 사이 홀수 출력
+  for i in range(1, 20):
+      if i % 2:
+          print(i)
+  ```
+
+  ```python
+  # 삼형제
+  brother = ['이승교', '이광교', '이민교']
+  for num in range(len(brother)):
+      print(brother(num), num)
+  
+  이승교 1
+  이광교 2
+  이민교 3
+  ```
+
+  - enumerate
+
+    - tuple 타입으로 돌려줌
+
+    ```python
+    # 점심 메뉴, 번호와 함께
+    lunch = ['치킨', '피자', '짜장면', '계란밥']
+    for menu in enumerate(lunch):
+        print(menu)
+    type(menu)
+    
+    (0, '치킨')
+    (1, '피자')
+    (2, '짜장면')
+    (3, '계란밥')
+    <class 'tuple'>
+    
+    # 다르게 표현, start를 사용하면 1부터 카운트
+    for idx, menu in enumerate(lunch, start=1):
+        print(idx, menu)
+        
+    1 치킨
+    2 피자
+    3 짜장면
+    4 계란밥
+    ```
+
+    
+
+##### 3. 반복제어
+
+- break
+
+  - for 나 while 문에서 빠져나간다.
+
+  ```python
+  # for 문
+  for i in range(7):
+      if i == 5:
+          break
+      print(i, end=' ')
+  
+  0 1 2 3 4
+  
+  # while 문
+  n = 0
+  while True:
+      if n == 5:
+          break
+      print(n, end=' ')
+      n += 1
+    
+  0 1 2 3 4
+  
+  # 쌀보리 게임
+  rice = ['보리', '보리', '쌀', '보리']
+  for seed in rice:
+      print(seed)
+      if seed == '쌀':
+          print('잡았다!!')
+          break
+          
+  보리
+  보리
+  쌀
+  잡았다!!
+  ```
+
+- continue
+
+  - continue 이후의 코드를 수행하지 않고 다음 요소 부터 계속하여 실행한다.
+
+  ```python
+  # 범위 안의 홀수 출력
+  for i in range(6):
+      if i % 2 == 0:
+          continue  # 반복문 안에 있는 같은 수준의 코드를 건너뜀
+      print('{}는 홀수이다', format(i))
+  print('반복문 끝')
+  
+  1는 홀수이다
+  3은 홀수이다
+  5는 홀수이다
+  반복문 끝
+  
+  # 리스트 활용, 성인 구별
+  ages = [15, 27, 9, 32, 28, 30]
+  for age in ages:
+      if age < 20:
+          continue  # if else를 써도 상관없음(취향차이)
+      print(f'{age}살은 성인입니다.')
+      
+  27살은 성인입니다.
+  32살은 성인입니다.
+  28살은 성인입니다.
+  30살은 성인입니다.
+  ```
+
+- for - else
+
+  - 끝까지 반복문을 실행한 후 실행
+  - 반복문이 break 로 종료될 때는 실행되지 않음
+  - 반복에서 리스트 소진(for)이나 조건이 거짓(while)이 되어 종료할 때 실행
+
+  ```python
+  # break 실행 안될 때
+  for num in range(5):
+      print(num)
+      if num == 10:
+          break
+  else:  # for 위치에
+      print('break 실행 안됨')  # 중간에 break가 되면 실행되지 않음
+      
+  # list 예제
+  my_list = [2, 3, 5, 8, 13]
+  for num in my_list:  
+      print(num)
+      if number == 7:
+          print(True)
+          break
+  else:
+      print(False)
+  
+  2
+  3
+  5
+  8
+  13
+  False
+  ```
+
+  
+
+- pass 
+
+  - 아무것도 하지 않음
+  - 문법적으로 문장이 필요하지만 특별히 할 일이 없을 때, 자리를 채우는 용도로 사용
+
+  - 코딩 중에 실행 결과 확인 하고 싶을 때 사용
+
+  ```python
+  # 코딩 중 실행 결과 확인
+  my_list = [2, 3, 5, 8, 13]
+  for num in my_list:
+      if number == 5:
+          pass
+      print(num)
+      
+  2
+  3
+  5
+  8
+  13
+  
+  # continue와 차이점
+  my_list = [2, 3, 5, 8, 13]
+  for num in my_list:
+      if number == 5:
+          continue
+      print(num)
+     
+  2
+  3
+  8
+  13
+  ```
+
+  
+
+### 01.20
+
+#### 수업정리 - 03.function_1
+
+#### 수업정리 - 04.function_2
