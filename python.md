@@ -1451,3 +1451,102 @@ if : 참 / 거짓을 판단할 수 있는 조건과 같이 사용되어야 한�
 
 #### 수업정리 -05.erroe_exception
 
+#### 에러
+
+##### 1. 문법 에러(Syntax Error)
+
+- EOL : end of line // ex) 따옴표 오류
+
+- EOF : end of file // ex) 괄호 닫기 오류
+
+- 오류 line을 잘 봐야함
+
+- 예외(Exception)
+
+  - 문법적으로는 옳지만 실행시 발생하는 에러
+
+  ```python
+  # example
+  
+  # ZeroDivisionError : 0으로 나누기
+  # NameError : 정의되지 않은 변수를 호출
+  # TypeError : 자료형 타입 오류, 인자 적음/많음 오류, 자료 값 오류
+  # ValueError : 존재하지 않는 값을 찾을 경우
+  # IndexError : 존재하지 않는 index 조회, 비어있는 리스트 index 접근
+  # KeyError : 딕셔너리에서 Key가 없는 경우
+  # ModuleNotFoundError : 모듈을 찾을 수 없는 경우
+  # ImportError : 모듈은 찾았으나 가져오는 과정에서 실패
+  # KeyboardInterrupt : 사용자가 의도적으로 멈췄을 때(ctrl+c)
+  ```
+
+##### 2. 예외 처리Excepting Handling
+
+- try & except
+
+  - try 아래의 code block 실행
+  - 예외 발생 X -> except 없이 실행 종료
+  - 예외 발생 O -> 남은 부분을 수행하지 않고 except 실행
+
+  ```python
+  # ZeroDivisionError
+  try:
+      num1 = int(input('나눌 숫자(분자)를 입력하세요: '))
+      num2 = int(input('나누는 숫자(분모)를 입력하세요: '))
+      result = num1 / num2
+  except ZeroDivisionError:  # 특정에러 처리
+      print('0으로는 나누면 안됩니다')
+  # 이게 없으면 ZeroDivisionError 일때 죽음
+  ```
+
+- as
+
+  ```python
+  try:
+      <코드 블럭 1>
+  except 예외 as err:
+      <코드 블럭 2>
+  # IndexError
+  try:
+      my_list = []
+      print(my_list[-3])
+  except IndexError as err:
+      print(f'{err}, 오류가 발생했습니다.')
+  list index out of range, 오류가 발생했습니다.
+  ```
+
+- 복수개의 예외처리
+
+  - 하나 이상의 예외를 모두 처리 가능
+  - 괄호가 있는 tuple로 여러 개의 예외 지정
+  - 에러가 순차적으로 수행됨으로, 가장 작은 범주부터 시작
+
+  ```python
+  try:
+      <코드 블럭 1>
+  except (예외1, 예외2):
+      <코드 블럭 2>
+  ```
+
+- else
+
+  - 에러가 발생하지 않는 경우 수행되는 문장
+  - 모든 except절 뒤에 와야함
+
+- finally
+
+  - 반드시 수행해야 하는 문장에 활용
+  - 예외 발생 여부와 관계없이 try 문을 떠날 때 항상 실행
+  - ex) DB에서 데이터를 가져올 때 오류 발생, finally : DB 종료
+
+##### 3. 예외 발생 시키기(Excepting Raising)
+
+- raise
+  - 에러 발생시 사용자에게 선택할 수 있도록 함
+  - ex) ZeroDivisionError 일 때, 다시 넣을지, 값이 무한대로 나오게 할지 선택
+- assert
+  - 상태를 검증하는데 사용
+  - 무조건 AssertionError 발생
+  - 검증식이 거짓일 경우 발생, 일반적으로 디버깅 용도로 사용
+
+
+
