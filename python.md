@@ -1202,4 +1202,185 @@ if : 참 / 거짓을 판단할 수 있는 조건과 같이 사용되어야 한�
 
 #### 수업정리 - 03.function_1
 
+#### 함수
+
+- 특정한 기능을 하는 코드의 묶음
+- 사용하는 이유
+  - 높은 가독성(코드가 짧아짐)
+  - 재사용성
+  - 유지보수(분리되어 있어서 기능 수정이 편리함)
+
+##### 1. 선언과 호출
+
+- 선언 : def 함수이름(매개변수): , 4spaces 들여쓰기
+
+- 동작 후에 return을 통해 결과값을 전달할 수 있다.
+
+- return 값이 없으면, None을 반환
+
+- 호출 : 함수이름(인자)
+
+  ```python
+  # 두 수의 합을 계산하는 함수
+  def my_sum(a,b):  # 함수 선언
+      return a + b
+  number = my_sum(2, 9)  # 함수 호출
+  print(number)  # 11
+  print_number = print(number)  # 11
+  print(print_number)  #None
+  ```
+
+##### 2. Output
+
+- 오직 한 개의 객체만 반환
+
+- return a, b 와 같이 사용 가능, tuple형으로 return
+
+- return이 없으면 None으로 반환
+
+  ```python
+  # tuple형 return
+  def my_hello(name):
+      return 'hello', name
+  hello = my_hello('이광교')
+  print(hello, type(hello))
+  
+  ('hello', '이광교'), <class 'tuple'>
+  ```
+
+  ```python
+  # 정렬 함수
+  my_list = [5, 3, 7, 1]
+  print(my_list)  # [5, 3, 7, 1]
+  a = [5, 1, 3, 2]
+  b = a.sort()  # 원본을 바꿔버리고, return이 값이 없음
+  print(a)  # 원본 리스트
+  print(b)  # a.sort() 정렬 함수의 결과
+  [1, 3, 5, 7]
+  None
+  
+  a = [5, 1, 3, 2]
+  b = sorted(a)  # 원본은 변화X, return으로 정렬
+  print(a)  # 원본 리스트
+  print(b)  # sorted(a) 결과
+  [5, 3, 7, 1]
+  [1, 3, 5, 7]
+  ```
+
+  ```python
+  # 리스트의 합이 큰 리스트를 반환하는 함수
+  def list_better(a, b):
+      if sum(a) > sum(b):  # 더한 값을 비교, 내장함수 sum()
+          return a
+      else:
+          return b
+  print(list_better([10, 7], [15, 3]))
+  [15, 3]
+  ```
+
+##### 3. Input
+
+- 매개별수(parameter)
+
+  - 입력을 받아 함수 내부에서 활용하는 '변수'
+  - 정의할 때 사용
+
+- 인자(argument)
+
+  - 실제로 전달되는 입력값
+
+  - 호출할 때 사용
+
+  ```python
+  # tuple형 return - 위의 예제
+  def my_hello(name):  # name : 매개변수
+      return 'hello', name
+  hello = my_hello('이광교')  # 이광교 : 인자
+  print(hello, type(hello))
+  
+  ('hello', '이광교'), <class 'tuple'>
+  ```
+
+  - 위치인자
+  - 기본인자
+  - 키워드인자
+
+  ```python
+  # 인자 순서
+  def hello(name='익명', age):  ## Error 기본 인자 뒤에 위치 인자 불가
+  # name='익명' : 기본 인자, age : 위치 인자
+  def hello(age, name='익명'):
+      print(f'안녕? 난 {name}, {age}살이야')
+  hello(27)  # 안녕? 난 익명, 27살이야
+  hello(100, '광교')  # 안녕? 난 광교, 100살이야
+  hello(name='이광교', age=27)  # 안녕? 난 이광교, 27살이야
+  # name='이광교', age=27 : 키워드 인자
+  hello(age=3000, '곰')  ## Error 키워드 인자 후 위치 인자 활용 불가
+  ```
+
+  - 가변 인자 리스트
+    - 개수가 정해지지 않은 임의의 인자를 받기 위해서 list 활용
+    - 보통 변수명을 args로 하고 tuple형태로 처리됨
+    - *args
+
+  ```python
+  # 가변 인자 리스트
+  def daejeon1_students(*args):
+      print(args)
+      print(type(args))
+  daejeon1_students('형식', '덕영', '광교')
+  ('형식, '덕영', '광교')
+   <class 'tuple'>
+   
+   # 가변 이후의 변수는 키워드 인자를 활용해야함
+   def daejeon1_students(*args, prof):
+   	for student in args:
+      	print(args)
+      print(f'대전 1반 교수님 {prof}')
+  daejeon1_students('형식', '덕영', '광교') ## Error prof를 정해줘야함
+  daejeon1_students('형식', '덕영', '광교', prof='빈산')
+  ('형식, '덕영', '광교')
+   대전 1반 교수님 빈산
+  ```
+
+  - 가변 키워드 인자
+    - 정해지지 않은 키워드 인자들은 dict으로 처리
+    - 보통 변수를  kwargs로 사용
+    - **kwargs
+    - 반드시 맵핑을 해서 넣어야함
+
+  ```python
+  # menu
+  def menu_dict(**kwargs):
+      print(kwargs)
+      print(type(kwargs))
+      return kwargs
+  print(menu_dict(아침='토스트', 점심='계란밥', 저녁='고기'))
+  # 반드시 맵핑 필요
+  {'아침': '토스트', '점심': '계란밥', '저녁': '고기'}
+  
+  # 인자는 숫자만으로 이루어질 수 없음 -> 키워드 인자로 넘기면 함수에서 식별자로 사용
+  dict(1='1, 2='3', 3='2') ## Error
+  dict(((1, 1), (2, 3), (3, 2))) # 해결
+  ```
+
+  
+
 #### 수업정리 - 04.function_2
+
+##### 1. 함수와 스코프(scope)
+
+- 이름검색규칙
+
+##### 2. 재귀 함수(recursive funtion)
+
+- 팩토리얼 계산
+- 피보나치 수열
+- 반복문과의 차이
+
+
+
+### 01.21
+
+#### 수업정리 -05.erroe_exception
+
