@@ -1370,13 +1370,80 @@ if : 참 / 거짓을 판단할 수 있는 조건과 같이 사용되어야 한�
 
 ##### 1. 함수와 스코프(scope)
 
+- 함수는 코드 내부에 공강(scope)를 생성
+- 생성된 공간은 지역 스코프(local scope), 그 외의 공간은 전역 스코프(global scope)
+
 - 이름검색규칙
+
+  - LEGB Rlue
+    - Local scope : 정의된 함수
+    - Enclosed scope : 상위 함수
+    - Global scope : 함수 밖의 변수 혹은 import 모듈
+    - Built-in scope : 파이썬안에 내장되어 있는 함수
+
+  ```python
+  # LEGB Rule
+  a = 100 # G
+  b = 200 # G
+  def enclosed():
+      a = 300  
+      # Enclosed 함수 입장에서는 local, local 함수 입장에서는 Enclosed
+      def local():
+          c = 400  # local
+          print(a, b, c)
+      local()
+      a = 500  
+      # Enclosed 함수 입장에서는 local, local 함수 입장에서는 Enclosed
+  enclosed()
+  # 여기까지 a = 300, b = 200, c = 400
+  ```
 
 ##### 2. 재귀 함수(recursive funtion)
 
+- 함수 내부에서 자기 자신을 호출하는 함수
+- 알고리즘을 설계 및 구현하는데 활용
+
 - 팩토리얼 계산
+
+  ```python
+  # Factorial
+  def factorial(n):
+      if n == 1:
+          return 1
+      else:
+          return n * factorial(n-1)
+  ```
+
 - 피보나치 수열
+
+  ```python
+  # Fibonacci 수열
+  # n 이 0이나 1일 때는 값도 0, 1이기 때문에 그대로 반환하면 되고, 
+  # 2 이상일 때만 재귀 함수 두개로 분기해서 반환
+  def fib(n):
+      if n == 0:  # base case!
+          return 0 
+      elif n < 2:  # base case!
+          return 1
+      else:
+          return fib(n-1) + fib(n-2)
+  ```
+
 - 반복문과의 차이
+
+  - 장점
+    - 코드의 가독성이 높아질 수 있다.
+    - 작성이 간편해질 수 있다.
+
+  - 단점
+
+    - 반복문보다 메모리를 많이 사용한다
+
+      (반복문은 사용 후 메모리를 반환 하는데, 재귀함수는 함수가 종료되기 전에 다시 호출하기 때문에 맨마지막 리턴될 때까지 메모리를 가지고 있다.)
+
+    - 시간이 더 오래 걸릴 수 있다.
+
+    - 반드시 base case가 존재해야한다. (최대 재귀 깊이)
 
 
 
