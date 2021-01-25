@@ -1608,7 +1608,7 @@ if : 참 / 거짓을 판단할 수 있는 조건과 같이 사용되어야 한�
 
 #### 1. Stiring
 
-: immutable, ordered, iterable // 변경x, 순서o, 순회 가능(반복 가능)
+: immutable, ordered, iterable // 변경x, 순서o, 반복 가능
 
 **1-1 조회 / 탐색**
 
@@ -1690,7 +1690,7 @@ if : 참 / 거짓을 판단할 수 있는 조건과 같이 사용되어야 한�
   me.split(','), type(me.split(','))
   ## = ['이광교', '27', '01012345678'], list
   birth = '0 8 2 9'
-  bitrh.split()
+  birth.split()
   ## = ['0', '8', '2', '9']
   ```
 
@@ -1716,7 +1716,108 @@ if : 참 / 거짓을 판단할 수 있는 조건과 같이 사용되어야 한�
   : 앞 글자를 대문자로 만들어 변환
 
   ```python
-  name = 'lEE kWANGGYO'
-  name.capitalize()
-  ## = 'Lee Kwanggyo'
+  name_hi = 'lEE kWANGGYO, hI!'
+  name_hi.capitalize()
+  ## = 'Lee kwanggyo, hi!''
   ```
+
+- .title()
+
+  : 어포스트로피나 공백 이후를 대문자로 만들어 변환
+
+  ```python
+  name_hi = 'lEE kWANGGYO, hI!ee'
+  name_hi.title()
+  ## = 'Lee Kwanggyo, Hi!Ee'
+  ```
+
+- .upper()
+
+  : 모두 대문자로 만들어서 반환
+
+  ```python
+  name_hi = 'lEE kWANGGYO, hI!ee'
+  name_hi.upper()
+  ## = 'LEE KWANGGYO, HI!EE'
+  ```
+
+- .lower()
+
+  : 모두 소문자로 만들어서 반환
+
+  ```python
+  name_hi = 'lEE kWANGGYO, hI!ee'
+  name_hi.lower()
+  ## = 'lee kwanggyo, hi!ee'
+  ```
+
+- .swapcase()
+
+  : 대 < - >소문자로 변경하여 반환
+
+  ```python
+  name_hi = 'lEE kWANGGYO, hI!ee'
+  name_hi.swapcase()
+  ## = 'Lee Kwanggyo, Hi!EE'
+  ```
+
+**1-4 기타 문자열 검증 : 참 / 거짓**
+
+- .isalpha()
+
+  : 문자열 내의 모든 문자가 알파벳이고, 적어도 하나의 문자가 존재하는 경우 `True`를 돌려주고, 그렇지 않으면 `False`
+
+  ```python
+  '안녕'.isalpha()  ## T
+  'hi'.isalpha()  ## T
+  '안녕1'.isalpha()  ## F
+  '1'.isalpha()  ## F
+  ''.isalpha() ## F
+  ','.isalpha() ## F
+  ```
+
+- .isdecimal()
+
+  : 문자열 내의 모든 문자가 십진수 문자이고, 적어도 하나의 문자가 존재하는 경우 `True` 를 돌려주고, 그렇지 않으면 `False`
+
+  ```python
+  '3.5'.isdecimal()  ## F
+  '3'.isdecimal()  ## T
+  ```
+
+- .isdigit()
+
+  : 문자열 내의 모든 문자가 디짓이고, 적어도 하나의 문자가 존재하는 경우 `True`를 돌려주고, 그렇지 않으면 `False`
+
+  십진수 문자와, 위 첨자 숫자 등 특수 처리가 필요한 숫자 포함
+
+- .isnumeric()  # 모르겠음
+
+  : 문자열 내의 모든 문자가 숫자이고, 적어도 하나의 문자가 존재하는 경우 `True`를 돌려주고, 그렇지 않으면 `False`
+
+  숫자는 디짓과 유니코드 숫자 값 속성을 갖는 모든 문자
+
+- .isspace()  # 모르겠음
+
+  : 문자열 내에 공백 문자만 있고, 적어도 하나의 문자가 존재하는 경우 `True`를 돌려주고, 그렇지 않으면 `False`
+
+- .isupper()
+
+  : 문자열 내의 모든 케이스 문자가 대문자이고, 적어도 하나의 케이스 문자가 존재하는 경우 `True`를 돌려주고, 그렇지 않으면 `False`
+
+- .islower()
+
+  : 문자열 내의 모든 케이스 문자가 소문자이고, 적어도 하나의 케이스 문자가 존재하는 경우 `True`를 돌려주고, 그렇지 않으면 `False`
+
+- .istitle()
+
+  : 문자열이 제목 케이스 문자열이고 하나 이상의 문자가 있는 경우 `True` 그렇지 않은 경우는 `False`
+
+
+
+#### 2. List
+
+: mutable, ordered, iterable // 변경o, 순서o, 반복 가능
+
+**2.1 값 추가 및 삭제**
+
