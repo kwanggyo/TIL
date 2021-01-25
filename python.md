@@ -1589,7 +1589,134 @@ if : 참 / 거짓을 판단할 수 있는 조건과 같이 사용되어야 한�
 
 ### 01.24
 
-:memo: 문제 풀이 feedback
+:chart_with_upwards_trend: 문제 풀이 feedback
 
 - dict에서 key 값을 입력할때는 [] 사용
 - 중첩 조건문에서는 앞에 return 을 썼으면 뒤에는 안써도 됨
+- list로 형태 변환은 my_list = [result] 이런식으로!
+
+
+
+## 01.25
+
+### 데이터 구조(data_structure)_1
+
+: 데이터를 편리하게 접근하고, 변경하기 위해서 데이터를 저장하거나 조작하는 방법
+
+- 알고리즘 : String, List
+- 데이터 구조 : Built-in Function
+
+#### 1. Stiring
+
+: immutable, ordered, iterable // 변경x, 순서o, 순회 가능(반복 가능)
+
+**1-1 조회 / 탐색**
+
+- .find(x)
+
+  : x의 첫 번째 위치를 반환, **없으면 -1 반환**
+
+  ```python
+  b = 'banana'
+  b.find('x')
+  ## = 0
+  b.find('n')
+  ## = 2
+  b.find('g')
+  ## = -1
+  ```
+
+- .index(x)
+
+  : x의 첫 번째 위치를 반환, **없으면 오류 발생**
+
+  ```python
+  b = 'banana'
+  b.index('x')
+  ## = 0
+  b.index('n')
+  ## = 2
+  b.find('g')
+  ## = 오류 ValueErrorreplace
+  ```
+
+**1-2 값 변경**
+
+- .replace(old, new[, count])
+
+  : 바꿀 대상 글자를 새로운 글자로 바꿔서 변환, count 지정시 해당 개수만큼 시행
+
+  ```python
+  h = 'hello'
+  h.replace('l', '')
+  ## = 'heo'
+  h.replace('l', '', 1)
+  ## = 'helo'
+  'hello'.replace('l', '', 2)
+  ## = 'heo'
+  ```
+
+- .strip([chars])
+
+  : 특정한 문자들에서서 양쪽을 제거하거나 왼쪽(lstrip), 오른쪽(rstrip)을 제거, 지정하지 않으면 공백을 제거
+
+  - 데이터를 처리할 때 많이 사용
+  - 가운데 공백은 제거할 수 없음
+  - ex) 회원가입시 - 실수로 공백을 침 - 공백이 있다고 알려줌 or 알아서 없애줌
+
+  ```python
+  w = '  wowww!\t'
+  w.strip()
+  ## = 'wowww!'
+  w.lstrip()
+  ## = 'wowww!\t'
+  w.rstrip()
+  ## = '   wowww!'
+  escape = '\n\t'
+  escape.strip()
+  ## = ''
+  ```
+
+- .split()
+
+  : 문자열을 특정한 단위로 나누어 리스트로 반환
+
+  - 사용 빈도가 높음
+  - (,)에서 ,는 구분자
+  - 기본은 공백을 기준
+
+  ```python
+  me = '이광교, 27, 01012345678'
+  me.split(','), type(me.split(','))
+  ## = ['이광교', '27', '01012345678'], list
+  birth = '0 8 2 9'
+  bitrh.split()
+  ## = ['0', '8', '2', '9']
+  ```
+
+- 'seperator'.join(iterable)
+
+  : 특정한 문자열로 만들어 반환
+
+  반복가능한 컨테이너의 요소들을 separator를 구분자로 합쳐 (join()) 문자열로 반환
+
+  ```python
+  hi = '안녕하세요'
+  '!'.join(hi)
+  ## = '안!녕!하!세!요'
+  hello = ['hi','안녕하세요']
+  ','.join(hello)
+  ## = 'hi,안녕하세요'
+  ```
+
+**1-3 문자 변형**
+
+- .capitalize()
+
+  : 앞 글자를 대문자로 만들어 변환
+
+  ```python
+  name = 'lEE kWANGGYO'
+  name.capitalize()
+  ## = 'Lee Kwanggyo'
+  ```
