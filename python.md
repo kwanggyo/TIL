@@ -1893,5 +1893,208 @@ if : 참 / 거짓을 판단할 수 있는 조건과 같이 사용되어야 한�
   print(fruits)  ## []
   ```
 
+
+**2.2 탐색 및 정렬**
+
+- .index(x)
+
+  : x 값에 해당하는 index 값을 반환(첫 번째 값), 없을 시 오류 발생
+
+  ```python
+  numbers = [1, 2, 3, 4, 5, 1]
+  a.index(a) ## a
+  ```
+
+- .count(x)
+
+  : 원하는 값의 개수를 확인
+
+  ```python
+  numbers = [1, 3, 1, 3, 2, 4, 2, 4, 1]
+  numbers.count(1)  ##3
+  ```
+
+- .sort()
+
+  : 오름차순으로 정렬, 원본 list를 변형 시키고 None을 return
+
+- .sorted()
+
+  : 오름차순으로 정렬, 원본은 보존하고 변형시킨 list를 return
+
+  ```python
+  numbers = [3, 1, 2, 5, 4]
+  # sorted
+  print(sorted(numbers))  ## [1, 2, 3, 4, 5]
+  print(numbers)  ## [3, 1, 2, 5, 4]
+  # sort
+  print(numbers.sort())  ## None
+  print(numbers) ## [1, 2, 3, 4, 5]
+  # lotto
+  import random
+  sorted(random.sample(range(1, 46), 6))
+  ## [11, 17, 18, 31, 38, 42]
+  ```
+
+- .reverse
+
+  : 반대로 뒤집어줌
+
+  ```python
+  fruits = ['apple', 'banana', 'strawberry']
+  fruits.reverse()
+  print(fruits) ## ['strawberry', 'banana', 'apple']
+  ```
+
+**2.3 리스트 복사**
+
+- 대입하여 복사하는 경우
+
+  ```python
+  a = [1, 2, 3, 4, 5]
+  b = a
+  a[0] = 5
+  print(a)  ## [5, 2, 3, 4, 5]
+  print(b)  ## [5, 2, 3, 4, 5]
+  # 같은 주소(메모리)값을 가르키고 있기 때문에 같이 변한다.
+  print(id(a)) ## 2123084223680
+  print(id(b)) ## 2123084223680
+  ```
+
+- slice[:] 활용
+
+  ```python
+  a = [1, 2, 3, 4, 5]
+  b = a[:]
+  b[0] = 100
+  print(a)  ## [1, 2, 3, 4]
+  print(b)  ## [100, 2, 3, 4]
+  ```
+
+- list() 활용
+
+  ```python
+  a = [1, 2, 3, 4, 5]
+  b = list(a)
+  b[0] = 100
+  print(a)  ## [1, 2, 3, 4]
+  print(b)  ## [100, 2, 3, 4]
+  ```
+
+- 2차원 배열 복사 - deep copy
+
+  : 깊은 복사 사용 필요 : 내부에 있는 모든 객체까지 값이 변경
+
+  ```python
+  # list 복사
+  a = [[1, 2, 3], 4, 5]
+  b = list(a)  # [주소,4,5]
+  print(a, b)  ## [[1, 2, 3], 4, 5] [[1, 2, 3], 4, 5]
+  b[0][0] = 100  # 내부에 있는 list는 같음
+  print(a, b)  ## [[100, 2, 3], 4, 5] [[100, 2, 3], 4, 5]
+  b[2] = '복사'
+  print(a, b)  ## [[100, 2, 3], 4, 5] [[100, 2, 3], 4, '복사']
   
+  # 깊은 복사(deep copy)
+  import copy
+  a = [[1, 2, 3], 4, 5]
+  b = copy.deepcopy(a)
+  print(a, b)  ## [[1, 2, 3], 4, 5] [[1, 2, 3], 4, 5]
+  b[0][0] = 100
+  print(a, b)  ## [[1, 2, 3], 4, 5] [[100, 2, 3], 4, 5]
+  ```
+
+**2.4 List Comprehension**
+
+- 표현식과 제어문으로 list 생성
+
+- 코드를 줄일 수 있음
+
+- ```python
+  [expression for 변수 in iterable]
+  ```
+
+  ```python
+  numbers = [1, 2, 3, 4, 5]
+  [number**3 for number in numbers]  ## [1, 8, 27, 64, 125]
+  
+  # 3.1 map 활용
+  def cube(n):
+      return n ** 3
+  	list(map(cube, numbers))  ## [1, 8, 27, 64, 125]
+  ```
+
+**2.5 List Comprehension + 조건문**
+
+: 조건문에 참인 식으로 list 생성
+
+- ```python
+  [expression for 변수 in iterable if 조건식]
+  [expression if 조건식 else 식 for 변수 in iterable]
+  ```
+
+  ```python
+  # 홀수 list
+  numbers = [1, 2, 3, 4, 5]
+  [number for number in numbers if number % 2 == 1]  ## [1, 3, 5]
+  ```
+
+
+
+### 3. Built-in Function
+
+: iterable(list, dict, set, str, byte, tuple, range)한 데이터 구조에 적용 가능 
+
+**3.1 map(function, iterable)**
+
+- iterable한 구조의 모든 요소에 function을 적용한 후 결과를 돌려줌
+
+- return은 map_object 형태
+
+  ```python
+  # '12345' 만들기
+  # List Comprehension + .join()
+  numbers = [1, 2, 3, 4, 5]
+  [str(number) for number in numbers] ## ['1', '2', '3', '4', '5']
+  ''.join[str(number) for number in numbers]  ## '123'
+  
+  # map
+  map(str, numbers)  ## <map at 0x1ee51bd0790>
+  list(map(str, numbers))  ## ['1', '2', '3', '4', '5']
+  # str 부분에는 만들어준 함수를 넣어도 됨
+  ```
+
+**3.2 filter(function, iterable)**
+
+- iterable에서 function의 반환된 결과가 True인 것들만을 구성하여 반환
+
+- return은 filter_object 형태
+
+  ```python
+  def num(n):
+      return n
+  numbers = [0, 0.1, 1, 2, 3, 'hello', '', True, False, []]
+  new_numbers = list(filter(num, numbers))
+  print(new_numbers)  ## [0.1, 1, 2, 3, 'hello', True]
+  # 0은 boolean으로 봤을 때 False의 값을 가지므로 반환 안함
+  ```
+
+**3.3 zip(*iterables)**
+
+- 복수의 iterable 객체를 모아줌
+
+- return은 zip_object 형태(튜플의 모음으로 구성) 
+
+  ```python
+  name = ['승', '광', '민']
+  age = [28, 27, 23]
+  sum = list(zip(name, age))
+  print(sum)  ## [('승', 28), ('광', 27), ('민', 23)]
+  ```
+
+  
+
+## 01.26
+
+### 데이터 구조(data_structure)_2
 
