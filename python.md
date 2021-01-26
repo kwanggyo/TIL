@@ -1821,3 +1821,77 @@ if : 참 / 거짓을 판단할 수 있는 조건과 같이 사용되어야 한�
 
 **2.1 값 추가 및 삭제**
 
+- .append(x)
+
+  : list에 값을 추가
+
+  ```python
+  fruits = ['apple', 'banana', 'grape']
+  fruits.append('pineapple')
+  print(fruits)  ## ['apple', 'banana', 'grape', 'pineapple']
+  ```
+
+- .extend(iterable)
+
+  : list에 iterable(list, range, tuple, string) 값 추가
+
+  []에 넣어서 추가해야함
+
+  ```python
+  fruits = ['apple', 'banana', 'strawberry']
+  fruits.append(['pineapple', 'melon'])
+  print(fruits)  
+  ## ['apple', 'banana', 'strawberry', 'pineapple', 'melon']
+  fruits.append('grape')  # string 주의!
+  print(fruits)
+  ## ['apple', 'banana', 'strawberry', 'pineapple', 'melon', 'g', 'r', 'a', 'p', 'e']
+  ```
+
+:ballot_box_with_check: .append는 하나(''), .extend는 여러개([''])를 추가할 수 있다.
+
+- .insert(i, x)
+
+  : i 위치에 x 값을 추가
+
+  ```python
+  fruits = ['apple', 'banana', 'strawberry']
+  fruits.insert(2, '바나나')
+  print(fruits)  ## ['apple', '바나나', 'strawberry']
+  # i = -1에 넣으면 len(fruits)-1 위치에 들어감
+  # 마지막에 넣고 싶으면 i = len(fruits) or 엄청 큰 숫자
+  ```
+
+- .remove(x)
+
+  : list에서 값이 x인 것을 1개씩 삭제(순서대로), 삭제할 값이 없으면 오류 발생
+
+  ```python
+  fruits = ['apple', 'banana', 'strawberry']
+  fruits.remove('banana')
+  print(fruits)  ## ['apple', 'strawberry']
+  ```
+
+- .pop(i)
+
+  : i 위치의 값을 삭제하고 그 항목을 반환, i가 지정되지 않으면 마지막 항목 삭제 후 반환
+
+  ```python
+  fruits = ['apple', 'banana', 'strawberry']
+  fruits.pop(0)  # 여기서 이미 apple이 사라짐
+  # 출력하고 싶으면 변수에 저장해서 그 변수를 출력!
+  print(fruits.pop(0))  ## banana
+  print(fruits)  ## ['strawberry']
+  ```
+
+- .clear()
+
+  : list의 모든 항목을 삭제
+
+  ```python
+  fruits = ['apple', 'banana', 'strawberry']
+  fruits.clear()
+  print(fruits)  ## []
+  ```
+
+  
+
