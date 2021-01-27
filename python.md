@@ -2201,7 +2201,7 @@ if : 참 / 거짓을 판단할 수 있는 조건과 같이 사용되어야 한�
   fruits_dict ## {'사과': 'AAAplle', '바나나': 'BBBanana', '딸기': 'strawberry'}
   ```
 
-**3.3 딕셔너리 순회**
+**2.3 딕셔너리 순회**
 
 - keys(), values(), items()
 
@@ -2223,6 +2223,179 @@ if : 참 / 거짓을 판단할 수 있는 조건과 같이 사용되어야 한�
       ## 사과
       ## 바나나
       ## 딸기
+  ```
+
+**2.4 Dictionary comprehension**
+
+- iterable에서 dict을 생성 가능
+
+  ```python
+  {key: value for 요소 in iterable}
+  
+  dict({key: value for 요소 in iterable})
+  ```
+
+  ```python
+  numbers = [1, 2, 3, 4 ,5]
+  {str(n) : n for n in numbers}
+  ## {'1': 1, '2': 2, '3': 3, '4': 4, '5': 5}
+  ```
+
+**2.5 Dictionary comprehension + 조건**
+
+- 조건문에 참인 식으로 dictionary 생성
+
+  ```python
+  {key: value for 요소 in iterable if 조건식}
+  
+  {key: value if 조건식 else 값 for 요소 in iterable}
+  ```
+
+
+
+## 01.26
+
+### 모듈(Module)
+
+: 특정 기능을 하는 코드를 담고 있는 파일(스크립트)
+
+#### 1. 모듈 생성
+
+- New -> Text File 생성 후 .py로 저장
+
+#### 2. 모듈 활용
+
+- 모듈 활용을 위해서는 반드시 ``import``를 통해 내장 모듈을 이름 공간으로 가져와야함
+- 함수를 자주 사용할 것이라면 변수에 할당해서 사용 가능
+
+
+
+### 패키지(Package)
+
+: 점(.)으로 구분된 모듈 이름을 써서 모듈을 구조화하는 방법
+
+#### 1. 패키지 생성
+
+- New -> Folder 생성 후 아래의 폴더구조 생성
+
+  ```python
+  my_package/ 
+      __init__.py
+      math/
+          __init__.py
+          tools.py 
+  # 모듈 이름 my_package.math는 my_package라는 이름의 패키지에 있는 math라는 이름의 하위 패키지를 가리킴
+  # __init__.py 3.3 이후 버전은 없어도 패키지로 인식, 호환을 위해 쓰는 것을 권장 // __init__.py 파일은 비워두어야함
+  ```
+
+#### 2. 패키지 활용
+
+- `from`과 `import` 를 통해 코드를 가져와서 활용
+
+  ```python
+  # 일반적
+  from my_package.math import tools
+  print(tools.e)
+  # 특정 함수나 어트리뷰트만 활용하고 싶을 때
+  from my_package.math.tools import e
+  print(e)
+  # 해당하는 모듈 내의 모든 변수, 함수, 클래스를 가져옴
+  # *(아스타리스크) 안쓰는거 추천 e, pi, my_max 등을 사용
+  from my_package.math.tools import *  
+  print(e)
+  print(pi)
+  # 지정하는 이름을 붙여서 가져옴
+  from my_package.statistics.tools import standard_deviation as sd
+  ```
+
+  
+
+## 01.27
+
+### OOP_1
+
+:  객체지향프로그래밍(Object Oriented Programming)
+
+#### 1. 객체(Object)
+
+- python에서 모든 것은 객체
+- 모든 객체는 타입(type), 속성(attribute), 조작법(method)을 가짐
+
+**1.1 타입(Type)**
+
+: 공통된 속성과 조작법을 가진 객체들의 분류
+
+**1.2 인스턴스(Instance)**
+
+: 특정 타입의 실제 데이터 예시
+
+모든 객체는 특정 타입의 인스턴스
+
+- ```python
+  a = 10
+  b = 20
+  # a, b 는 객체이고 int 타입의 인스턴스
+  ```
+
+**1.3 속성(Attribute)**
+
+: 객채의 상태/데이터
+
+- ```python
+  # complex
+  complex_number = 6 + 8j
+  complex_number.real  # 객체의 실수 속성
+  complex_number.imag  # 객체의 허수 속성
+  ```
+
+**1.4 메서드(Method)**
+
+: 특정 객체에 적용할 수 있는 행위
+
+- ex) sort(), remove(), index() ...
+
+:ballot_box_with_check: dir() : 객체가 가지고 있는 모든 속성과 메서드를 보여줌
+
+#### 2. 객체 지향 프로그래밍(Object-Oriented Programming)
+
+: Object가 중심(oriented)이 되는 프로그래밍
+
+- OOP 장점
+  - 코드의 직관성
+  - 활용의 용이성
+  - 변경의 유연성
+
+#### 3.클래스(Class)
+
+: 객체들의 분류를 정의할 때 쓰임
+
+#### 4. 생성, 정의, 메서드
+
+**4.1 클래스 생성**
+
+- 클래스 내부에는 데이터와 함수를 정의할 수 있고 이때 데이터는 속성, 정의된 함순느 메서드 라고 부름
+
+  ```python
+  class Person:
+      pass
+  ```
+
+:ballot_box_with_check: Check
+
+- ```python
+  print(type(Person))  ## <class 'type'>
+  type(int)  ## type
+  ```
+
+**4.2 인스턴스 생성**
+
+- 클래스의 인스턴스는 클래스를 호출함으로써 생성
+
+  ```python
+  person1 = Person()
+  # person1은 사용자가 정의한 Person이라는 데이터 타입의 인스턴스이다.
+  kwanggyo = Person()
+  type(kwanggyo)  ## __main__.Person
   ```
 
   
