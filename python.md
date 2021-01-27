@@ -2094,7 +2094,136 @@ if : 참 / 거짓을 판단할 수 있는 조건과 같이 사용되어야 한�
 
   
 
-## 01.26
-
 ### 데이터 구조(data_structure)_2
+
+#### 1. Set
+
+: mutable, unordered, iterable // 변경o, 순서x, 반복 가능
+
+**1.1 추가 및 삭제**
+
+- .add(elem)
+
+  : elem을 세트에 추가
+
+  ```python
+  fruits = {'apple', 'banana', 'strawberry'}
+  fruits.add('grape')
+  print(fruits)  ## {'apple', 'banana', 'strawberry', 'grape'}
+  ```
+
+- .update(*others)
+
+  : 여러가지 값을 추가, 인자로는 반드시 iterable 데이터 구조를 전달해야함
+
+  ```python
+  fruits = {'apple', 'banana', 'strawberry'}
+  fruits.update(('grape', 'pineapple'))
+  print(fruits)  ## {'strawberry', 'apple', 'banana', 'pineapple', 'grape'}
+  ```
+
+- .remover(elem)
+
+  : elem을 세트에서 삭제, 없으면 KeyError 발생
+
+  ```python
+  fruits = {'apple', 'banana', 'strawberry'}
+  fruits.remove('apple')
+  print(fruits)  ## {'banana', 'strawberry'}
+  ```
+
+- .discard(elem)
+
+  : elem을 세트에서 삭제, 없어도 에러가 발생 안함
+
+  ```python
+  fruits = {'apple', 'banana', 'strawberry'}
+  fruits.discard('pineapple')
+  print(fruits)  ## {'apple', 'banana', 'strawberry'}
+  ```
+
+- .pop()
+
+  : 임의의 원소를 제거해서 반환
+
+  ```python
+  fruits = {'apple', 'banana', 'strawberry'}
+  fruits.pop()
+  print(fruits)  ## {'banana', 'strawberry'} reset 후 다시 하면 바뀜
+  ```
+
+:ballot_box_with_check: list.pop(i)는 i or 마지막 원소를 제거한다. list /set - ordered / unordered
+
+​	
+
+#### 2. Dictionary
+
+: mutable, unordered, iterable // 변경o, 순서x, 반복 가능
+
+**2.1 조회**
+
+- .get(ket[, default])
+
+  : ket를 통해 value를 가져옴
+
+  default는 기본적으로 None이기 때문에 KeyError가 발생하지 않음
+
+  ```python
+  fruits_dict = {'사과': 'apple', '바나나': 'banana', '딸기': 'strawberry'}
+  fruits_dict.get('멜론')  ## None
+  fruits_dict.get('멜론', 3)  ## 3
+  fruits_dict.get('사과')  ## apple
+  ```
+
+**2.2 추가 및 삭제**
+
+- pop(key[, default])
+
+  : key가 dictionary에 있으면 제거하고 그 값을 돌려줌, 그렇지 않으면 default 반환
+
+  default가 없는 상태에서 dictionary에 없으면 KeyError 발생
+
+  ```python
+  fruits_dict = {'사과': 'apple', '바나나': 'banana', '딸기': 'strawberry'}
+  fruits_dict.pop('멜론')  ## 오류
+  fruits_dict.pop('멜론', 3)  ## 3
+  fruits_dict.pop('사과')  ## apple
+  ```
+
+- update()
+
+  : 값을 제공하는 key, value로 덮어씁니다.
+
+  ```python
+  fruits_dict = {'사과': 'apple', '바나나': 'banana', '딸기': 'strawberry'}
+  fruits_dict.update({'사과': 'AAAplle'})
+  fruits_dict.update({'바나나': 'BBBanana'})
+  fruits_dict ## {'사과': 'AAAplle', '바나나': 'BBBanana', '딸기': 'strawberry'}
+  ```
+
+**3.3 딕셔너리 순회**
+
+- keys(), values(), items()
+
+  ```python
+  fruits_dict = {'사과': 'apple', '바나나': 'banana', '딸기': 'strawberry'}
+  print(fruits_dict.keys())  ## dict_keys(['사과', '바나나', '딸기'])
+  print(fruits_dict.values())  ## dict_values(['apple', 'banana', 'strawberry'])
+  print(fruits_dict.items())  ## dict_items([('사과', 'apple'), ('바나나', 'banana'), ('딸기', 'strawberry')])
+  # 활용
+  for fruit in fruits_dict.values():
+      print(fruit)  
+      ## apple
+  	## banana
+  	## strawberry
+  # 참고 : 그냥 for문을 돌리면 key 값들이 나옴
+  fruits_dict = {'사과': 'apple', '바나나': 'banana', '딸기': 'strawberry'}
+  for fruit in fruits_dict:
+      print(fruit)
+      ## 사과
+      ## 바나나
+      ## 딸기
+  ```
+
+  
 
