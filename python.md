@@ -2320,6 +2320,7 @@ if : 참 / 거짓을 판단할 수 있는 조건과 같이 사용되어야 한�
 
 - python에서 모든 것은 객체
 - 모든 객체는 타입(type), 속성(attribute), 조작법(method)을 가짐
+- 클래스에서 정의한 메서드를 수행 가능
 
 **1.1 타입(Type)**
 
@@ -2367,11 +2368,13 @@ if : 참 / 거짓을 판단할 수 있는 조건과 같이 사용되어야 한�
 
 #### 3.클래스(Class)
 
-: 객체들의 분류를 정의할 때 쓰임
+: 객체들의 분류를 정의할 때 쓰임, 공통된 속성과 메서드를 정의한 것
+
+- 객체지향 프로그램의 기본적인 사용자 정의 데이터형
 
 #### 4. 생성, 정의, 메서드
 
-**4.1 클래스 생성**
+**4.1 클래스(Class) 생성**
 
 - 클래스 내부에는 데이터와 함수를 정의할 수 있고 이때 데이터는 속성, 정의된 함순느 메서드 라고 부름
 
@@ -2387,16 +2390,91 @@ if : 참 / 거짓을 판단할 수 있는 조건과 같이 사용되어야 한�
   type(int)  ## type
   ```
 
-**4.2 인스턴스 생성**
+**4.2 인스턴스(Instance) 생성**
 
 - 클래스의 인스턴스는 클래스를 호출함으로써 생성
 
   ```python
-  person1 = Person()
+  class Person:
+      def __init__(self,name):
+          self.name = name
+  
+  person_1 = Person('Mr.Lee')
+print(person_1.name)  ## Mr.Lee
   # person1은 사용자가 정의한 Person이라는 데이터 타입의 인스턴스이다.
-  kwanggyo = Person()
+  kwanggyo = Person('kwanggyo')
   type(kwanggyo)  ## __main__.Person
+  print(kwanggyo.name)  ## kwanggyo
+  
+  ```
+  
+
+**4.3 메서드(Method) 정의** 
+
+: 특정 데이터 타입의 객체에 공통적으로 적용 가능한 행위
+
+- self
+
+  : 인스턴스 자신
+
+  - Python 인스턴스 메서드에서는 호출 시 첫번째 인자로 인스턴스 자신이 전달되도록 설계
+
+  - 보통 매개변수명으로 self를 첫번째로 설정(다른 이름 가능하지만 비추천!)
+
+- 생성자(constructor) 메서드( ``def__init__(self)``)
+
+  : 인스턴스 객체가 생성될 때 호출되는 함수
+
+  - 생성자를 활용하여 인스턴스가 생성될 때 속성을 정의할 수 있음
+
+- 소멸자(destructor) 메서드 (``def__del__(self)``)
+
+  : 인스턴스 객체가 소멸되기 직전에 호출되는 함수
+
+  ```python
+  class Person:
+      
+      def __init__(self,name):
+          self.name = name        
+      
+      def talk(self):
+          print('hello')
+          
+      def walk(self, where='공원'):
+          print(f'{where}을 걷는다.') # return 값으로도 줄 수 있음
+          
+  kwanggyo = Person('kwanggyo')
+  kwanggyo.talk()  ## hello
+  kwanggyo.walk()  ## 공원을 걷는다.
+  kwanggyo.walk('학교')  ## 학교을 걷는다.
   ```
 
-  
+**4.4 속성(Attribute) 정의**
+
+: 특정 데이터 타입의 객체들이 가지게 될 상태(데이터)
+
+- 예시의 ``self.name = name`` 부분
+- 호출할 때에는`` kwangggyo.talk()`` - 이런식으로
+
+- dir() 함수를 통해 해당 객체가 활용 가능한 메서드를 확인할 수 있음
+
+**4.5 매직매서드**
+
+: 특별한 일을 하기 위해 만들어진 메서드
+
+- 더블언더스코어(__)가 있음
+
+  ```python
+  __init__ : 인스턴스를 생성할 때 호출하는 메서드
+      
+  __del__ : 인스턴스를 삭제할 때 호출되는 메서드 
+      
+  __str__ : print할 때 원하는 출력이 나오게 하는 메서드
+      
+  __repr__ : 인스턴스를 호출했을 때 return 값을 지정하는 메서드
+  ```
+
+
+
+
 
