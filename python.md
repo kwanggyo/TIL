@@ -2476,5 +2476,106 @@ print(person_1.name)  ## Mr.Lee
 
 
 
+### OOP_2
+
+#### 1. 인스턴스 & 클래스 변수
+
+**1.1 인스턴스 변수**
+
+: 각 인스턴스들의 고유한 변수
+
+- ``self.변수명``으로 정의
+
+**1.2 클래스 변수**
+
+: 모든 인스턴스가 공유
+
+- 클래스 선언 내부에서 정의
+
+  ```python
+  class Person:
+      species = '사람
+      
+  kwanggyo = Person()
+  kwanggyo.species  ## '사람'
+  
+  kwanggyo.species = '광교'  # 변수에 할당
+  kwanggyo.species  ## '광교'  # 들어감
+  Person.species  ## '사람'
+  print(Person.specis)  ## 사람
+  ```
+
+
+
+#### 2. 인스턴스 & 클래스간의 이름공간
+
+**2.1 이름공간 탐색 순서**
+
+- 클래스 정의 -> 생성과 동시에 이름공간이 생성
+- 인스턴스를 만듬 -> 인스턴스 객체가 생성되고 행당되는 이름공간이 생성
+- 인스턴스의 어트리뷰트 변경 -> 변경된 데이터를 인스턴스 객체 이름공간에 저장
+- 인스턴스에서 특정한 어트리뷰트에 접근하게 되면 인스턴스 -> 클래스 순으로 탐색
+
+ :ballot_box_with_check: class와 instance는 서로 다른 namespace를 가짐
+
+- ```python
+  class Person:
+      name = 'unknown'
+      # 인스턴스 변수가 정의된 적 없음
+      def talk(self):
+          print(self.name)
+  kwanggyo = Person()
+  kwanggyo.talk()  ## unknown
+  ```
+
+
+
+#### 3. 메서드의 종류
+
+3.1 instance method
+
+: 인스턴스가 사용할 메서드
+
+- 클래스 내부에 정의되는 메서드의 기본값은 인스턴스 메서드
+- 호출시, 첫 번째 인자로 자기자긴(self)이 전달
+
+3.2 class method
+
+: 클래스가 사용할 메서드
+
+- @classmethod 데코레이터를 사용하여 정의
+- 호출시, 첫 번째 인자로 클래스(cls)가 전달
+
+3.3 static method
+
+: 클래스가 아용할 메서드
+
+- @staticmethod 데코레이터를 사용하여 정의
+
+- 호출시, 어떠한 인자도 전달되지 않음
+
+  ```python
+  class BasicMethod:
+      
+      def instance_method(self):
+          return self
+      
+      @classmethod
+      def class_method(cls):
+          return cls
+      
+      @staticmethod
+      def static_method(arg):
+          return arg
+  ```
+
+:ballot_box_with_check: Method 관계
+
+```python
+# 인스턴스는 3가지 메서드 모두에 접근할 수 있지만 하지 않는 것을 추천!
+# 인스턴스가 할 행동은 인스턴스 메서드로 한정 지어서 설계!
+# 클래스도 3가지 메서드에 모두 접근 가능! But 하지 않는 것을 추천!
+```
+
 
 
