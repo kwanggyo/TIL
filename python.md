@@ -2532,21 +2532,21 @@ print(person_1.name)  ## Mr.Lee
 
 #### 3. 메서드의 종류
 
-3.1 instance method
+**3.1 instance method**
 
 : 인스턴스가 사용할 메서드
 
 - 클래스 내부에 정의되는 메서드의 기본값은 인스턴스 메서드
 - 호출시, 첫 번째 인자로 자기자긴(self)이 전달
 
-3.2 class method
+**3.2 class method**
 
 : 클래스가 사용할 메서드
 
 - @classmethod 데코레이터를 사용하여 정의
 - 호출시, 첫 번째 인자로 클래스(cls)가 전달
 
-3.3 static method
+**3.3 static method**
 
 : 클래스가 아용할 메서드
 
@@ -2569,7 +2569,7 @@ print(person_1.name)  ## Mr.Lee
           return arg
   ```
 
-:ballot_box_with_check: Method 관계
+**:ballot_box_with_check: Method 관계**
 
 ```python
 # 인스턴스는 3가지 메서드 모두에 접근할 수 있지만 하지 않는 것을 추천!
@@ -2578,4 +2578,191 @@ print(person_1.name)  ## Mr.Lee
 ```
 
 
+
+### OOP_3
+
+#### 1. 상속
+
+: 부모 클래스의 모든 속성이 자식 클래스에게 상속
+
+- 클래스의 가장 큰 특징 : 상속 가능
+
+- 코드 재사용성이 높아짐
+
+  ```python
+  class Person:
+      population = 0
+      
+      def __init__(self, name='익명'):
+          self.name = name
+          Person.population += 1
+          
+      def talk(self):
+          print(f'안녕하세요. {self.name}입니다.')
+          
+          
+  class Brother(Person):
+      
+      def __init__(self, name, age):
+          self.name = name
+          self.age = age
+    
+  kwang = Person('이광교')
+  kwang.talk()  ## 안녕하세요 이광교입니다.
+  Person.population  ## 1
+  b1 = Brother('이민교', 23)
+  kwang.name  ## '이광교'
+  b1.name  ## '이민교'
+  b1.age  ## 23
+  b1.talk()  ## 안녕하세요. 이민교입니다.
+  Person.population  ## 1
+  ```
+
+- 상속 검사
+
+  ```python
+  issubclass(Brother, Person)  ## True
+  isinstance(Student, Person)  ## False
+  isinstance(b1, Brother)  ## True
+  isinstance(b1, Person)  ## True
+  type(b1) is Person  ## False
+  # b1의 타입을 찍어보면 확인 가능 (Brother)
+  type(Student) is Person  ## False
+  
+  # 내장 타입
+  isinstance(True, int)  ## True # boolean과 int 비교
+  type(True) is int  ## False
+  
+  # 상속 확인
+  Student.mro()  ## [__main__.Student, __main__.Person, object]
+  bool.mro()  ## [bool, int, object]
+  ```
+
+
+
+- super()
+
+  - 부모 클래스의 내용을 사용하고자 할 때 사용
+  - 자식 클래스에 메서드를 추가로 구현
+
+  ```python
+  class Person:
+      population = 0
+      
+      def __init__(self, name='익명'):
+          self.name = name
+          Person.population += 1
+          
+      def talk(self):
+          print(f'안녕하세요. {self.name}입니다.')
+  
+  class Brother(Person):
+      def __init__(self, name, age):
+          # 여기가 실행되는 것은 부모클래스의 init()을 실행
+          super().__init__(name)
+          self.age = age # 추가 작업
+  
+  p1 = Person('kwanggyo')
+  s1 = Brother('seunggyo', '28')
+  s2 = Brother('mingyo', '23')
+  
+  Person.population  # 3
+  ```
+
+
+
+#### 2. 메서드 오버라이딩(Method Overriding)
+
+: 자식 클래스에서 부모 클래스의 메서드를 재정의
+
+- 같은 이름의 메서드로 덮어씀
+
+  ```python
+  class Person:
+      population = 0
+      
+      def __init__(self, name='익명'):
+          self.name = name
+          Person.population += 1
+          
+      def talk(self):
+          print(f'안녕하세요. {self.name}입니다.')
+  
+  class Brother(Person):
+      def __init__(self, name, age):
+          # 여기가 실행되는 것은 부모클래스의 init()을 실행
+          super().__init__(name)
+          self.age = age # 추가 작업
+          
+      def talk(self):
+          if self.age > str(27):  # str로 나오기 때문.
+              print(f'안녕. 나는 {self.name}야')
+              
+  p1 = Person('kwanggyo')
+  s1 = Brother('seunggyo', '28')
+  s2 = Brother('mingyo', '23')
+  
+  p1.talk()  # 안녕하세요. kwanggyo입니다.
+  s1.talk()  # 안녕. 나는 seunggyo야
+  print(s1.talk())  # None
+  ```
+
+**2.1 상속관계에서의 이름공간**
+
+- 인스턴스 -> 클래스 순에서 상속관계에 있다면 
+- 인스턴스 -> 클래스 -> 전역
+- 인스턴스 -> 자식 클래스 -> 부모 클래스 -> 전역
+
+
+
+#### 3. 다중 상속
+
+: 두개 이상의 클래스를 상속 받는 경우
+
+- 순서 중요!
+
+  ```python
+  class Person:
+      def __init__(self, name):
+          self.name = name
+          
+      def talk(self):
+          print('talking')
+          
+  class Mom(Person):
+      gene = 'XX'
+      
+      def run(self):
+          print('running')
+          
+  class Dad(Person):
+      gene = 'XY'
+      
+      def walk(self):
+          print('walking')  
+         
+  mom = Mom('Kim')
+  mom.run()  # running
+  mom.gene  # 'XX'
+  dad = Dad('Lee')
+  dad.walk()  # walking
+  dad.gene  # 'XY'
+  
+  class Child(Dad, Mom):
+      
+      def talk(self):
+          print('talking too much')
+          
+      def play(self):
+          print('playing soccer')
+          
+  child = Child.('LKG')
+  child.play()  # playing soccer
+  child.talk()  # talking too much
+  child.gene  # XY
+  # class Child(Mom, Dad) 이면 
+  # child.gene  # XX
+  # 상속 받을 때 순서!
+  # .mro() : 무엇을 먼저 찾아갈지 알려줌
+  ```
 
