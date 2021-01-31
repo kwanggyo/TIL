@@ -36,7 +36,7 @@
 
 
 
-:memo: 크롤링
+:memo: **크롤링**
 
 >  : 웹페이지에 들어가서 원하는 정보를 가져오는 것을 말한다.
 >
@@ -66,7 +66,7 @@
 
 
 
-:memo: JSON
+:memo: **JSON**
 
 > : 우리는 원하는 정보만 받아오면 된다. 그러한 정보 타입이 JSON이고 가공하기 쉽기 때문에 사용한다.
 >
@@ -74,7 +74,7 @@
 
 
 
-:cherries: GIt
+:cherries: **GIt**
 
 > : 형상관리(버전관리)를 통해 코드에서 버전 관리를 할 수 있게 도와준다.
 >
@@ -132,16 +132,20 @@
 > 5. 지금까지 한 것은 내 컴퓨터에만 저장된 것으로 이것을 cloude에 올려야한다.(github, gitlab)
 >
 >    - git push origin master
+> 6.  참고!
+>    - git remote -v : 현재 등록된 remote를 보여준다.
+>    - git add. : 한번에 모든 파일이 스테이징
+>    - . : 현재 디렉토리
 
 
 
 ``01.15``
 
-:heavy_check_mark: 폴더, 파일 만들 때, 한글x, 띄어쓰기 대신 _ 사용, 특수문자는 _만 사용!
+:heavy_check_mark: **폴더, 파일 만들 때, 한글x, 띄어쓰기 대신 _ 사용, 특수문자는 _만 사용!**
 
 
 
-:cherries: 무료로 볼 수 있는 웹 강의 참고
+:cherries: **무료로 볼 수 있는 웹 강의 참고**
 
 > 1. 생활코딩(비영리) : WEB
 > 2. 노마드 코더
@@ -170,7 +174,7 @@
 
 
 
-:memo: 모듈 설치
+:memo: **모듈 설치**
 
 > - 서버를 이용하기 전에 설치(pip install 모듈이름)
 >
@@ -192,7 +196,7 @@
 
 ``01.18``
 
-:memo: jupyter notebook
+**:memo: jupyter notebook**
 
 > : REPL(Read Eval Print Loop) - 파이썬 대화형 개발 환경 중 하나
 >
@@ -217,7 +221,7 @@
 
 
 
-:memo: D2Coding
+:memo: **D2Coding**
 
 > : 글자의 폰트(구별하기 쉽게)
 >
@@ -227,7 +231,7 @@
 
 
 
-:heavy_check_mark: PEP-8(python style guide)를 잘 지켜야한다.
+:heavy_check_mark: **PEP-8(python style guide)를 잘 지켜야한다.**
 
 > - 실무에서는 회사마다 guide가 있고 베이스가 되는 guide이다.
 
@@ -306,17 +310,17 @@
 > >     b = 8.29
 > >     a == b
 > >     ## False
-> >     
+> >
 > >     # 다음의 방법들로 처리
 > >     # 1. abs
 > >     abs(a-b) <= 1e-10
 > >     ## True
-> >     
+> >
 > >     # 2. sys // epsilon은 반올림 함으로써 발생하는 오차 상환
 > >     import sys
 > >     abs(a-b) <= sys.float_info.epsilon
 > >     ## True
-> >     
+> >
 > >     # 3. math
 > >     import math
 > >     math.isclose(a, b)
@@ -385,13 +389,13 @@
 > >     score = 4.5
 > >     # %-formatting
 > >     print('나의 학점은 %s 입니다.', % score)
-> >     
+> >
 > >     # str.format()
 > >     print('나의 학점은 {} 입니다.', format(score))
-> >     
+> >
 > >     # f-strings
 > >     print(f'나의 학점은 {score} 입니다.')
-> >     
+> >
 > >     ## 나의 학점은 4.5 입니다.
 > >     ```
 > >
@@ -402,7 +406,7 @@
 > >     today_now = datetime.datetime.now()
 > >     print(today_now)
 > >     ## 2021-01.19 19:51:35.805035
-> >             
+> >
 > >     print(f'오늘은 {today_now:%y}년 {today_now:%m}월 {today_now:%d}일 {today_now:%A} 입니다.'         
 > >     ## 오늘은 21년 01월 19일 Tuesday 입니다.
 > >     ```
@@ -420,7 +424,7 @@
 > > - True와 False로 이루어짐
 > > - 비교/논리 연산을 수행
 > > - 0, 0.0, (), [], {}, '', None 은 False로 변환
-> > - 0이 아닌 나머지는 True
+> > - 0이 아닌 나머지는 True(문자열은 빈 문자열이 아니면 모두 True 평가)
 > > - None 타입 : 값이 없음을 표현
 > >
 > > ##### 3.4 형변환(Ttpe conversion, Typecasting)
@@ -438,7 +442,7 @@
 > >     complex_num = 5+5j
 > >     int_num + float_num = 15 
 > >     ## <class 'float'>
-> >     
+> >
 > >     int_num + complex_num = 10+5j 
 > >     ## <class 'complex'>
 > >     ```
@@ -461,7 +465,7 @@
 > >     aaa = '5.5'
 > >     int(aaa) 
 > >     ## 오류  string이지만 float 형식이기 때문에 불가능, float 형식으로 변환해야한다.
-> >     
+> >
 > >     bbb = 5.5
 > >     int(bbb) ## 5  float은 int로 변환 가능(소수점은 버림)
 > >     ```
@@ -549,7 +553,7 @@
 > >
 > >     ```python
 > >     'he' + 'llo'  ## 'hello'
-> >     
+> >
 > >     [1, 2, 3] + [4, 5, 6]  ## [1, 2, 3, 4, 5, 6]
 > >     ```
 > >
@@ -566,12 +570,12 @@
 > >     x = []
 > >     y = []
 > >     print(x == y, x is y)  ## True False
-> >     
+> >
 > >     # 느낌표 때문에 다름
 > >     x = 'hello!'
 > >     y = 'hello!'
 > >     print(x is b)  ## False
-> >     
+> >
 > >     # 파이썬에서 -5 부터 256 까지의 id는 동일
 > >     # id까지 같아야 object 판단에서 True가 나옴
 > >     ```
@@ -582,10 +586,10 @@
 > >
 > >     ```python
 > >     a = 'apple'
-> >     
+> >
 > >     #Indexing
 > >     a[0]  ## 'a'
-> >     
+> >
 > >     #Slicing
 > >     a[0:3]  ## 'app'
 > >     ```
@@ -610,11 +614,22 @@
 > > - 참고
 > >
 > >   - 표현식(Expression)
+> >     
 > >     - 하나의 값(value)으로 환원 될 수 있는 문장(boolean도 가능)
+> >     
 > >   - 문장(Statement)
 > >     - 파이썬에서 실행 가능한 최소한의 코드 단위
 > >     - 하나의 값(value), 표현식(Expression) 도 문장이 될 수 있음
 > >     - 문장 집합안에 표현식 집합이 있음
+> >     
+> >     ```python
+> >     # 예시
+> >     radius = 10 : 표현식이 아님
+> >     if radius > 10: : 문장
+> >     print(10) : 문장, 표현식(None이라는 값이 있음)
+> >     ```
+> >     
+> >     
 
 
 
@@ -827,17 +842,17 @@
 >   n2 = 2
 >   print(n1)  ## 1
 >   print(n2)  ## 2
->   
+>
 >   # mutable
->   n1 = [1, 2, 3]
->   n2 = n1
+>   n1 = [1, 2, 3]  # n1 에는 주소값이 들어가 있음!!
+>   n2 = n1  # n2 = n1 똑같은 주소값을 가르키게 됨
 >   n2[0] = 1000
 >   print(n1)  ## [1000, 2, 3]
 >   print(n2)  ## [1000, 2, 3]
->   
+>
 >   # 위에서 n2만 바뀌게 하려면 새로운 리스트를 만들어야함
 >   n1 = [1, 2, 3]
->   n2 = list(n1)
+>   n2 = list(n1)  # n2 = n1[:]로 해도 됨
 >   n2[0] = 100
 >   print(num1)  ## [1, 2, 3]
 >   print(num2)  ## [1000, 2, 3]
@@ -862,10 +877,12 @@
 > - get remote -v : 현재 등록된 remote를 보여준다
 > - 유의사항 : 공유받은 handouts를 임의로 건들면 pull 할 때 문제가 발생할 수 있다.
 > - 위치변경x, 수정x, 복사해서 사용
+> - 아이디, 비밀번호를 잘못쳐서 저장된 경우
+>   - 윈도우 - 자격 증명 - windows 자격 증명 - lab.ssafy가 들어있는 모든 자격 증명 제거 - 다시 clone 하면 로그인 창이 뜸
 
 
 
-:heavy_check_mark: Homework review
+:heavy_check_mark: **Homework review**
 
 > - 주피터에서는 맨 아래의 값을 보여준다.(굳이 print할 필요 없음)
 > - 프로그래밍에서 num1 = num2 False 차이는 아주 작은 차이로 계산할 경우에는 가능하다.
@@ -891,7 +908,7 @@
 >   # 내 생일 출력
 >   birthday = input('날짜를 입력하세요 ex)02.27: ')
 >   print(birthday)
->   
+>
 >   if birthday == '08.29':
 >   	print('이광교님의 생일 입니다. 축하합니다.')
 >   else:
@@ -903,7 +920,7 @@
 >   # input은 str형이기 때문에 int로 형변환
 >   num = int(input('숫자를 입력하세요. : '))
 >   print(num)
->   
+>
 >   if num % 2:  # True = 1, False = 0 을 이용
 >       print('홀수')
 >   else:
@@ -937,6 +954,14 @@
 >   number = int(input('숫자를 입력하세요 : '))
 >   print('0보다 크다.') if num < 0 else print('0 보다 크지 않다.')
 >   ```
+>
+> :heavy_check_mark: **조건문이 있는데 삼항 연산자를 사용하는 이유**
+>
+> > - 코드가 간결하다.
+> > - 표현식이다.
+> > - 메모리 부분에서 차이는 거의 없다.
+> > - if else : 문장, 삼항연산자 : 하나의 값
+> > - 요즘은 '메모리보다 어떻게 시간을 줄이는가'를 생각한다.
 
 ### 2. 반복문(Loop Statement)
 
@@ -1114,17 +1139,15 @@
 >   ## False
 >   ```
 >
-> 
->
 > - pass 
 >
 >   - 아무것도 하지 않음
->   - 문법적으로 문장이 필요하지만 특별히 할 일이 없을 때, 자리를 채우는 용도로 사용
->
+>  - 문법적으로 문장이 필요하지만 특별히 할 일이 없을 때, 자리를 채우는 용도로 사용
+> 
 >   - 코딩 중에 실행 결과 확인 하고 싶을 때 사용
 >
 >   ```python
->   # 코딩 중 실행 결과 확인
+>  # 코딩 중 실행 결과 확인
 >   my_list = [2, 3, 5, 8, 13]
 >   for num in my_list:
 >       if number == 5:
@@ -1135,9 +1158,9 @@
 >   ## 5
 >   ## 8
 >   ## 13
->   
+> 
 >   # continue와 차이점
->   my_list = [2, 3, 5, 8, 13]
+>     my_list = [2, 3, 5, 8, 13]
 >   for num in my_list:
 >       if number == 5:
 >           continue
@@ -1156,11 +1179,22 @@
 
 ## 함수
 
-- 특정한 기능을 하는 코드의 묶음
+- 특정한 기능을 하는 코드의 묶음(로직을 묶어서 반복적으로 활용)
+- 어떠한 input을 받아서 결과값을 반환한다.
+- 함수의 출력(output)과 print 터미널의 출력은 다르다.
 - 사용하는 이유
   - 높은 가독성(코드가 짧아짐)
   - 재사용성
   - 유지보수(분리되어 있어서 기능 수정이 편리함)
+
+
+
+:heavy_check_mark: **print와 return의 다른점**
+
+> - print : 값을 보여줌(출력만)
+> - return : 값을 반환(output으로) - 변수에 저장 가능
+
+
 
 ### 1. 선언과 호출
 
@@ -1351,6 +1385,10 @@
 >   enclosed()
 >   # 여기까지 a = 300, b = 200, c = 400
 >   ```
+>
+> :heavy_check_mark: **for문 안에서 선언한 변수를 for문 밖에서 사용할 수 없는 이유**
+>
+> > - 스코프는 함수를 기준으로 형성, for나 if 등은 스코프를 형성하지 않는다.
 
 ### 2. 재귀 함수
 
@@ -1399,7 +1437,19 @@
 >
 >     - 시간이 더 오래 걸릴 수 있다.
 >
->     - 반드시 base case가 존재해야한다. (최대 재귀 깊이)
+>     - **반드시 base case가 존재**해야한다. (최대 재귀 깊이)
+>
+> :heavy_check_mark: Tip
+>
+> > - 그림을 그려가면서 하는 것 추천!
+> > - 중간중간 print를 넣어서 진행과정 확인!
+
+
+
+:heavy_check_mark: Homework review
+
+> - slicing을 활용하려면 그 형태가 list 이어야 한다.
+> - [: : 2] : 처음이 0이고 끝까지이면 생략 가능
 
 
 
@@ -1491,6 +1541,23 @@
 >   - 반드시 수행해야 하는 문장에 활용
 >   - 예외 발생 여부와 관계없이 try 문을 떠날 때 항상 실행
 >   - ex) DB에서 데이터를 가져올 때 오류 발생, finally : DB 종료
+>   
+>   ```python
+>   # 예제
+>   try:
+>   	db에 연결해서 값을 읽어옴 
+>   	-----에러-----(에러나면 except로 감, db와 연결 안끊김)
+>   	db와의 연결을 끊음
+>   except: 값이 잘 안읽어와지는 에러:
+>   		대충 default 값을 주던지
+>   		잘 안 읽어와졌다고 새로운 값을 달라고 하든지
+>   finally:
+>   		db와의 연결이 종료
+>       
+>   # 500번대 에러는 서버 관련 에러
+>   ```
+>   
+>   
 
 ### 3. 예외 발생 시키기(Excepting Raising)
 
@@ -1513,7 +1580,7 @@
 
 
 
-:memo: 기타
+:memo: **기타**
 
 > - dict와 json 은 jpg와 png 같은 관계 - 사용하는 목적은 같음
 > - load : 인코딩과 같은 역할, json 파일을 객체로 변환
@@ -1531,7 +1598,7 @@
 
 ``01.23``
 
-:heavy_check_mark: 문제 풀이 Feedback
+:heavy_check_mark: **문제 풀이 Feedback**
 
 > - 어떻게 풀지 먼저 생각하고 글로 써본 후 코딩으로 구현한다!
 > - range의 slicing은 , 로 list의 slicing은 : 로 구분한다.
@@ -1543,7 +1610,7 @@
 
 ``01.24``
 
-:heavy_check_mark: 문제 풀이 Feedback
+:heavy_check_mark: **문제 풀이 Feedback**
 
 > - dict에서 key 값을 입력할때는 [] 사용
 > - 중첩 조건문에서는 앞에 return 을 썼으면 뒤에는 안써도 된다.
@@ -1833,6 +1900,10 @@
 > >   # 출력하고 싶으면 변수에 저장해서 그 변수를 출력!
 > >   print(fruits.pop(0))  ## banana
 > >   print(fruits)  ## ['strawberry']
+> >   
+> >   # list.pop(): 맨뒤, list(idx) : 리스트는 순서가 있음
+> >   # set.pop(): 랜덤 : 순서가 없음
+> >   # dict.pop(key) : 순서는 없지만 key, value 쌍
 > >   ```
 > >
 > > - .clear()
@@ -1888,7 +1959,7 @@
 > >   ## [11, 17, 18, 31, 38, 42]
 > >   ```
 > >
-> > - .reverse
+> > - .reverse()
 > >
 > >   : 반대로 뒤집어줌
 > >
@@ -1897,6 +1968,11 @@
 > >   fruits.reverse()
 > >   print(fruits) ## ['strawberry', 'banana', 'apple']
 > >   ```
+> >
+> > :heavy_check_mark: **.find(), .index() 차이점**
+> >
+> > > - index : 없을 때 오류
+> > > - find : 없을 때 -1 출력
 >
 > #### 2.3 리스트 복사
 >
@@ -1969,7 +2045,7 @@
 > >   ```python
 > >   numbers = [1, 2, 3, 4, 5]
 > >   [number**3 for number in numbers]  ## [1, 8, 27, 64, 125]
-> >   
+> >
 > >   # 3.1 map 활용
 > >   def cube(n):
 > >       return n ** 3
@@ -2002,6 +2078,14 @@
 > >
 > > - return은 map_object 형태
 > >
+> > - iterable한 것들을 위해 만들어짐
+> >
+> > - input이 여러개있고 겺과값도 여러개가 나온다.
+> >
+> > - ex) [1, 2, 3]을 [2, 4, 6] 으로 만들고 싶을 때 사용
+> >
+> > - map을 반복문에 넣을거면 굳이 list를 안해도 된다.
+> >
 > >   ```python
 > >   # '12345' 만들기
 > >   # List Comprehension + .join()
@@ -2012,7 +2096,7 @@
 > >   # map
 > >   map(str, numbers)  ## <map at 0x1ee51bd0790>
 > >   list(map(str, numbers))  ## ['1', '2', '3', '4', '5']
-> >   # str 부분에는 만들어준 함수를 넣어도 됨
+> >   # str 부분에 만들어준 함수를 넣어도 됨
 > >   ```
 >
 > #### 3.2 filter(function, iterable)**
@@ -2174,6 +2258,8 @@
 > >       ## 바나나
 > >       ## 딸기
 > >   ```
+> >   
+> >   - dict을 반복문으로 돌리면 key값이 나온다.
 >
 > #### 2.4 Dictionary comprehension
 >
@@ -2216,7 +2302,25 @@
 ### 2. 모듈 활용
 
 > - 모듈 활용을 위해서는 반드시 ``import``를 통해 내장 모듈을 이름 공간으로 가져와야함
+>
 > - 함수를 자주 사용할 것이라면 변수에 할당해서 사용 가능
+>
+> - *(asterisk) : 전부다 import 한다.
+>
+> - But 안쓰는 것을 추천하고, pi, e, my_max 등을 사용해서 쓰는 것이 좋다.
+>
+>   - pi 만 쓰려고 했는데 e, my_max 등도 같이 import 되기 때문에.
+>
+>   ```python
+>   from my_package.math.tools import *
+>   # 접근할 때 : pi, e
+>   
+>   from my_package.math import tools
+>   # 접근할 때 : tools.pi, tools.
+>   # 이때 my_max와 tools.my_max가 다름 다 가져오더라도 my_max가 변하지 않음
+>   ```
+>
+>   
 
 
 
@@ -2261,6 +2365,22 @@
 
 
 
+:heavy_check_mark: **변수명**
+
+> - x, y, z, i, j, k 이런 변수들보다는 변수명을 관련있게 해주는 것이 좋다.
+> - 프로그래밍에서 call 한다 : 함수를 실행한다.
+> - 메서드 : .이 붙어있는 함수
+
+
+
+:heavy_check_mark: **Tip**
+
+> - 어떠한 개발을 할 때, ui / ux를 생각해야함
+> - 웹사이트, 앱의 좋은 부분은 잘 못알아차리지만 나쁜 부분은 잘 보임
+> - 불편했던 것을 메모 하고 서비스로 만들 때 활용!!
+
+
+
 ``01.27``
 
 ## OOP_1
@@ -2272,6 +2392,7 @@
 > - python에서 모든 것은 객체
 > - 모든 객체는 타입(type), 속성(attribute), 조작법(method)을 가짐
 > - 클래스에서 정의한 메서드를 수행 가능
+> - dir 함수를 쓰면 객체가 할 수 있는 것을 알 수 있다.
 >
 > #### 1.1 타입(Type)
 >
@@ -2332,7 +2453,7 @@
 > > - 클래스 내부에는 데이터와 함수를 정의할 수 있고 이때 데이터는 속성, 정의된 함순느 메서드 라고 부름
 > >
 > >   ```python
-> >   class Person:
+> >   class Person:  # 상속을 받지 않으면 () 생략 가능
 > >       pass
 > >   ```
 > >
@@ -2386,18 +2507,19 @@
 > >
 > >   ```python
 > >   class Person:
-> >       
+> >
 > >       def __init__(self,name):
 > >           self.name = name        
-> >       
+> >
 > >       def talk(self):
 > >           print('hello')
-> >           
+> >
 > >       def walk(self, where='공원'):
 > >           print(f'{where}을 걷는다.') # return 값으로도 줄 수 있음
-> >           
+> >
 > >   kwanggyo = Person('kwanggyo')
 > >   kwanggyo.talk()  ## hello
+> >   # 내부적으로는 Person.talk(kwanggyo)
 > >   kwanggyo.walk()  ## 공원을 걷는다.
 > >   kwanggyo.walk('학교')  ## 학교을 걷는다.
 > >   ```
@@ -2542,21 +2664,21 @@
 >   ```python
 >   class Person:
 >       population = 0
->       
+>
 >       def __init__(self, name='익명'):
 >           self.name = name
 >           Person.population += 1
->           
+>
 >       def talk(self):
 >           print(f'안녕하세요. {self.name}입니다.')
->           
->           
->   class Brother(Person):
->       
+>   ```
+>   
+>   ```python
+>   class Brother(Person):  
 >       def __init__(self, name, age):
->           self.name = name
->           self.age = age
->     
+>         self.name = name
+>         self.age = age
+>   
 >   kwang = Person('이광교')
 >   kwang.talk()  ## 안녕하세요 이광교입니다.
 >   Person.population  ## 1
@@ -2567,10 +2689,9 @@
 >   b1.talk()  ## 안녕하세요. 이민교입니다.
 >   Person.population  ## 1
 >   ```
->
-> - 상속 검사
->
+>   
 >   ```python
+>   # 상속 검사
 >   issubclass(Brother, Person)  ## True
 >   isinstance(Student, Person)  ## False
 >   isinstance(b1, Brother)  ## True
@@ -2596,24 +2717,24 @@
 >   ```python
 >   class Person:
 >       population = 0
->       
+>
 >       def __init__(self, name='익명'):
 >           self.name = name
 >           Person.population += 1
->           
+>
 >       def talk(self):
 >           print(f'안녕하세요. {self.name}입니다.')
->   
+>
 >   class Brother(Person):
 >       def __init__(self, name, age):
 >           # 여기가 실행되는 것은 부모클래스의 init()을 실행
 >           super().__init__(name)
 >           self.age = age # 추가 작업
->   
+>
 >   p1 = Person('kwanggyo')
 >   s1 = Brother('seunggyo', '28')
 >   s2 = Brother('mingyo', '23')
->   
+>
 >   Person.population  # 3
 >   ```
 >
@@ -2622,39 +2743,41 @@
 
 > : 자식 클래스에서 부모 클래스의 메서드를 재정의
 >
+> - 부모에 있는 init 함수로 충분하지 않고 추가할 때 사용한다.
+>
 > - 같은 이름의 메서드로 덮어씀
 >
 >   ```python
 >   class Person:
 >       population = 0
->       
+>
 >       def __init__(self, name='익명'):
 >           self.name = name
 >           Person.population += 1
->           
+>
 >       def talk(self):
 >           print(f'안녕하세요. {self.name}입니다.')
->   
+>
 >   class Brother(Person):
 >       def __init__(self, name, age):
 >           # 여기가 실행되는 것은 부모클래스의 init()을 실행
 >           super().__init__(name)
 >           self.age = age # 추가 작업
->           
+>
 >       def talk(self):
 >           if self.age > str(27):  # str로 나오기 때문.
 >               print(f'안녕. 나는 {self.name}야')
->               
+>
 >   p1 = Person('kwanggyo')
 >   s1 = Brother('seunggyo', '28')
 >   s2 = Brother('mingyo', '23')
->   
+>
 >   p1.talk()  # 안녕하세요. kwanggyo입니다.
 >   s1.talk()  # 안녕. 나는 seunggyo야
 >   print(s1.talk())  # None
 >   ```
 >
-> - 상속 관께에서의 이름공간
+> - 상속 관계에서의 이름공간
 >   - 인스턴스 -> 클래스 순에서 상속관계에 있다면 
 >   - 인스턴스 -> 클래스 -> 전역
 >   - 인스턴스 -> 자식 클래스 -> 부모 클래스 -> 전역
@@ -2713,5 +2836,23 @@
 
 
 
+``01.29``
 
+:memo: **데이터 요청**
+
+> - 요청이 없는데 응답이 있을 수 는 없다.
+> - http 통신 : 요청과 응답
+> - 브라우저 말고도 ex) git bash에서 curl https://www.naver.com 이런식으로 요청이 가능하다.
+
+
+
+:memo: **pjt2(웹)**
+
+> - https://api.themoviedb.org/3/movie/top_rated?
+>
+>   : 주소를 나타낸다.
+>
+> - api_key=___________________________________&region='KR'&language='ko'---
+>
+>   : 자신의 API key를 입력하여 원하는 형태로 받아온다.
 
