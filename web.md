@@ -183,6 +183,54 @@
   - 사용자가 입력하는 정보가 일정한 pattern을 가진 형태일 때 사용
   - ex) 전화번호, 카드 번호
 
+
+
+
+- ```python
+  # 정리
+  Float
+  - 본래는 이미지 좌,우측 주변으로 텍스트를 둘러싸는 레이아웃을 위해 도입
+  - 더 나아가 이미지가 아닌 다른 요소들에도 적용해 웹사이트의 전체 레이아웃을 만드는데까지 발전 3가지의 값이 있음
+  none : 기본값
+  left : 요소를 왼쪽으로 띄움
+  right : 요소를 오른쪽으로 띄움
+      
+  float는 block이 뜨게 하는 거라서 그 밑으로 
+  block이 들어갈 수 있다.
+  밑으로 들어가지 않게 하기 위해서는!
+  (레이아웃이 깨지지 않게 하기위해)
+  clearfix: 부모 부분에 넣어줌
+  - 부모 이후에 가상요소를 만들거임(clearfix::after)
+  - 내용이 비어있고(content: "";)
+  - 디스플레이 블락(display: block);
+  - 클리어 : float 무시, both(left, right 둘다)(clear both)
+      
+  Flexbox : CSS Flexible Box Layout
+  요소 간 공간 배분과 정렬 기능을 위한 1차원(단방향) 레이아웃
+  반드시 기억해야할 것!!!!
+  1. 요소
+  2. 축
+  
+  Bootsrap
+  반응형 웹사이트를 빠르게 만들 수 있음프론트 엔드 개발에서 자주 쓰이는 기능들을 제공
+  responsive grid system
+  
+  Grid system
+  - flexbox로 제작됨
+  - container, row, column
+  - 반드시 기억 2가지!
+  1. 12개의 column
+   -> 적당한 크기이고, 약수가 많아서 약수가 많다 -> 다양하게 래이아웃을 짤 수 있음
+  2. 6개의 Grid breakpoints(grid system을 치면 볼 수 있음)
+  xs, sm, md, lg, xl, xxl 
+  -> 픽셀을 외우는게 아니라 표를 봐야함
+  grid는 무조건 container 안에서 진행해야함
+  
+  
+  각각의 기술은 저마다 용도가 있고, 장단점이 있으며, 어떤 기술도 독립적인 용도를 갖추도록 설계되지는 않았다.
+  특정 상황에 어떤 기술이 가장 적합한 도구가 될 것인지 파악하는 데에는 많은 경험이 뒷받침 되어야한다.
+  ```
+
   
 
 :heavy_check_mark: **정리를 어떻게 할지 정해야 함!**
