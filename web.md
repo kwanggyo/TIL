@@ -258,9 +258,45 @@
   w-100 부모의 크기에 맞춰줌(그림크기할때)
   ```
 
-  
+
+``02.05``
+
+```python
+우리가 지금까지 html, css, bootstrap을 한 이유
+데이터(Django)를 '잘' 보여주기 위해서!
+
+head - 정보를 가져오는 부분
+orientation: landscape : 가로모드 - 가로가 더 긴 경우
+@media에서 and 사용, or 대신 , 사용
+
+ss에서 animation은 마진을 조정하는 것!
+색, 크기 등도 바꿀 수 있다.(css안의 모든 요소)
+
+참고!! 라이브러리 
+- animate.css : animation site
+    
+폰트 검색(fonts.google.com), 폰트는 가독성을 위해 중요하다!
+select this style 누르면 오른쪽에 주소가 나오고 (CDN)복사 후 title 밑에 붙여줌 &family=을 통해 여러개를 불러올 수 있음
+
+icon을 쓸 때는 cdn을 복사해주고 Icon font란의 예시를 참고해서 작성
+style=font-size ~ 하면 글자처럼 됨. color도 들어감.
+i태그는 원래 이텔릭체의 의미였지만 현재 별로 안쓰기 때문에 icon을 많이 표현(inline)
+참고!! fontawesome site
+아이콘이 더 다양하다.
+(무료 / 유료가 있음)
+이메일 적으면 cdn 주소가 옴 그것을 적고 사용
+
+form-aria-describedby : 접근성을 높이는 것
+ex) image - alt 
+- 그림을 못보는 사람들에게 도움을 줌.(몸이 불편한 사람들) 
+네이버의 널리를 가면 체험 가능
+```
+
+
 
 :heavy_check_mark: **정리를 어떻게 할지 정해야 함!**
+
+> - 이번주는 실습을 해보느라 제대로 정리를 못했음. 공부하면서 정리 필요!
 
 
 
