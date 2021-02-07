@@ -111,6 +111,7 @@
   - br : 줄바꿈
   - img : 이미지 태그
 - table
+  
   - ``<tr>, <td>, <th>, <thead>, <tbody>, <tfoot>, <caption>`` 등
 - form
   - 서버에서 처리될 데이터를 제공하는 역할
@@ -505,12 +506,25 @@
 ### Bootstrap - Grid System
 
 - flexbox로 제작됨
+
 - container, rows, column으로 컨텐츠를 배치하고 정렬!
+
+  ```html
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3"></div>
+    </div>
+  </div>
+  ```
+
+  
+
 - 반드시 2가지 기억!!
   - 12개의 column
   - 6개의 grid breakpoints(xs, sm, md, lg, xl, xxl), 표를 확인
 
 - CSS Grid와 Bootstrap Grid System은 완전히 다름
+
 - flexbox의 대체재가 아니라 상황에 따라서 적절하게 섞어서 사용해야함
 
 
@@ -533,3 +547,159 @@
 > - 접근성을 높이는 것(몸이 불편한 사람들)
 > - ex) image - alt : 그림을 못보는 사람들에게 도움을 줌
 > - 네이버 NULI를 가면 체험 가능
+
+
+
+``02.07``
+
+### em / rem 차이
+
+- em : 상위 요소 크기의 배수
+
+- rem : 문서의 최상단 즉, html 요소 크기의 배수
+
+  ```html
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      html {
+        font-size: 16px;
+      }
+      body {
+        font-size: 1.5em;
+      }
+      .a {
+        font-size: 2.0em;
+      }
+      .b {
+        font-size: 2.0 rem;
+      }
+    </style>
+  </head>
+  <body>
+    <p class="a">Hello, World</p>
+    <!-- 48px -->
+    <p class="b">Hello, World</p>
+    <!-- 32px -->
+  </body>
+  </html>
+  ```
+
+
+
+### 자손 / 자식 결합자
+
+- 자손 : 자식, 손자 등 모든 후손 가르킨다. - div p
+
+- 자식 : 본인의 자식만을 가르킨다. - div > p
+
+  ```html
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      div p {
+        color: blue;
+      }
+      div > p {
+        color: crimson;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <p>안녕하세요 1</p>
+      <!-- 빨 -->
+        <p>안녕하세요 2</p>
+        <!-- 빨 -->
+      <span><p>안녕하세요 3</p></span>
+      <!-- 파 -->
+      <p>안녕하세요 4</p>
+      <!-- 빨 -->
+      <div>
+        <p>안녕하세요 5</p>
+        <!-- 빨 -->
+        <h2>안녕하세요 6</h2>
+        <!-- 검 -->
+      </div>
+    </div>
+    <p>안녕하세요 7</p>
+    <!-- 검 -->
+  </body>
+  </html>
+  ```
+
+- ``<span>`` 부분을 보면 자손이지만 자식이 아님을 알 수 있다.
+
+- `<div>` 밖이나 ``<h2>``의 부분은 영향을 받지 않는다.
+
+
+
+### Flexbox / Bootstrap
+
+| Flexbox                        | Bootstrap                      |
+| ------------------------------ | ------------------------------ |
+| flex-direction: row            | d-flex flex-row                |
+| flex-direction: row-reverse    | d-flex flex-row-reverse        |
+| flex-direction: column         | d-flex flex-column             |
+| flex-direction: column-reverse | d-flex flex-column-reversse    |
+| justify-content: flex-start    | d-flex justify-content-start   |
+| justify-content: flex-end      | d-flex justify-content-end     |
+| justify-content: center        | d-flex justify-content-center  |
+| justify-content: space-between | d-flex justify-content-between |
+| justify-content: space-around  | d-flex justify-content-around  |
+| justify-content: space-evenly  | d-flex justify-content-evenly  |
+| align-items: flex-start        | d-flex align-items-start       |
+| align-items: flex-end          | d-flex align-items-end         |
+| align-items: center            | d-flex align-items-center      |
+| align-items: baseline          | d-flex align-items-baseline    |
+| align-items: stretch           | d-flex align-items-stretch     |
+| align-self: flex-start         | align-self-start               |
+| align-self: flex-end           | align-self-end                 |
+| align-self: center             | align-self-center              |
+| align-self: baseline           | align-self-baseline            |
+| align-self: stretch            | align-self-stretch             |
+| flex-wrap: wrap                | d-flex flex-wrap               |
+| flex-wrap: wrap-reverse        | d-flex flex-wrap-reverse       |
+| flex-wrap: nowrap              | d-flex flex-nowrap             |
+| flex-wrap: nowrap-reverse      | d-flex flex-nowrap-reverse     |
+| order: 0                       | order-0                        |
+| order: -1                      | order-1                        |
+
++ flex-flow: row wrap 이런식으로 사용
+
+
+
+### 이미지 경로
+
+- 절대경로
+
+  ```html
+  <a><img src="C:\Users\LeeKwangGyo\Desktop\task\study\my_photo.jpg" alt="ssafy"></a>
+  ```
+
+- 상대경로
+
+  ```html
+  <a><img src=".\my_photo.jpg" alt="ssafy"></a>
+  ```
+
+- 절대경로로 작성시 업로드하거나 폴더의 위치가 변경 되었을 때 이미지를 불러올 수 없게 된다. 이를 상대경로로 하여 해결한다.
+
+
+
+### 홈페이지 이동
+
+- 자신이 만든 html 파일끼리 이동할 때
+
+  만든 파일 이름이 02_home.html 이라면 href=./02_home.html
+
+  
