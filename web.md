@@ -643,6 +643,16 @@
 
 
 
+### p:nth-child() / p:nth-of-type()
+
+- nth-child(n) : 부모 엘리먼트의 모든 자식 엘리먼트중 n번째
+- nth-of-type(n) : 부모 엘리먼트의 특정 자식 엘리먼트중 n번째
+- 카운팅할 때 모든 자식을 하느냐, 특정 자식만 하느냐의 차이가 있다.
+
+
+
+
+
 ### Flexbox / Bootstrap
 
 | Flexbox                        | Bootstrap                      |
@@ -700,6 +710,6 @@
 
 - 자신이 만든 html 파일끼리 이동할 때
 
-  만든 파일 이름이 02_home.html 이라면 href=./02_home.html
+  만든 파일 이름이 02_home.html 이라면 href="./02_home.html"
 
   
