@@ -39,3 +39,14 @@
 > 2. 최적화 문제(optimization problem)
 >    - 후보해(가능한 방법)들 중에서 최적해를 찾는 문제
 >    - 최적해 : 문제의 조건에 해당하는 값이 최소 또는 최대가 되는 경우
+
+
+
+:memo: 디버그
+
+> - 파이참에 있는 Debug 활용
+> - breaking point를 잘 잡고 실행!
+>   - Step over : 함수를 들어가지 않음
+>   - Step into : 함수를 들어감
+>   - Step out : 함수를 진행하다가 빠져 나옴
+>   - resume : 다음 breakpoint로 이동
