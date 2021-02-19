@@ -265,3 +265,24 @@
 > - print(-5 // 2) : -3 (내림)
 > - print(int(-5 //2 )) : -2  → 이렇게 사용 (0.5를 버림), 다른 언어들의 동작방식과 같음
 
+<br>
+
+``02.19``
+
+:heavy_check_mark: 문자열 리스트 입력 후 세로로 읽기
+
+> - 만약에 len(i) = 5, len(4)이면 조건을 넣어서 없는 인덱스 부분을 무시하고 진행한다.
+> - try / except를 사용하여 pass 하는 것도 방법!
+
+
+
+🐣정리해야 할 것!
+
+- 문자열 입력 시 차이 (input / input.split)
+  - abcde 
+  - a b c d e
+- 입력 시 list(map), map 사용시 int, input.split / input.split => Test
+- 위에 결과들에서 for _ in range(N)을 썼을 때도 확인!
+- 알고리즘 for문과 while 둘 다 구현 가능하게!
+- N - M + 1 index를 사용하는 경우
+- for문 사용시 어디서부터 씌우고 index는 어떻게 할지!
