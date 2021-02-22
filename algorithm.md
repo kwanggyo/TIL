@@ -287,7 +287,7 @@
 - N - M + 1 index를 사용하는 경우
 - for문 사용시 어디서부터 씌우고 index는 어떻게 할지!
 
-
+<br>
 
 :heavy_check_mark: 시간 초과 문제
 
@@ -295,4 +295,65 @@
 > - 빈 리스트에 append()로 추가하는 것보단 입력 받을 개수만큼 초기화된 리스트에 인덱스를 이용해서 접근하고 그 위치에 직접 입력을 받음
 > - 줄을 바꿔가면서 출력할 때, '\n'을 사용
 > - for문마다 출력하지 말고 문자열 변수에 저장해놓고 한번에 출력!
+
+<br>
+
+``02.22``
+
+### Stack
+
+```python
+# Stack
+# 메모리 미리 생성
+stack_size = 3
+stack = [0] * stack_size  # 저장소, python에서는 이렇게 잘 안씀
+top = -1  # 초기값을 -1로
+
+# 2가지 대표적인 연산(관례적으로 쓰는 함수명 push, pop)
+def push(item):
+    # 아직 '데이터가 들어와있지 않다'를 표현하기 위해 top 이용(-1 : 없는 것을 가르킴, python 제외)
+    # top은 항상 마지막에 삽입된 자료를 가르킨다.
+    global top  # 여기서 top 값을 확인해봐야함
+    if top == stack_size -1:
+        return  # 일반적으로 return보다는 try / except를 통해서 알려줌
+                 # 정상적인 실행상황이 아님
+                 # 알고리즘 문제를 풀때는 이런 상황이 나오면 안됨, 항상 집어넣을 수 있어야함
+                 # 충분히 담을 수 있는 공간을 확보 후 진행(stact이 다 차는 상황이 발생하면 안됨!!)
+    top += 1
+    stack[top] = item
+
+def pop():
+    global top
+    # pop에서는 빈 stack인 상황이 나올 수 있음
+    # 빈 공간일때는 항상 주의!!
+    # 여기서 만들지 않고 따로 만들어줌!! (실제 값과 섞일 수가 있어서)
+    ret = stack[top]  # 반환
+    top -= 1
+    return ret  # 값이 남아있긴하지만 덮어씌워지기 때문에 상관없음(굳이 지울 필요가 없음)
+
+def isEmpty():
+    return top == -1
+
+push(1); push(2); push(3)
+print(stack)
+## [1, 2, 3]
+print(pop()); print(pop()); print(pop());
+## 3 2 1
+print(stack, top)  # 값이 남아있긴하지만 덮어씌워지기 때문에 상관없음
+## [1, 2, 3] -1
+push(10)
+print(stack, top)
+[10, 2, 3] 0
+
+push(1); push(2); push(3)
+while not isEmpty():
+    print(pop())
+# 2 1 10
+
+# stack은 역순으로 나와야하는 경우에 사용
+
+# 괄호검사 : 여는 괄호를 기록 -> 닫는 괄호는 역순으로 나와야함
+# 여는 괄호는 집어넣고 뺄때는 뺼 것이 있는지 확인하고 뺌
+# 다 확인 후 남아있는지 체크
+```
 
