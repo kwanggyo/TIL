@@ -135,6 +135,22 @@
 
 <br>
 
+### 부분집합
+
+- ```python
+  # 예시
+  arr = [3, 6, 7, 1, 5, 4]
+  n = len(arr)
+  for i in range(1<<n):
+      for j in range(n):
+          if i & (1<<j):
+              # print(f'조건문 i, j값 : {i}, {j}')
+              print(arr[j], end=' ')
+      print()
+  ```
+
+<br>
+
 ### 델타를 이용한 2차원 탐색
 
 : 2차 배열의 한 좌표에서 4방향의 인접 배열 요소를 탐색하는 방법
@@ -199,7 +215,50 @@
 #### 1. 고지식한 패턴 검색(Brute Force)
 
 - 처음부터 끝까지 차례대로 순회하면서 패턴 내의 문자들을 일일이 비교하는 방식
+
 - O(MN)
+
+- ```python
+  # while문 사용
+  M = len(p) # 찾을 패턴의 길이
+  N = len(t) # 전체 텍스트의 길이
+  
+  # while문 활용
+  def BruteForce(p, t):
+      i = 0  # t의 인덱스
+      j = 0  # p의 인덱스
+      while j < M and i < N:
+          if t[i] != p[j]:
+              i = i - j
+              j = - 1
+          i = i + 1
+          j = j + 1
+      if j == M:
+          return i - M  # 검색 성공
+      else:
+          return -1  # 검색 실패
+      
+  # for문 사용
+  def BruteForce2(p,t):
+      N = len(t)
+      M = len(p)
+  
+      # 시작 위치를 컨트롤
+      for i in range(N - M + 1):
+          cnt = 0
+          for j in range(M):
+              if t[i + j] == p[j]:
+                  cnt += 1
+              else:
+                  break
+  
+          if cnt == M:
+              return i
+  
+      return -1
+  ```
+
+- 
 
 #### 2. KMP 알고리즘
 
