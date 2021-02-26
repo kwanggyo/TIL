@@ -516,3 +516,52 @@ while not isEmpty():
 
 :heavy_check_mark: 백트래킹을 이용하여 부분집합을 구하는 방법과 순열을 구하는 방법 추가 필요!!
 
+<br>
+
+``02.26``
+
+- IM 시험
+
+<br>
+
+### 순열
+
+#### 1. 비트
+
+```python
+arr = 'ABC'
+N = len(arr)
+
+bits = [0] * N
+
+for i in range(2):  # 첫번째
+    bits[0] = i
+    for i in range(2):  # 두번쨰
+        bits[1] = i
+        for i in range(2):   # 세번째
+            bits[2] = i
+            print(bits)
+            
+# for문
+bits = []
+for i in range(2):  # 첫번째
+    bits.append(i)
+    for i in range(2):  # 두번쨰
+        bits.append(i)
+        for i in range(2):   # 세번째
+            bits.append(i)
+            print(bits)
+            bits.pop()
+        bits.pop()
+    bits.pop()
+    
+# 재귀
+def subset(idx):    # idx : 지금까지 선택한 요소의 수, 함수의 호출 깊이
+    if idx == N:    # 모든 요소의 선택이 끝났다. 호출 트리의 단말노드
+        print(bits)
+    else:
+        for i in range(2):
+            bits[idx] = i
+            subset(idx + 1)
+```
+
