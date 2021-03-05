@@ -10,8 +10,6 @@
   - 스택의 top에 있는 item(원소)을 반환 : peek
 - 스택에서 마지막에 삽입된 원소의 위치를 top이라고 한다.
 
-<br>
-
 - 스택 구현시 고려 사항
   - 장점 : 1차원 배열을 사용하여 구현할 경우 구현이 용이하다.
   - 단점 :  스택의 크기를 변경하기 어렵다.
@@ -47,7 +45,6 @@
   print(Fibonacci(35))
   ```
 
-  
 
 <br>
 
@@ -142,6 +139,14 @@
                   break
           else:
               v = S.pop()
+              
+  # # 재귀로 구현
+  # def dfs(v):
+  #     visited[v] = 1
+  #     print(v, end=' ')
+  #     for w in G[v]:
+  #         if visited[w] == 0:
+  #             dfs(w)
   
   # 인접 행렬로 받아오기
   V, E = map(int, input().split())
@@ -162,7 +167,7 @@
   ## 1-2-4-6-5-7-3-
   ```
 
-
+<br>
 
 ## 계산기
 
@@ -617,12 +622,226 @@
 
 <br>
 
-## 퀵 정렬
+## 퀵 정렬 😵
 
 - 주어진 배열을 두 개로 분할하고, 각각을 정렬
+
 - 합병 정렬과 다른 점
   - 합병 정렬 : 그냥 두 부분으로 나눔
   - 퀵 정렬 : 분할할 때, 기준 아이템(pivot item) 중심으로 이보다 작은 것은 왼편, 큰 것은 오른편으로 위치시킴
   - 각 부분 정렬이 끝난 후 합병 정렬은 ''합병''이라는 후처리 작업이 필요, 퀵 정렬은 필요 X 
 
 - 최악의 시간 복잡도 O(n^2), but 평균 복잡도 O(nlogn)
+
+  ```python
+  def quick_sort(a, begin, end):
+      if begin < end:
+          p = partition(a, begin, end)
+          # print('p:',p, arr[p])  # p값 확인
+          quick_sort(a, begin, p-1)
+          quick_sort(a, p+1, end)
+  
+  def partition(a, begin, end):
+      pivot = (begin + end) // 2
+      L = begin
+      R = end
+      while L < R:
+          while(a[L] < a[pivot] and L < R):
+              L += 1
+          while(a[R] >= a[pivot] and L < R):
+              R -= 1
+  
+          if L < R:
+              a[L], a[R] = a[R], a[L]
+              if L == pivot:
+                  pivot = R
+      a[pivot], a[R] = a[R], a[pivot]
+      return R
+  
+  
+  arr = [69, 10, 30, 2, 16, 8, 31, 22]
+  
+  quick_sort(arr, 0, len(arr) -1)
+  
+  print(arr)
+  
+  ##
+  [2, 8, 10, 16, 22, 30, 31, 69]
+  ```
+
+<br>
+
+## 큐(Queue)
+
+- 스택과 마찬가지로 삽입과 삭제의 위치가 제한적인 자료구조
+- 뒤에서는 삽입만 하고, 압에서는 삭제만 이루어지는 구조
+- 선입선출구조(FIFO : First-In-First-Out)
+- 기본연산
+  - 삽입 : enQueue
+  - 삭제 : deQueue
+
+<br>
+
+#### 1. 선형큐
+
+- 1차원 배열을 이용
+- front : 저장된 첫 번째 원소의 인덱스
+- rear : 저장된 마지막 원소의 인덱스
+- 상태 표현
+  - 초기 상태 : front = rear = -1
+  - 공백 상태 : front = rear
+  - 포화 상태 rear = n-1 (n-1 : 배열의 마지막 인덱스)
+
+- 문제점
+
+  - 원소의 삽입과 삭제를 계속할 경우 배열의 앞부분에 활용할 수 있는 공간이 있음에도 불구하고, rear = n - 1인 상태, 즉 포화상태로 인식하여 더 이상의 삽입을 수행하지 않음
+
+- 해결방법
+
+  1. 매 연산이 이루어질 때마다 저장된 원소들을 배열의 앞부분으로 모두 이동시킴
+     - But 원소 이동에 많은 시간이 소요되어 큐의 효율성이 떨어짐
+
+  2. 1차원 배열을 사용하되, 논리적으로는 처음과 끝이 연결된 원형 형태의 큐를 이룬다고 가정하고 사용
+
+  ```python
+  def enQueue(item):
+      global rear
+      if rear == N - 1:
+          raise Exception
+      else:
+          rear += 1
+          Q[rear] = item
+  
+  def deQueue():
+      global front
+      if front == rear:
+          raise Exception
+      else:
+          front += 1
+          return Q[front]
+  
+  def isEmpty():
+      return front == rear
+  
+  
+  N = 3
+  Q = [0] * N
+  front = rear = -1
+  
+  for i in range(1, N + 1):
+      enQueue(i)
+  
+  while not isEmpty():
+      print(deQueue())
+      
+  ##
+  1
+  2
+  3
+  ```
+
+  
+
+#### 2. 원형 큐
+
+- 초기 공백 상태 : front = rear = 0
+
+- index의 순환을 위해서 mod(%) 연산자를 사용
+
+- front 변수 : 공백 상태와 포화 상태를 쉽게 하기 위해 front가 있는 자리는 사용하지 않고 항상 빈자리로 둠
+
+- |   큐   |       삽입 위치       |        삭제위치         |
+  | :----: | :-------------------: | :---------------------: |
+  | 선형큐 |    rear = rear + 1    |    front = front + 1    |
+  | 원형큐 | rear = (rear + 1) % n | front = (front + 1) % n |
+
+  
+
+#### 3. 연결 큐
+
+- 연결 리스트(Linked List)를 이용
+- 큐의 원소 순서가 노드의 연결 순서, 링크로 연결되어 있음
+- front : 첫 번째 노드를 가르키는 링크
+- rear : 마지막 노드를 가르키는 링크
+- 상태 표현
+  - 초기 상태 : front = rear = None
+  - 공백 상태 : front = rear = None
+- 지금은 PASS,,
+
+
+
+#### 4. 우선순위 큐(Priority Queue)
+
+- 우선순위가 높은 순서대로 먼저 나가게 됨
+- ex) 시뮬레이션 시스템, 네트워크 트래픽 제어, 운영체제의 테스크 스케줄링
+- 배열을 이용하여 자료 저장
+- 원소를 삽입하는 과정에서 우선순위를 비교하여 삽입하는 구조
+- 가장 앞에 최고 우선순위의 원소가 위치하게 됨
+- 문제점
+  - 삽입이나 삭제 연산이 일어날 때 원소의 재배치가 발생
+  - 여기서 소요되는 시간이나 메모리 낭비가 큼
+
+<br>
+
+## 버퍼(Buffer)
+
+- 데이터를 한 곳에서 다른 한 곳으로 전송하는 동안 일시적으로 그 데이터를 보관하는 메모리 영역
+- 버퍼링 : 버퍼를 활용하는 방식 또는 버퍼를 채우는 동작을 의미
+- 일반적으로 입출력 및 네트워크와 관된된 기능에서 이용
+- FIFO 방식의 큐 활용
+
+<br>
+
+## BFS(Breadth Firest Search) : 너비우선탐색
+
+- 탐색 시작점의 인접한 정점들을 먼저 모두 차례로 방문한 후에, 방문했던 정점을 시작점으로 하여 다시 인접한 정점들을 차례로 방문하는 방식
+
+- 큐를 활용
+
+  ```python
+  # 정점수, 간선수 (V, E)
+  # 7 8
+  # 1 2 1 3 2 4 2 5 4 6 5 6 6 7 3 7
+  
+  def BFS(v):
+      visited[v] = 1  # 시작점을 방문하고 큐에 삽입
+      Q.append(v)
+      print('탐색순서', v, end='-')
+      while Q:            # 빈 큐가 아닐동안 반복
+          v = Q.pop(0)     # 큐에서 정점을 꺼내온다.
+  
+          # v와 방문하지 않은 인접정점 w를 찾는다.
+          for w in G[v]:
+              if visited[w] == 0:  # 방문하고 큐에 삽입
+                  visited[w] = 1
+                  D[w] = D[v] + 1
+                  P[w] = v
+                  print(w, end='-')
+                  Q.append(w)
+  
+  
+  V, E = map(int, input().split())
+  G = [[] * (V + 1) for _ in range(V + 1)]
+  visited = [0] * (V + 1)
+  D = [0] * (V + 1)  # distance : 최단 거리
+  P = [0] * (V + 1)  # path : 최단 경로
+  arr = list(map(int, input().split()))
+  Q = []
+  
+  for i in range(0, E * 2, 2):
+      u = arr[i]
+      v = arr[i + 1]
+      G[u].append(v)
+      G[v].append(u)
+  
+  BFS(1)
+  
+  print()
+  print('1번에서 n번에 가는 거리: {}'.format(D))
+  print('자신한테 오기전에 있었던 위치: {}'.format(P))
+  
+  ##
+  탐색순서 1-2-3-4-5-7-6-
+  1번에서 n번에 가는 거리: [0, 0, 1, 1, 2, 2, 3, 2]
+  자신한테 오기전에 있었던 위치: [0, 0, 1, 1, 2, 2, 4, 3]
+  ```
