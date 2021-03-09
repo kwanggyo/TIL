@@ -19,7 +19,7 @@
 
 <br>
 
-### django 동작
+## django 동작
 
 - web framework 
   - 웹페이지를 개발하는 과정에서 겪는 어려움을 줄이는 것이 주 목적
@@ -69,10 +69,9 @@
 - 장고의 하나의 프로젝트는 여러가지 애플리케이션을 가지고 있는데 동일선상에 만들어짐
 - 애플리케이션이 만들어져도 프로젝트 입장에서는 알 수가 없기 때문에 만들었음을 알려주기 위해서 프로젝트에 등록을 해주어야함
 
-
-
 - admin page를 기본적으로 제공해준다(django의 강점)
-- 
+
+
 
 <br>
 
@@ -110,9 +109,126 @@
 - 코드의 재사용성에 초점을 맞춤
 - tags
   - {% extends '부모템플릿의 경로' %}
+    - 자식템플릿이 부모템플릿을 확장한다는 것을 알림
+    - 반드시 템플릿의 **최상단**에 위치해야함
   - {% block %}  {% endblock %} : 여러개가 있을 수 있음
     - content는 닫히는 것을 구분하려고 씀, 하나면 쓸 필요 없음
+    - 여기에 추가할 부분 작성(원하는 구역에)
 - project - settings - DIR - BASE_DIR로 변경 (/로 경로가 넘어감)
+
+<br>
+
+## Django template system(설계 철학)
+
+- 표현과 로직(view)을 분리
+  - 템플릿은 표현만!
+  - 가공과 로직은 views.py
+- 중복을 배제
+  - 템플릿 상속
+
+<br>
+
+## 데이터를 받을 때(사용자의 입력을 받을 때)
+
+### HTML form
+
+- 웹에서 사용자 정보를 입력하는 방식(text, button, checkbox, image 등)을 제공
+- 사용자로부터 할당된 데이터를 서버로 전송하는 역할을 담당
+- 핵심 속성
+  - action : 입력 데이터가 전송될 URL 지정, ex. '/catch/'
+  - method : 입력 데이터 전달 방식 지정
+    - default : GET
+    - GET : url의 parameter로 데이터를 넘김, data에 손을 대지는 않고 가져오기만 함
+- 접근을 할 때 request.GET.get[key값]으로 접근! (GET에 있는 dict의 값을 가져와야하기 때문)
+  - **요청하는 데이터 값에 어떻게 접근하여 가져올 것인지가 핵심!!**
+
+### HTML input
+
+- 사용자로부터 데이터를 입력 받기 위해 사용
+- 핵심속성
+  - name : 데이터의 키(서버의 입장에서는 데이터의 키에 접근을 해야함)
+  - 사용자가 입력하는 값은 value로 넘어간다. 이때 서버는 value에 붙은 key에 접근해야 함
+  - ?key=value&key=value형태로 전달
+
+### HTTP
+
+- Hyper Text Transfer Protocol (+ S(secure))
+
+- 웹에서 이루어지는 모든 데이터 교환의 기초
+
+- request method : GET, POST, PUT, DELETE
+
+  - GET
+
+    - 서버로부터 정보를 **조회**하는데 사용
+    - 데이터를 가져올때만 사용해야 함
+
+    - 데이터를 서버로 전송할 때 body가 아닌 Query String Parameters를 통해 전송
+      - Query String Parameters는 URL 뒤에 붙어서 넘어간다는 것, body에 들어가면 URL에 뜨지 않음
+
+<br>
+
+## URL
+
+- **URL을 통한 클라이언트의 요청에서부터 시작** 됨
+  - 항상 urls.py를 시작으로 작성해줬음
+
+#### URL mapping
+
+- app, path가 많아지면 **유지보수**가 힘들기 때문에 분리하는 것!
+- 각 app에 url.py를 작성
+  - urlpatterns = [] 는 주소가 없더라도 있어야함
+  - 연결할 때는 project의 urls.py에 path('app_name/', include('app_name.urls.py')) 이런식으로 넘겨준다. (중앙 컨트롤타워 같은 역할)
+
+#### Naming URL patterns
+
+- 링크에 url을 직접 작성하는 것이 아니라 path 함수의 name 인자를 정의해서 사용
+
+- url을 하드코딩 하는 것이 아니라 이름을 붙이는 것, ex) name='index'
+
+  ```python
+  path('index/', views.index, name='index')
+  ```
+
+  ```django
+  <a herf={% url 'index' %}>메인 페이지</a>
+  ```
+
+#### Variable routing
+
+- **주소 자체를 변수처럼 사용해서 동적으로 주소**를 만드는 것
+
+  ```python
+  path('hello/<str:name>/', views.hello)
+  ```
+
+  - default : str이고 int형으로도 가능
+  - default 값은 생략 가능
+
+- views.py에서 request 뒤에 두번째 인자로 변수가 들어옴
+
+  ```python
+  def hello(request, name):
+      context = {
+          'name': name
+      }
+      return render(request, 'hello.html', context)
+  ```
+
+## Framework의 성격
+
+- Opinionated(독선적)
+  - 자기만의 올바른 방법을 가지고 있음
+  - 빠른 해결책을 준다. 문서가 잘 되어있고 강제성이 있음
+  - But 개발자의 자유도가 떨어짐
+- Unopinionated관용적
+  - 개발자의 자유도가 크다
+  - But 개발자의 손이 많이 간다.
+- django → 다소 독선적 !
+
+<br>
+
+<br>
 
 <br>
 
@@ -180,6 +296,13 @@
 
 > - 요청 뒤에는 /(엔드 슬래시)
 > - context 값은 dictionary로 넘어간다!
+> - app 이름은 복수형으로! - 클래스와 혼동될 수 있기 때문에
+> - app을 생성 후에 등록을 해야한다.
+> - form은 반드시 action과 method를 쓰고 시작!
+>   - method default는 GET이고 명시해주는 것이 좋음
+> - label은 id값과 연결됨
+> - a의 href, form의 action 안에 url을 쓸 때는 '/url_name/' 이런식으로!
+> - from . import views 처럼 디렉토리를 명시해주는 것이 좋음
 
 <br>
 
