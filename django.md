@@ -7,7 +7,7 @@
 - Static web
   - 미리 저장된 정적 파일(HTML, CSS, JS)을 제공
   - 서버에 사용자에게 보여질 것들이 미리 준비가 되어있고 사용자 요청이 들어오면 그대로 보여줌
-- Dynmic web
+- Dynamic web
   - 사용자에게 보여지는 클라이언트 사이드는 구현되어있고, 사용자 요청에 따라 서버 사이드쪽에서 일을 하여 다른 데이터를 만들어서 보여주는 것
   - 웹사이트에서 요청을 받았을 때, 서버는 추가적으로 무언가 일을 해서 클라이언트로 답장을 보내주는 것
   - 사용자 요청에 따라서 뒷단에서 일을 하여 보여준다고 이해!
@@ -74,7 +74,47 @@
 - admin page를 기본적으로 제공해준다(django의 강점)
 - 
 
+<br>
 
+## DTL(Django Template Language)
+
+- django template에서 사용하는 built-in template system
+- 조건문, 반복문, 치환, 필터 등의 기능을 제공한다.
+- Python코드와 비슷하게 작성(이 코드가 Python에서 실행되는 것은 아님!)
+- 사용자에게 보여줄 데이터를 가공하는 작업이 필요할 경우, DTL에 내장된 연산 방식을 사용하지 말고, 되도록이면 뷰 하수 내부에서 데이터를 가공한 뒤 템플릿에게 넘겨주는 것 추천!
+
+#### DTL Syntax
+
+- Variable
+  - {{ variable }}
+  - reder()를 사용해서 views.py에서 정의한 변수를 template파일로 넘겨서 사용(세번째 인자)
+  - 변수명은 영어, 숫자, 밑줄(_) 사용 가능
+  - 밑줄 시작 x, 공백 사용 x
+  - dot(.)을 사용하여 변수 속성에 접근 가능
+
+- Filters
+  - {{ variable|filter }}
+  - 표시할 변수를 수정할 때 사용
+- Tags
+  - {% tag %}
+  - 출력 텍스트를 만들거나, 반복 또는 논리를 수행하여 제어 흐름을 만드는 변수보다 복잡한 일을 수행
+  - 일부 태그는 시작과 종료 태그가 필요
+- Comments
+- 줄의 주석 : {# string #}
+- 여러줄 주석 : {% comment %}  {% endcomment %}
+
+<br>
+
+## Template inheritance(템플릿 상속)
+
+- 코드의 재사용성에 초점을 맞춤
+- tags
+  - {% extends '부모템플릿의 경로' %}
+  - {% block %}  {% endblock %} : 여러개가 있을 수 있음
+    - content는 닫히는 것을 구분하려고 씀, 하나면 쓸 필요 없음
+- project - settings - DIR - BASE_DIR로 변경 (/로 경로가 넘어감)
+
+<br>
 
 ## 보충수업(유창오 교수님)
 
@@ -117,7 +157,7 @@
 
 8. `templates`
 
-
+<br>
 
 ## MTV
 
@@ -126,9 +166,23 @@
 
 - View : 중간 관리자
 
+<br>
 
+<hr>
 
 :cherries: TIP
 
 > - `django-admin startproject muyaho .` : 현재폴더에 생성
-> - 
+
+<br>
+
+:heavy_check_mark: 써야하는 것
+
+> - 요청 뒤에는 /(엔드 슬래시)
+> - context 값은 dictionary로 넘어간다!
+
+<br>
+
+:checkered_flag: 스타일 가이드
+
+> - {{ variable }} 괄호에 붙이지 않기 
