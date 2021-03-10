@@ -230,7 +230,282 @@
 
 <br>
 
+`03.10`
+
+## Model
+
+- 웹 어플리케이션의 데이터를 구조화하고 조작하기 위한 도구
+  - database보다 조금 더 큰 개념
+- 단일한 데이터에 대한 정보를 가짐
+- 저장된 데이터베이스의 구조(layout)
+  - **model과 database는 다른 거임!**
+- django는 model을 통해 데이터에 접속하고 관리
+- 일반적으로 각각의 model은 하나의 데이터베이스 테이블에 매핑
+
+#### Database
+
+- 체계화된 데이터의 모임
+
+#### Query(쿼리)
+
+- 데이터를 조회하기 위한 명령어
+- 조건에 맞는 데이터를 추출하거나 조작하는 명령어
+
+## Database의 기본구조
+
+#### 1. 스키마(schema)
+
+- 데이터베이스의 구조와 제약조건(자료구조, 표현 방법, 관계)에 관련된 전반적인 명세를 기술
+
+#### 2. 테이블(table)
+
+- 열(컬럼/필드)과 행(레코드/값)의 모델을 사용해 조직된 데이터 요소들의 집합
+- 엑셀의 sheet 한개와 같음
+- 필드(field) / 컬럼(column) / 속성
+- 레코드(record) / 행(row) / 튜플
+
+#### 3. 열(Column), 컬럼
+
+- 각 열에는 고유한 데이터 형식이 지정됨
+  - integer, text, null 등
+
+#### 4. 행(row), 레코드
+
+- 테이블의 데이터가 저장되는 부분
+
+#### 5. PK(기본키)
+
+- 각 행의 고유값, Primary Key
+- **반드시 설정**해야하고 데이터베이스 관리 및 관계 설정시 주요하게 활용
+
 <br>
+
+## ORM(Object-Relational-Mapping)
+
+- 객체 지향 프로그래밍 언어를 사용하여 호환되지 않는 유형의 시스템(Django - SQL)간의 데이터를 변환하는 프로그래밍 기술(객체-관계-Mapping)
+- 다른 시스템을 가진 데이터베이스를 조작
+  - 우리는 파이썬(oop언어)을 계속 쓰고 이를 SQL로 해석해서 보내줌
+  - 반대로 SQL 언어를 oop로 바꾸어서 줌
+
+- 사용하는 이유 : 서로 다른 시스템간의 호환성을 위해 ORM을 사용
+  - point : 우리는 python을 사용한다!(python의 object 활용)
+- 장점
+  - SQL 조작하지 않고 사용하던 oop언어로 DB를 조작할 수 있다.
+  - SQL 의 절차적 접근이 아닌 객체 지향적 접근으로 인한 **높은 생산성**
+    - 현대 웹 프레임워크의 요점은 **웹 개발의 속도를 높이는 것(생산성)**
+- 단점
+  - ORM만으로 완전한 서비스를 구현하기 어려운 경우가 있음
+    - 필요할 때 SQL을 사용
+
+<br>
+
+## Migrations
+
+- django가 model에 생긴 변화를 반영하는 방법(필드 추가, 모델 삭제 등)
+- 참고 : https://docs.djangoproject.com/en/3.1/ref/models/fields/ (django model field)
+
+- 명령어
+
+  - makemigrations - 중요!!
+    - model을 변경한 것에 기반한 새로운 migration(설계도)을 만들 때 사용
+    - 각각 하나하나의 설계도 : migration
+  - migrate - 중요!!
+    - 데이터베이스에 적용시키는 것
+    - ORM을 통해 DB로 보내는 것
+    - migration을 DB에 반영하기 위해 사용
+    - 설계도를 실제 DB에 반영하는 과정
+    - 모델에서의 변경 사항들과 DB의 스키마가 동기화를 이룸
+    - 하기 전에는 DB는 비어있음
+
+  - sqlmigrate - 서브 커맨드(필요하면 사용)
+    - 어떻게 동작할지 미리 확인할 수 있음
+  - showmigrationgs - 서브 커맨드(필요하면 사용)
+    - migration 과정이 어떻게 진행되었는지를 확인
+    - migration 파일들이 migrate가 됐는지 안됐는지 여부 확인
+      - X : 체크표시
+
+<br>
+
+#### 반드시 기억(이러한 사이클로 돌아간다)
+
+1. models.py
+   - model 변경사항 발생
+2. python manage.py makemigrations
+   - migration 파일 생성
+3. python manage.py migrate
+   - DB 적용
+
+<br>
+
+## Database API
+
+- DB와의 소통
+  - ex) 작성자가 이광교인 모든 게시글을 조회해줘 - 이때 우리가 쓰는 것은 python But, python만으로는 소통이 안되기 때문에 ORM 사용 - 특수한 문법에 따라서 python을 사용
+
+#### DB API
+
+- DB를 조작하기위한 도구
+
+  - DB 관련 extension : SQLite 설치
+
+- Model을 만들면 django는 객체들을 만들고 읽고 수정하고 지울 수 있는 database-abstract API를 자동으로 만듦(database-access API라고도 함)
+
+- django queryset api(구글링)
+
+  - https://docs.djangoproject.com/en/3.1/ref/models/querysets/
+
+- 문법(데이터베이스와 소통하기 위한)
+
+  `Article.objects.all()`
+
+  Class Name, Manager, QuerySet API를 뜻함 all() : 핵심 method
+
+  ex) all() : 데이터 전체를 조회하는 queryset
+
+  - manager
+    - django 모델에 데이터베이스 query작업이 제공되는 인터페이스
+    - 기본적으로 DB를 조작하기 위한 명령어들을 들고 있어서 model과 QuerySet API 간의 인터페이스 역할을 함
+    - model 뒤쪽에 object가 무조건 붙는다고 생각
+  - QuerySet
+    - 데이터베이스로부터 전달받은 객체 목록
+    - 안의 객체는 0개, 1개, 여러개일 수 있음
+    - 데이스베이스로부터 조회, 필터, 정렬 등을 수행 가능
+
+  <br>
+
+  #### **데이터 저장**
+
+  - 방법1
+
+  ```python
+  dd
+  ```
+
+  
+
+  ![image-20210310140732842](django.assets/image-20210310140732842.png)
+
+  ![image-20210310140821803](django.assets/image-20210310140821803.png)
+
+  - 방법2
+
+  ```python
+  dd
+  ```
+
+  
+
+  ![image-20210310140925363](django.assets/image-20210310140925363.png)
+
+  ![image-20210310140948120](django.assets/image-20210310140948120.png)
+
+  - 방법3
+
+  ```python
+  dd
+  ```
+
+  ![image-20210310141635193](django.assets/image-20210310141635193.png)
+
+  ...: 오타
+
+  ![image-20210310141829056](django.assets/image-20210310141829056.png)
+
+  - 조회(id대신 pk 쓰는 것을 권장!)
+
+  ![image-20210310141736209](django.assets/image-20210310141736209.png)
+
+<br>
+
+:memo: shell_plus
+
+> - django의 기본 shell 기능이 많이 없어서 설치해준다.
+>
+>   1. django extensions (구글검색)
+>
+>      - ```shell
+>        pip install django-extensions
+>        ```
+>
+>   2. installing - configuration (설치 후 등록 과정)
+>
+>      - ```python
+>        INSTALLED_APPS = (
+>            ...
+>            'django_extensions',  # 이부분 추가
+>        )
+>        ```
+>
+>      - 할 때마다 settings에 추가 해주어야함!!
+>
+> - pip install ipython
+>
+> - 두개 설치 후에 `python manage.py shell_plus`로 사용 가능
+
+<br>
+
+## CLUD
+
+- 대부분의 컴퓨터 소프트웨어가 가지는 기본적인 데이터 처리 기능인 Create(생성), Read(읽기), Update(갱신), Delete(삭제)를 묶어서 일컫는 말
+  - ex) all() : Read의 역할
+    - all()로 받았을때 : `<QuerySet []>` 리스트처럼 조작 가능
+
+#### READ
+
+- 어떻게 원하는 조건으로 잘 가져올 것인지가 중요!
+- 2가지 분류
+  - Methods that return new querysets   ex) all
+  - Methods that do not return querysets   ex) get
+- 대표적인 조회역할을 하는 QuerySet Method
+  - all()
+  - get()
+    - 객체가 없으면 DoesNotExist 에러 발생
+    - 객체가 여러개일 경우 MultipleObjectsReturned 에러 발생
+    - 위와 같은 특징을 가지고 있기 때문에 unique 혹은 NOT NULL 특징을 가지고 있는 경우에만 사용 가능( → pk를 조회할 때 사용한다)
+  - filter()
+    - 우리한테 QuerySet을 return하는 method
+    - 데이터가 하나일수도, 두개일수도(조회에 해당되는 만큼) 있음
+- 조회를 할 때, 
+  - 없는 pk 조회시 에러 발생 
+  - 같은 content가 있을 때 그 content를 조회하면 에러가 발생
+  - 즉, .get을 사용할때는 pk로만 조회
+
+#### Field lookups
+
+- 조회 시 특정 조건을 적용시키기 위해 사용
+- 참고 : https://docs.djangoproject.com/en/3.1/topics/db/queries/ (making queries)
+- QuerySet Method(get, filter, exclude)에 대한 키워드 인수로 사용
+
+<br>
+
+- 삭제된 pk값은 이용안함
+
+<br>
+
+## Admin site
+
+- 사용자가 아닌 서버의 관리자가 활용하기 위한 페이지
+
+- 참고 : https://docs.djangoproject.com/en/3.1/ref/contrib/admin/ (django admin site)
+
+- Article class를 admin.py에 등록하고 관리
+
+  - django.contrib.auth 모듈에서 제공
+
+- record 생성 여부 확인에 유용하며 직접 record를 삽입할 수도 있음
+
+- 관리자 만들기
+
+  ```shell
+  python manage.py createsuperuser
+  Username : 입력
+  Email : option이기 때문에 enter로 넘어갈 수 있음
+  Password : 커서는 움직이지 않지만 입력되고 있는 것!!
+  ```
+
+  - SQLITE EXPLRER - auth_user를 가면 볼 수 있음(장고 기본 내장 앱의 table - 처음 migrate할 때 만들어진 것)
+
+`03.08`
 
 ## 보충수업(유창오 교수님)
 
