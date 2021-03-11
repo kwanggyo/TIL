@@ -380,33 +380,32 @@
   ```python
   article = Article()
       article.title = title
-    article.content = content
+    	article.content = content
       article.save()
-```
-  
-![image-20210310140732842](django.assets/image-20210310140732842.png)
-  
-![image-20210310140821803](django.assets/image-20210310140821803.png)
-  
-- 방법2
-  
-  ```python
-  title = request.GET.get('title')
-content = request.GET.get('content')
-  article = Article(title=title, content=content)
-article.save()
   ```
+  
+  ![image-20210310140732842](django.assets/image-20210310140732842.png)
+  
+  ![image-20210310140821803](django.assets/image-20210310140821803.png)
+  
+  - 방법2
+```python
+title = request.GET.get('title')
+content = request.GET.get('content')
+article = Article(title=title, content=content)
+article.save()
+```
 
   
 
-  ![image-20210310140925363](django.assets/image-20210310140925363.png)
+ ![image-20210310140925363](django.assets/image-20210310140925363.png)
 
   ![image-20210310140948120](django.assets/image-20210310140948120.png)
-  
+
   - 방법3
 
   ```python
-----
+Article.objects.create(title=title, content=content)
   ```
 
   ![image-20210310141635193](django.assets/image-20210310141635193.png)
@@ -414,9 +413,9 @@ article.save()
   ...: 부분 : 오타
 
   ![image-20210310141829056](django.assets/image-20210310141829056.png)
-  
+
   - 조회(id대신 pk 쓰는 것을 권장!)
-  
+
   ![image-20210310141736209](django.assets/image-20210310141736209.png)
 
 <br>
