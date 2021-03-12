@@ -508,6 +508,128 @@ Article.objects.create(title=title, content=content)
 
   - SQLITE EXPLRER - auth_user를 가면 볼 수 있음(장고 기본 내장 앱의 table - 처음 migrate할 때 만들어진 것)
 
+<br>
+
+`03.12`
+
+## Project
+
+### Virual Environment
+
+- 파이썬 인터프리터(파이썬 프로그램) : 내 컴퓨터 어디에서든지(전역) 파이썬 명령어를 치면 찾을 수 있게 해줌  
+
+  - 환경변수 편집에서 설정 했었음(python.exe한테 파이썬 파일을 실행해달라고 터미널로 입력해주는 것), 
+
+- 라이브러리 및 스크립트가 "시스템 파이썬"(운영체제 일부로 설치되어 있는 것)에 설치된 모든 라이브러리와 격리 되어있는 파이썬 환경
+
+- 각 가상 환경은 고유한 파이썬 환경을 가지며 독립적으로 설치된 패키지 집합을 가짐
+
+  - 가상환경 : 복제본 - 파이썬 프로그램을 복제하여 이 영역에 두는 것
+  - 가상환경 지원 시스템 : venv, virtualenv, conda, pyenv 우리는 venv를 쓸 거임
+    - 파이썬 3.3부터 venv가 기본 모듈로 저장
+  - 가상환경 사용 이유
+    - 라이브러리 관리가 쉽기 때문
+    - 같이 프로젝트를 진행할 때 버전에 따라 라이브러리 등이 다를 수 있어서
+    - pip로 설치한 패키지들은 Lib/site-package
+    - 그런데 여러 프로젝트를 진행하게 되면 프로젝트마다 다른 버전의 라이브러리가 필요할 수도 있는데 파이썬에서는 한 라아브러리에 대해 하나의 버전만 설치가 가능하다. 
+    - 더불어 각 라이브러리나 모듈은 서로에 대한 의존성(dependency)이 다르기 때문에 알 수 없는 충돌이 발생하거나 다른 여러 문제를 이르킬 수 있다.
+
+- 파이썬 프로그램한테 manage.py를 실행시키면서 일을 더 주는 것
+
+- git bash는 Unix 명령어를 씀
+
+  <br>
+
+- ```shell
+  $ python -m venv venv
+  python.exe를 실행 시켜줘 -m 특정 모듈을 실행시켜줘 venv : 모듈 // venv : 이름
+  ```
+
+  - 여기서 m은 modual의 약자, git에서 m은 message의 약자
+
+- python38이 전역이면 venv는 지역
+
+- ```shell
+  $ source venv/Scripts/activate
+  이후에 pip list를 치면 2가지 밖에 안나옴(기본적인 라이브러리)
+  필요한 것들을 설치하면서 진행해야함
+  source : scripts 파일을 실행시켜달라는거
+  ```
+
+- 이렇게 만들면 독립된 형태가 됨
+
+- 항상 장고 프로젝트를 하면 venv(가상환경설정)를 하고 할거임
+
+- git으로 관리하지 않을 것들
+
+  - .gitignore(gitignore.io - python, windows, django, VisualStudioCode)
+
+- ```shell
+  $ django-admin startproject crud .
+  ```
+
+- 우리가 어떤 pip list를 썼는지 알려줘야함
+
+  - pip freeze
+    - 모든 라이브러리의 이름과 버전을 출력해줌
+  - 참고
+    - https://pip.pypa.io/en/stable/
+
+- 필수요소들을 알려주는 파일을 만들거임
+
+  - pip freeze > requirements.tx
+    - 왼쪽의 실행 결과물을 오른쪽에 넣어달라는 명령어
+
+- requirements에 있는 라이브러리를 설치하는 방법
+  - pip install -r requirements.txt
+    - -r : requirements(요구사항) - 뒤에 있는 것에 해당하는 것을 설치
+
+- README.md
+  - python이 몇 버전인지 적어줌 // 라이브러리는 requirements에 적어줌
+
+<br>
+
+- movies.json
+  - model : movies.movie : 앱. 클래스
+
+<br>
+
+- 다 끝나고 git을 통해서 pair에게 보낼거임
+- DB를 왔다갔다하게 되면 각자 만든 data에 따라 충돌하기 때문에
+- fixture
+  - 데이터의 모음으로 파일에 저장(json형식)하여 이것을 불러올거임
+- django admin dumpdata를 이용할 거임
+  - python manage.py dumpdata movies.movie 으로 data를 뽑고 이것을 파일에 저장하여 보내준다. (movies : 앱 이름, movie : 모델 이름(소문자로) --> articles.article)
+  - python manage.py dumpdata --indent 4 movies.movie
+    - 정렬해서 나옴
+  - 저장할 때는 python manage.py dumpdata --indent 4 movies.movie > movies.json
+- 불러와서 저장하는 법
+  - movies - fixtures 폴더 추가해서 movies.json 파일을 넣어서 보내주고
+    - fixtures 폴더 경로를 돌아보면서 찾음(templates와 같음)
+  - 받아서 python manage.py migrate
+  - fixtures 안에 movies를 만들고 movies.json을 넣음
+  - python manage.py loaddata movies/movies.json
+- 참고
+  - models.py를 번역(makemigrations)하고 migration을 적용(migrate)을 해줌
+  - migrate : 비어있는 표를 그려줌(schema만 생성)
+  - loaddata : 표의 형식에 맞춰서 저장
+- db.sqlite를 지웠다면 migrate부터 다시 해주어야함(db 초기화)
+- model을 수정하는 경우에 구조가 바뀐것이기 때문에 makemigrations 부터 해야함
+
+:heavy_check_mark: 순서
+
+> - models.py(schema 구조선언) - migrations - (번역본) -  migrate(표를 그리기) - dumpdata(데이터 받고) - loaddata(넣어주기)
+>   - dumpdata와 migrate 순서는 확실하지않음 두개 반대일수도...
+
+- 그래서 가장 중요한 것이 modeling !!
+  - 어떤 데이터를 저장할지 고민을 해야함
+  - 데이터 관계
+
+- created 시간과 같은 경우는 같은 데이터라도 시간의 차이로 값이 다르다
+- 결론 db.sqlite는 git으로 관리를 안할거임!!
+
+<br>
+
 `03.08`
 
 ## 보충수업(유창오 교수님)
@@ -604,3 +726,4 @@ Article.objects.create(title=title, content=content)
 :checkered_flag: 스타일 가이드
 
 > - {{ variable }} 괄호에 붙이지 않기 
+
