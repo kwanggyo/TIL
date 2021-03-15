@@ -447,7 +447,7 @@ Article.objects.create(title=title, content=content)
 
 <br>
 
-## CLUD
+## CRUD
 
 - 대부분의 컴퓨터 소프트웨어가 가지는 기본적인 데이터 처리 기능인 Create(생성), Read(읽기), Update(갱신), Delete(삭제)를 묶어서 일컫는 말
   - ex) all() : Read의 역할
@@ -585,6 +585,7 @@ Article.objects.create(title=title, content=content)
     - -r : requirements(요구사항) - 뒤에 있는 것에 해당하는 것을 설치
 
 - README.md
+  
   - python이 몇 버전인지 적어줌 // 라이브러리는 requirements에 적어줌
 
 <br>
@@ -627,6 +628,15 @@ Article.objects.create(title=title, content=content)
 
 - created 시간과 같은 경우는 같은 데이터라도 시간의 차이로 값이 다르다
 - 결론 db.sqlite는 git으로 관리를 안할거임!!
+
+<br>
+
+`03.15`
+
+#### Project Tip
+
+- 발표를 해야하는 프로젝트에서 보이는 데이터는 최대한 의미있게, 있어보이게 작성
+  - ㅁㄴㅇㄹ, asdf 이런것들 x
 
 <br>
 
