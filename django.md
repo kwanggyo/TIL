@@ -640,6 +640,8 @@ Article.objects.create(title=title, content=content)
 
 <br>
 
+<br>
+
 `03.08`
 
 ## 보충수업(유창오 교수님)
@@ -699,17 +701,107 @@ Article.objects.create(title=title, content=content)
 ## 보충수업
 
 - RDB : Relational DB, SQL을 통해서 접근
-
 - ORM - 다른 웹프레임워크에서도 많이 쓰임
-
 - 모델링 정보를 추가, 수정, 삭제 등 변동이 일어났다.
 
   1. models.py 모델링 소스코드를 수정했다.
 
   2. makemigrations : models.py에 적힌 소스코드를 토대로 '설계도'를 만든다.
   3. migrate : 
-
 - render : 현재 주소에서 그려주는 역할만
+
+<br>
+
+`03.15`
+
+## 보충수업
+
+#### 가상환경
+
+- 기본적으로 pip list는 전역환경(global)에 깔려있는 것들이 나온다.
+
+- ```shell
+  $ python -m venv venv
+  ```
+
+  - 가상환경을 만듬
+
+- ```python
+  $ source venv/Scripts/activate
+  ```
+
+  - venv - Scripts - activate를 실행시켜야 됨
+  - global환경에 영향을 끼치지않고 가상환경에서만 영향을 끼침
+
+- 가상환경에서 나가는 명령어
+
+  - ```python
+    $ deactivate
+    ```
+
+- pyenv, virtualenv : 파이썬의 버전을 바꾸고 싶을 때 환경변수를 들어가는 것이 아니라 명령어 한줄로 해결해줌
+
+- code . : 현재 폴더에서 vscode를 켜줌
+
+- ```shell
+  $ pip freeze > requirements.txt
+  ```
+
+  - 가상환경에서 설치해준 파일을 적어서 넘겨줘하기 때문에 설치된 파일이 만들어진 파일을 만듬
+
+#### gitignore
+
+- git으로 관리하지 않을 것들을 등록해준다.
+- .gitignore로 만듬
+- 파일안에 venv/ 이런식으로 써주면 status에서 venv가 사라짐
+- 일반적으로 등록하지 않아도 되는 list가 정해져있고 이것들을 보는 곳이 gitignore.io
+- 맨 처음에 세팅(add하기 전에)
+
+#### venv한 파일을 받는 경우
+
+- clone을 했지만 venv가 설치되어 있지않기 때문에 venv를 설치한다.
+
+- 프로젝트에 필요한 것들을 설치해주어야한다.
+
+- ```shell
+  $ pip install -r requirements.txt
+  ```
+
+  - 가상환경에 설치해준 라이브러리를 받음
+
+- 추가적으로 필요한 것을 install 했다면 다시 만들어서 보내준다
+
+  - ```shell
+    $ pip freeze > requirements.txt
+    ```
+
+<br>
+
+### 정리
+
+| Method | URL                        | 의미                                    |
+| ------ | -------------------------- | --------------------------------------- |
+| GET    | `/articles/`               | 게시글 목록을 보여준다(`.html`, `JSON`) |
+| GET    | `/articles/new/`           | 게시글 작성 페이지를 보여준다.(`.html`) |
+| POST   | `/articles/create/`        | 사용자가 입력한 데이터를 DB에 저장한다. |
+| POST   | `articles/글번호/delete/`  | 글 번호를 주고 DB에서 삭제한다.         |
+| GET    | `/articles/글번호/edit/`   | 게시글 수정 페이지를 보여준다.          |
+| POST   | `/articles/글번호/update/` | 수정한 데이터를 DB에서 바꿔준다.        |
+
+- 읽어오기만 할 때는 GET, DB에 변동을 주는 것은 POST
+- 게시글을 수정할 때
+  - URL 2개 필요
+    - 게시글을 수정할 수 있는 페이지
+    - 수정한 데이터를 DB에서 바꿔주는 URL
+- render / redirect
+  - render : 현재페이지에서 '.html'을 브라우저 화면에 보여주는 것
+  - redirect : 다른 주소로 요청을 보내주는 것(특정한 url로 가는 것)
+- dumpdata / loaddata
+  - dumpdata : 현재 DB의 상태를 파일로 만드는 것
+  - loaddata : dump된 파일을 DB에 넣고 싶은 경우
+  - 이 두개는 데이터 동기화를 위한 것이 아니라 시드 데이터(샘플 데이터)를 위한 명령어임
+  - 여러 명의 개발자 서로 데이터를 동기화하기 위한 수단으로 사용하면 안됨!(망할 확률이 높음)
+  - 데이터 동기화를 위해서는 My SQL, PostgreSQL 같은 설치형(서버형) RDB를 도입한다.
 
 <hr>
 
