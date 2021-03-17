@@ -987,6 +987,49 @@ Article.objects.create(title=title, content=content)
   - 여러 명의 개발자 서로 데이터를 동기화하기 위한 수단으로 사용하면 안됨!(망할 확률이 높음)
   - 데이터 동기화를 위해서는 My SQL, PostgreSQL 같은 설치형(서버형) RDB를 도입한다.
 
+<br>
+
+`03.17`
+
+## Django Form
+
+> 1. HTML 코드를 손쉽게 생성해준다.
+> 2. 유효성 검사를 편하게 할 수 있다.
+>    - `is_valid()` : 해당 field에 맞게 검사해줌    →    장고의 장점
+
+<br>
+
+#### 어플리케이션을 만들 때 고려해야 할 점
+
+- 우리는 유저가 아니다 `you != user`
+
+- 원하는 대로 해주지 않음
+- ex) 핸드폰 번호 : 010 - 1234 -1234
+  - label + input placeholder="핸드폰 번호는 010 - 0000 - 0000 형식으로 입력해주세요."
+  - But 010 -12341234, 12341234 이런식으로 들어올 수 있음 - 이러한 부분을 생각해줘야함!
+
+<br>
+
+### 1. Form
+
+> 직접 만든 Django Form
+>
+> model에 대한 정보가 없어서 form.save() 으로 바로 DB에 저장할 수 없다.
+>
+> DB에 저장하려는 데이터를 받은게 아니라면 ModelForm을 쓰면 안되고 Form을 사용해야 한다.
+
+### 2. ModelForm
+
+> class Meta : data의 data
+>
+> 만들어 놓은 모델을 알아서 form을 만들라고 하는 것(정보만 줌) : `model = Article`
+>
+> 어떤 필드를 장고 필드로 만들기 원하는지 알려줘야함 : `field = '__all__'`
+>
+> save() : ModelForm에 제공되는 method
+>
+> form.save()로 바로 DB에 저장
+
 <hr>
 
 :cherries: TIP
