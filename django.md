@@ -9,7 +9,7 @@
   - 서버에 사용자에게 보여질 것들이 미리 준비가 되어있고 사용자 요청이 들어오면 그대로 보여줌
 - Dynamic web
   - 사용자에게 보여지는 클라이언트 사이드는 구현되어있고, 사용자 요청에 따라 서버 사이드쪽에서 일을 하여 다른 데이터를 만들어서 보여주는 것
-  - 웹사이트에서 요청을 받았을 때, 서버는 추가적으로 무언가 일을 해서 클라이언트로 답장을 보내주는 것
+  - 웹사이트에서 요청을 받았을 때, 서버는 추가적으로 무언가 일을 해서 클라이언트로 답장을 보내주는 것(서버단에서 운영하는 것 - Django 사용)
   - 사용자 요청에 따라서 뒷단에서 일을 하여 보여준다고 이해!
   - 서버사이드 프로그래밍 언어들 즉, 우리가 일반적으로 알고 있는 언어들이 사용되고 그 언어들이 SQL이라고 하는 데이터베이스 언어를 통해서 데이터베이스 처리를 한다. 그 데이터들을 다시 잘 가공하여 클라이언트로 보여주는 것을 Dynamic website
   - 이런 Dynamic website를 만들어주는 framwork가 django
@@ -49,14 +49,54 @@
 
 <br>
 
+#### 설치과정
+
+> ```shell
+> $ pip install django
+> ```
+>
+> - pip list를 했을 때, 장고가 있으면 됨(3.1 이상)
+
+#### 시작 과정
+
+> ```shell
+> $ django-admin startproject firstpjt(프로젝트이름)
+> ```
+>
+> - 폴더에 firstpjt 폴더가 생성되고 폴더안에서 vscode를 킨다.
+> - 프로젝트 이름으로 built-in, 함수이름, hyphen(-) 등을 쓰면 안된다.
+>
+> ```shell
+> $ python manage.py runserver
+> ```
+>
+> - 서버를 킴(웹 페이지에서 볼 수 있음)
+> - ctrl + c를 통해 끌 수 있다.
+>
+> ```shell
+> $ python manage.py startapp articles(앱이름)
+> ```
+>
+> - articles라는 앱을 생성
+>
+> - 어플리케이션이 만들어졌다는 것을 알려주기위해 firstpjt - settings에 들어가서 INSTALLED_APPS의 제일 위에 articles, 를 적어준다.
+> - 일반적으로 웹 오더의 순서를
+>   - local apps(articles 같은것)
+>   - 3rd-party apps
+>   - django apps(이미 설치되어있는 기본 앱들)
+> - internationalization의 language_code: 'ko-kr', Time_zone: Asia/Seoul 로 설정
+>   - 구글에 database time zones로 검색
+
+<br>
+
 - firstpjt
   - ``__init__.py`` : 하나의 package로 인식할 수 있게 해준다.  - 수정 X
   - ``asgi.py`` : 나중에 비동기적인 웹서버와 연동할 때 사용 - 지금은 수정 X
   - ``settings.py`` : 웹사이트의 모든 설정을 포함, 우리가 만든 어플리케이션 등록, 파일들의 위치, 데이터베이스의 세부사항, 보안에 관련된 사항 등이 작성되어 있음 - 많이 수정할 예정  // 중요!!
   - ``url.py`` : 사이트 내부의 url 연결을 해주는 역할 // 중요!!
   - ``wsgi.py`` : 배포할 때 도움을 준다.
-
 - 사이트가 실제로 기능적인 측면을 하기 위해서는 이 프로젝트가 하는 것이 아니라 application이 이러한 동작을 한다.
+
 - articles
   - ``admin.py`` : 관리자 사이트를 커스텀하는 파이썬 파일 // 중요!!
   - ``apps.py`` :앱에 대한 정보가 들어있는 파일 - 수정 X
@@ -67,8 +107,8 @@
 
 
 - 장고의 하나의 프로젝트는 여러가지 애플리케이션을 가지고 있는데 동일선상에 만들어짐
+- 실제적으로 처리하는 것은 어플리케이션들이 담당한다.
 - 애플리케이션이 만들어져도 프로젝트 입장에서는 알 수가 없기 때문에 만들었음을 알려주기 위해서 프로젝트에 등록을 해주어야함
-
 - admin page를 기본적으로 제공해준다(django의 강점)
 
 
@@ -373,22 +413,23 @@
 
   <br>
 
-  #### **데이터 저장**
+#### 데이터 저장
 
-  - 방법1
+- 방법1
 
-  ```python
-  article = Article()
-      article.title = title
-    	article.content = content
-      article.save()
-  ```
-  
-  ![image-20210310140732842](django.assets/image-20210310140732842.png)
-  
-  ![image-20210310140821803](django.assets/image-20210310140821803.png)
-  
-  - 방법2
+```python
+article = Article()
+    article.title = title
+  	article.content = content
+    article.save()
+```
+
+![image-20210310140732842](django.assets/image-20210310140732842.png)
+
+![image-20210310140821803](django.assets/image-20210310140821803.png)
+
+- 방법2
+
 ```python
 title = request.GET.get('title')
 content = request.GET.get('content')
@@ -396,11 +437,9 @@ article = Article(title=title, content=content)
 article.save()
 ```
 
-  
+![image-20210310140925363](django.assets/image-20210310140925363.png)
 
- ![image-20210310140925363](django.assets/image-20210310140925363.png)
-
-  ![image-20210310140948120](django.assets/image-20210310140948120.png)
+![image-20210310140948120](django.assets/image-20210310140948120.png)
 
   - 방법3
 
@@ -637,6 +676,151 @@ Article.objects.create(title=title, content=content)
 
 - 발표를 해야하는 프로젝트에서 보이는 데이터는 최대한 의미있게, 있어보이게 작성
   - ㅁㄴㅇㄹ, asdf 이런것들 x
+
+<br>
+
+`03.17`
+
+### Form
+
+- django 프로젝트의 주요 유효성 검사 도구들 중 하나이며, 공격 및 우연한 데이터 손상에 대한 중요한 방어수단
+- 처리해주는 부분
+  - 렌더링을 위한 데이터 준비 및 재구성
+  - 데이터에 대한  HTML forms 생성
+  - 클라이언트로부터 받은 데이터 수신 및 처리
+
+#### Form Class
+
+- djangor Form 관리 시스템의 핵심
+- form내 field, field 배치, 디스플레이 widget, label 초기값, 유효하지 않는 field에 관련된 에러메세지를 결정
+- django는 사용자의 데이터를 받을 때 해야 할 과중한 작업(데이터 유효성 검증, 필요시 입력된 데이터 검증 결과 재출력, 유효한 데이터에 대해 요구되는 동작 수행 등) 과 반복 코드를 줄여줌
+
+#### Ouuting forms as HTML
+
+- as_p : 각 필드가 단락(paragraph)으로 렌더링
+- as_ul : 각 필드가 목록항목(list item)으로 렌더링
+- as_table : 각 필드가 테이블 행으로 렌더링
+
+#### Django의 2가지 HTML input 요소 표현 방법
+
+- Form fields
+  - input에 대한 유효성 검사 로직을 처리하며 템플릿에서 직접 사용됨
+- Widgets
+  - 웹 페이지의 HTML input 요소 렌더링 및 제출(submitted)된 원시 데이터 추출을 처리
+  - 반드시 form fields에 할당되며 독자적으로 사용할 수 없다.
+  - 유효성 검사 처리를 하지 않으면 form 필드에 귀속되어 사용
+  - HTML 렌더링을 처리, 웹페이지에서 input element의 단순 raw한 렌더링 처리
+
+<br>
+
+### ModelForm Class
+
+- model을 통해 Form Class를 만들 수 있는 Helper
+- 일반 Form Class 와 완전히 같은 방식(객체 생성)으로 view에서 사용 가능
+- Meta Class in ModelForm
+  - Model의 정보를 작성하는 곳
+  - 해당 model에 정의한 field 정보를 Form에 적용하기 위함
+  - Model 케이스에 대한 정보를 작성하는 곳, 등록의 개념
+
+<br>
+
+### Form & ModelForm
+
+- 뭐가 더 좋은 지가 아니라 역할이 다른 것! 서로 목적이 다르다
+- djangoproject에서 ModelForm과 Form 비교 후에 대응되는 Form field를 사용해야한다.
+
+#### Form
+
+- 어떤 model에 저장해야 하는지 알 수 없으므로 유효성 검사 이후 cleaned_data 딕셔너리를 생성
+- cleaned_data 딕셔너리에서 데이터를 가져온 후 .save() 호출해야함
+- Form은 바로 저장 불가(어떤 레코드를 만들어야하는지 모름)
+- model에 연관되지 않은 데이터를 받을 때 사용
+
+#### ModelForm
+
+- django가 해당 model에서 양식에 필요한 대부분의 정보를 이미 정의
+- 어떤 레코드를 만들어야 할 지 알고 있으므로 바로 .save 호출 가능
+
+- 모델에 연관되지 않는 데이터를 처리하기 위해 사용 form
+- 모델에서 필요한 양식의 데이터라면 ModelForm사용
+- 받고 검증하고 바로 저장 가능(레코드를 알고 있기 때문)
+
+<br>
+
+- db에 저장할 데이터가 아니라면 form 쓰고, 저장할 데이터라면 modelform 쓴다고 생각
+- DB에 저장하는게 훨씬더 편리하게 하기 위해서 ModelForm 쓰는 것
+- 사용자에게 폼으로 제공되어야 하지만 db에는 저장될 필요가 없는 데이터는 회원가입시 password 확인(Form을 사용하는 경우)
+
+#### views.create 작성
+
+- 정상적인 흐름이면 else 구문부터 작성이 되어야함!(흐름상), 외우는 것보다 이해
+
+<br>
+
+### create.html, update.html 수정
+
+- django forms - Working with form templates - Rendering fields manually
+
+  - ex) form.title, form.content로 분할 가능
+
+- class 씌우기 여러가지 방법
+
+- ```shell
+  $ pip install django-bootstrap-v5
+  ```
+
+  - django bootstrap 5 검색 https://pypi.org/project/django-bootstrap-v5/
+  - 설치! requirements.txt에 추가
+  - bootstrap 5를 load를 하면 bootstrap에 있는 tag, filter 등을 사용 가능하게 함
+
+- https://django-bootstrap-v5.readthedocs.io/en/latest/quickstart.html 여기서 cdn 추가
+
+  - 기존 cdn 지우고 css와 javascript에 각각 넣어줌, 맨 위에 load bootstrap5
+
+### extends - include tag
+
+- template 상속
+- 유지 보수를 위해서 사용
+  - base.html의 코드가 많아지면 유지 보수의 목적이 희석됨
+  - 새로운 template을 만듬(nav.html)
+  - {% include 'nav.html' %}를 base.html의 body 부분에 넣어줌
+  - include로 구조화를 시킴! (프로젝트에 따라서), 모듈 단위로 관리
+
+### View decorators
+
+#### decorator(데코레이터, @)
+
+- 어떤 함수에 기능을 추가하고 싶을 때, 해당 함수를 수정하지 않고 기능을 연장 해주는 함수
+- django는 다양한 기능을 지원하기 위해 view 함수에 적용할 수 있는 여러 데코레이터를 제공
+
+#### Allowed HTTP methods
+
+- 요청 메서드에 따라 view 함수에 대한 엑세스를 제한
+
+- 요청이 조건을 충족시키지 못하면 HttpRestponseNotAllowed을 return
+
+- require_http_methods(), require_POST(), require_safe() 
+
+  -  require_safe() : require_GET() 대신에 대체로 씀
+
+- https://docs.djangoproject.com/en/3.1/topics/http/decorators/
+
+  - ```python
+    from django.views.decorators.http import require_http_methods
+    ```
+
+#### postman
+
+- 다시보기를 통해 다운
+- API 개발을 할 때 사용하는 도구 - method를 자유롭게 변경해서 요청
+
+:heavy_check_mark: check
+
+> - 터미널을 종료해라 : 휴지통 모양을 눌러서 종료
+> - 위젯을 사용할 때는 Meta 데이터 위에 쓴다! 들여쓰기, 닫는 태그 주의!
+> - django form field에서 검색하여 사용 가능
+> - http 상태코드 검색하면 오류 내용을 알 수 있음
+>   - 2가 붙으면 일단 코드는 실행됐다는 것
 
 <br>
 
