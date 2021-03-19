@@ -824,6 +824,80 @@ Article.objects.create(title=title, content=content)
 
 <br>
 
+`03.18`
+
+### Static / Media
+
+`03.19`
+
+## Project
+
+## RESIZE
+
+Ctrl shift r : 강력 새로고침(캐시를 지우고 불러옴)
+
+- width="100%"를 주면
+
+  ex) 고해상도 : 가로가 1000픽셀인 상황에서 5000픽셀을 불러온다
+
+  ex) 저해상도 : 화질이 낮은 것을 늘려서 깨진다
+
+### django imagekit 사용
+
+- https://pypi.org/project/django-imagekit/
+- 다른 라이브러리를 사용해도 됨(여러가지 라이브러리 중 하나)
+
+#### 1. Installation
+
+- pillow 설치
+- `pip install django-imagekit`
+- settiings 설정
+
+#### 2. Models
+
+1) imageSpecField
+
+- source : 무엇을 기준으로 썸네일을 만들지, 원본 데이터를 의미
+
+- processors : 가로와 세로에 맞춰서 짤라주는 것(처리 방식)
+- format : 확장자
+- options : 품질, 올려서 고품질도 가능
+
+2) ProcessedImageField
+
+- 완성된 결과물을 저장해줌
+- 처음에 올라갈때부터 수정돼서 올라감
+- upload_to : 어느폴더에 올릴지 설정하는 곳(바꿀 수 있음)
+- avatar로 했다면 이 폴더안에 image가 저장되어있음
+  - RESIZE된 이미지가 저장되어있음
+- 만약에 동접자 수가 많고 많은 이미지들이 올라온다면, 문제가 생겨서 어제 이미지들을 가져와야한다면?
+  - upload_to='images/%Y/%m/%d/'로 바꾸어서 이미지를 효율적으로 관리
+- 사용자별로 이미지를 관리해야한다면?
+  - 사용자 개념을 배우고 추가적으로 학습 !!
+- from imagekit.processors import ResizeToFill
+  - 여백, 배경 등을 바꿔줄 수 있음
+  - 검색해서 사용
+
+#### 3. html 설정
+
+1) imageSpecField
+
+- image_thumnail.url
+  - 썸네일을 보고 싶은 상황에서만 만들어주는 것
+  - 원본 데이터를 가져와서 RESIZE
+  - 그 상황마다 처리하기 때문에 DB에 저장되지 않음
+    - makemigrations 작업을 안해도 됨
+- ex) media - CACHE - image - 8k - 크롭된(200x200) image를 따로 저장(썸네일이미지)
+
+- 디테일에서는 원본, 메인에서는 thumnail 이미지를 보여줌
+
+2) ProcessedImageField
+
+- 처리하고 완성된 결과물을 저장
+  - DB에 저장이 되므로 makemigrations 필요
+
+<br>
+
 <br>
 
 `03.08`
