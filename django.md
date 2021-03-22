@@ -898,6 +898,158 @@ Ctrl shift r : 강력 새로고침(캐시를 지우고 불러옴)
 
 <br>
 
+`03.22`
+
+## Authentication
+
+- 인증
+- 자신이 누구라고 주장하는 사람의 신원을 확인하는 것
+
+## Authorization
+
+- 권한, 허가
+- 가고 싶은 곳으로 가도록 혹은 원하는 정보를 얻도록 허용하는 과정
+
+## Django Authentication System
+
+- 인증과 권한 부여를 함께 저공하며, django에서는 이러한 기능이 어느정도 결합되어 있기 때문에 일반적으로 authentication system(인증시스템)이라고 함
+- **User object, Web request 대한 인증 시스템**
+
+<br>
+
+### Authentication Built-in Forms
+
+- django는 기본적으로 인증에 관련된 Built-in Form을 제공
+- 회원가입, 로그인 등
+- <br>
+
+### :heavy_check_mark: 메모
+
+- 인증에 관련된 앱의 이름은 보통 accounts를 사용한다.
+- 참고
+  - GET 방식으로 보내게 되면 id와 pw가 주소창에 노출이 됨
+  - POST 방식으로 보내게 된다고 해서 브라우저에서 확인을 못하는 것이 아니라 개발자 도구를 통해서 확인이 가능 - 아예 숨길수 있는 것이 아님 (Network - login/ - Form Data에서 볼 수 있음)
+- 단어 더블 클릭 후 ctrl + D 하면 같은 단어가 연속적을 잡힘 - 이후 수정 
+
+<br>
+
+### Web request
+
+- django는 세션과 미들웨어를 사용하여 인증 시스템을 request 객체에 연결(**이미 연결아 되어 있음**)
+- 이를 통해 사용자를 나타내는 모든 요청에 request.user를 제공(바로 사용 가능)
+- 현재 사용자가 로그인하지 않은 경우 AnonymousUser 클래스의 인스턴스로 설정되며, 그렇지 않으면 User 클래스의 인스턴스로 설정됨
+
+#### 로그인
+
+- Session(이하 세션)을 Create하는 로직과 같음
+- login() - 함수 제공
+  - 현재 세션에 연결하려는 인증된 사용자가 있는 경우 login() 함수로 로그인 진행
+  - request 객체와 User 객체를 통해 로그인 진행
+  - Django의 session framework를 통해 사용자의 ID를 세션에 저장
+
+#### 로그아웃
+
+- 세션을 Delete하는 로직과 같음(ex. 세션이 만료 되었습니다)
+- logout()
+  - request 객체를 받으며 return이 없음(User객체는 받지 않음)
+  - 현재 요청에 대한 **DB의 세션 데이터를 삭제**하고 **클라이언트 쿠키에서도 sessionid를 삭제** , **둘 다 삭제!**
+
+#### HTTP (HyperText Transfer Protocol)
+
+- HTML 문서와 같은 리소스들을 가져올 수 있도록 해주는 프로토콜(규칙, 약속)
+- 웹에서 이루어지는 모든 데이터 교환의 기초
+- 클라이언트 - 서버 프로토콜
+- 요청(request)
+  - 클라이언트(브라우저)에 의해 전송되는 메시지
+- 응답(responses)
+  - 서버에서 응답으로 전송되는 메세지
+- 특징
+  - 비연결지향(connectionless) 
+    - 서버는 응답 후 접속을 끊음
+    - ex. naver에서 메인 페이지를 보여주고 서버를 계속 열어두는 것이 아니라 연결을 끊음
+  - 무상태(stateless)
+    - 접속이 끊어지면 클라이언트와 서버 간의 통신이 끝나며 상태를 저장하지 않음
+    - 상태를 저장하지 않기 때문에 움직이면 로그인이 풀려야 하지만 로그인이 풀리지 않음 → 쿠키를 통해 로그인 상태 정보를 받음
+
+#### Cookie(쿠키)
+
+- 서버가 사용자의 웹 브라우저에 전송하는 작은 데이터 조각
+- 브라우저(클라이언트)는 전송 받은 쿠키를 로컬에 key-value의 데이터 형식으로 저장
+  - 동일한 서버에 재 요청 시 저장된 쿠키를 함께 전송(매번 보냄)
+- 웹 페이지에 접속하면 요청한 웹 페이지를 받으며 쿠키를 로컬에 저장하고 클라이언트가 재요청시마다 웹 페이지 요청과 함께 쿠키 값도 같이 전송
+
+#### Cookie(쿠키) 사용 목적
+
+- **세션 관리**
+  - 로그인, 아이디 자동완성, 공지 하루 안보기, 팝업 체크, 장바구니 등의 정보 관리
+- 개인화
+  - 사용자 선호, 테마 등의 세팅
+- 트래킹
+  - 사용자 행동을 기록 및 분석하는 용도
+
+최근에는 privacy때문에 개인화와 트래킹에 대한 선택권을 우리한테 줌
+
+#### Session(세션)
+
+- 사이트와 특정 브라우저 사이의 stats(상태)를 유지시키는 것
+- 클라이언트가 서버에 접속하면 서버가 특정 session id를 발급하고 클라이언트는 session id를 쿠키를 사용해 저장, 클라이언트가 다시 서버에 접속할 때 해당 쿠키(session id가 저장된)를 이용해 서버에 session id를 전달
+- Django는 특정 session id를 포함하는 쿠키를 사용해서 각각의 브라우저와 사이트가 연결된 세션을 알아냄 (세션 정보는 django DB의 django_session 테이블에 저장)
+- 주로 로그인 상태 유지에 사용
+
+#### Cookie lifetime (라이프 타임, 일생)
+
+##### 1. Session cookie
+
+- 현재 세션(current session)이 종료되면 삭제
+- 브라우저는 현재 세션이 종료되는 시기를 정의
+- 일부 브라우저는 다시 시작할 때 세션(session restoring)을 사용해 계속 지속될 수 있도록 함
+
+##### 2. Permanent cookie
+
+- Expires 속성에 지정된 날짜 혹은 Max_Age 속성에 지정된 기간이 지나면 삭제
+
+##### 검사 - Application의 Cookies 안에서 볼 수 있음
+
+- 해당되는 쿠키를 지우고 새로고침을 하면 장바구니가 사라진다.(ex. sid 쿠키 삭제)
+
+### 로그인 사용자에 대한 접근 제한
+
+#### 1. is_authenticated attribute
+
+- User class의 속성
+- 사용자가 인증되었는지 확인하는 방법
+- User에 항상 True이며 AnonymousUser에 대해서만 항상 False
+- 단, 이것은 권한(permission)과는 관련이 없으며 사용자가 활성화 상태(active)이거나 유효한 세션(valid session)을 가지고 있는지도 확인하지 않음  → 로그인이 되어있는지 아닌지만 확인(T or F)
+
+#### 2. login_required decorator
+
+- 사용자가 로그인 했는지 확인하는 view를 위한 데코레이터
+- 로그인 된 사용자의 경우 view 함수를 실행
+- 로그인 하지 않은 사용자는 settings.LOGIN_URL에 설정된 경로로 redirect 시킴
+  - LOGIN_URL의 기본 값은 '/accounts/login/'  → 인증 관련 앱을 accounts로 한 이유
+
+<br>
+
+### Signup
+
+- https://docs.djangoproject.com/en/3.1/topics/auth/default/#module-django.contrib.auth.forms
+
+### User
+
+- django 인증 시스템의 핵심
+- Users가 django 인증 시스템에서 표현되는 모델
+- 일반적으로 사이트와 상호작용 하는 사람들을 나타냄
+- django 인증 시스템에서는 오직 하나의 User Class만 존재
+- AbstractUser Class의 상속을 받음
+- **AbstractUser**
+  - User model을 구현하는 완전한 기능을 갖춘 기본 클래스
+  - https://github.com/django/django/blob/main/django/contrib/auth/forms.py - django github
+  - https://docs.djangoproject.com/en/3.1/topics/auth/default/ - django authentication system
+  - https://docs.djangoproject.com/en/3.1/topics/auth/customizing/ - django user model 
+    - 어떠한 곳에서도 User를 직접 참조하지 않을 거임
+
+<br>
+
 <br>
 
 `03.08`
