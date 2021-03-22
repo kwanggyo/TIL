@@ -1282,3 +1282,77 @@ Ctrl shift r : 강력 새로고침(캐시를 지우고 불러옴)
 
 > - {{ variable }} 괄호에 붙이지 않기 
 
+<br>
+
+`03.22`
+
+# Django Auth
+
+## Session
+
+- Create : login
+- Delete : logout
+- 서버는 수백, 수천, 수만 개의 클라이언트와 동시에 통신을 해야한다.
+- HTTP 프로토콜은 기본적으로 연결되어 있지 않고(Connectionless), 서로를 인식할 수 있는 상태 정보도 없다.(Stateless)
+
+- 서버와 클라이언트는 상태정보를 기억하여 서로를 식별하게끔 만들 수 있다. → 세션을 유지하도록 만든다.
+
+## Cookie
+
+- **세션을 유지하는 방식** 중 가장 널리 사용되는 방식
+- 서버가 사용자의 웹 브라우저에 전송하는 작은 데이터 조각(MDN)
+- 브라우저는 데이터 조각들을 
+- 검사 - Application
+  - Domain 
+    - 웹브라우저가 분석해서 보내줌
+    - ex) 구글, 네이버, 유튜브 등에 있는 쿠키 전부를 가지고 있는 것이 아니라 네이버에 있으면 네이버 Domain의 쿠키만 가지고 있음
+  - path : 서버 경로 뒤에 붙는 세부정보
+  - Expires / Max-Age : 
+- 쿠키는 위험한가?
+  - 개인정보를 쿠키에 저장해서는 안된다.
+  - django에서는 id, pw를 주는 것이 아니라 sessionid를 주고 자신도 가지고 있음(사용자 인식 수단), 실제 중요한 데이터는 DB에 있음 → 쿠키가 보안 위협을 받지 않도록
+
+#### 쿠키의 종류('파기시점'의 유무로 구분)
+
+- Session Cookie : 브라우저를 닫으면 삭제되는 쿠키
+- Permanent(Persistent) Cookie : 브라우저를 닫거나 컴퓨터를 재시작해도 남아있는 쿠키(Expires & Max-Age)
+
+## User
+
+- Create : signup
+- Update : update
+- Delete : delete
+
+## HTTP
+
+- Connectionless
+- Stateless
+
+### :heavy_check_mark: 면접 질문 참고
+
+> - session과 cookie 설명
+> - django의 장점 → django session(Auth)
+>
+> > 추가적으로
+> >
+> > - Notion 이나 Github.io 활용해서 포트폴리오 만들어보기!
+
+
+
+### WS
+
+- **User 모델에 직접적으로 참조하지 않기!**
+  - Customizing할 거라서 직접 참조 X
+  - `get_user_model()`을 참조
+
+```python
+User = get_user_model()
+users = User.objects.all()
+context = {
+    'users': users,
+}
+return render(request, 'accounts/index.html', context)
+```
+
+
+
