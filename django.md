@@ -1050,6 +1050,37 @@ Ctrl shift r : 강력 새로고침(캐시를 지우고 불러옴)
 
 <br>
 
+`03.23`
+
+### DELETE 차이점
+
+- 권한
+
+  ```python
+  # 다른 유저도 delete 가능 --> 강력한 누군가가 다른사람을 탈퇴시킬 필요가 있을 때
+  def delete(request, user_pk):
+      user = get_user_model().objects.get(pk=user_pk)
+      user.delete()
+      return redirect('accounts:index')
+  
+  def delete(request):
+      request.user.delete()
+      return redirect('articles:index')
+  ```
+
+:memo: 참고
+
+> - 문법에러 : 컴파일 에러
+> - 문법은 틀린 것이 없는데 실행과정에서 에러가 뜨는 것 : 런타임 에러(화면에 노란창)
+> - user model을 customizing할 것이기 때문에 User를 바로 쓰지 않고 get_user_model을 사용
+> - crud - settings - MIDDLEWARE
+>   - 거의 항상 작동해야하는 것을 따로 작성해놓은 것(request, csrf 등) - 미들웨어
+>   - AuthenticationMiddleware 가 views에서 user를 쓸 수 있게함
+> - crud - settings - TEMPLATES
+>   - request가 request.user.is_authentication를 쓸 수 있게 함
+
+<br>
+
 <br>
 
 `03.08`
