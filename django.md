@@ -1081,6 +1081,276 @@ Ctrl shift r : 강력 새로고침(캐시를 지우고 불러옴)
 
 <br>
 
+## Model Relationship
+
+### Relationship field
+
+- 모델 간 관계를 나타내는 필드
+  - Many to one(1:N)
+    - ForeignKey()
+    - article이 1 댓글이 N, 추가적인 컬럼은 N에 생김(article의 pk값을 이용)
+  - Many to Many(M:N)
+    - ManyToManyField()
+  - One to One(1:1)
+    - OnetoOneField()
+
+<hr>
+
+
+### A many-to-one relationship in RDBMS
+
+#### Foreign Key(외래 키)
+
+- RDBMS에서 한 테이블의 필드 중 다른 테이블의 행(row)을 식별할 수 있는 키
+
+- 참조하는 테이블에서(댓글 테이블) 1개의 키에 해당하고 이는 참조되는 측의 테이블의 기본 키(article의 pk)를 가리킴
+- 하나의 테이블이 여러 개의 외래 키를 포함할 수 있음
+  - 이러한 외래 키들은 각각 서로 다른 테이블을 참조할 수 있음
+- 참조하는 테이블의 행 여러 개가 참조되는 테이블의 동일한 행을 참조할 수 있음
+- 참조하는 테이블과 참조되는 테이블이 동일할 수도 있음(재귀적 외래 키 - 대댓글)
+
+#### Foreign Key 특징
+
+- 키를 사용하여 부모 테이블의 유일한 값을 참조(참조 무결성)
+- 외래 키의 값이 반드시 부모 테이블의 기본 키 일 필요는 없지만 유일해야 함
+  - pk : 값이 유일, title : 제목이 겹치는 경우 유일하지 않음
+  - 무조건 pk만 하는 것은 아님 다만 참조 무결성을 지켜야함
+
+#### ForeignKey()
+
+- django에서 A many-to-one relationship(1:N)을 표현하기 위한 model field
+- 2개의 필 수 위치 인자 필요
+  - 참조하는 모델 클래스
+  - on_delete 옵션
+- on_delete
+  - ForeignKey가 참조하는 객체가 사라졌을 때 ForeignKey를 가진 객체를 어떻게 처리할 지 정의
+  - 데이터 무결성(Database Integrity)을 위해서 매우 중요한 설정
+    - 데이터의 정확성과 일관성을 유지하고 보증하는 것
+
+#### ForeignKey's Arguments - on_delete
+
+- **CASCADE** : 부모 객체(참조된 객체)가 삭제 됐을 때 이를 참조하는 객체도 삭제 - 게시물 삭제가 되면 달려있던 댓글도 DB에서 삭제
+  - 사이트에서 일반적으로 사용
+  - 나머지는 이런게 있다 정도
+- PROTECT : 참조가 되어있는 경우 오류 발생 - 댓글이 있을 때 게시물 삭제 불가능
+- SET_NULL : 부모 객체가 삭제 됐을 때 모든 값을 NULL(댓글 내용을 NULL)로 치환(NOT NULL 조건 시 불가능)
+- SET_DEFAULT : 모든 값이 DEFAULT 값으로 치환 - DEFAULT 값을 미리 설정해놓아야함
+- SET() : 특정 함수 호출
+- DO_NOTHING : 아무것도 하지 않음
+  - 다만, 데이터베이스 필드에 대한 SQL ON DELETE 제한 조건을 성정해야 한다 - 아무것도 안하기 위한 조건
+- RESTRICT : 3.1버전에 새로 생김
+
+#### ForeignKey's Arguments - related_name
+
+- django가 기본적으로 만들어주는 _set manager(역참조 manager)를 변경할 이름 설정
+- 1:N 관계에서는 거의 사용하지 않지만 M:N 관계에서는 반드시 사용해야 하는 상황이 발생
+- article.comment_set.all()을 article.comments.all()로 대체 하는 것(혼용 아님)
+  - makemigrations와 migrate를 해줘야함!
+
+<br>
+
+#### 1:N model manager
+
+- Comment(N)가 Article(1)을 참조
+  - article
+- Article(1)이 Comment(N)를 참조 (역참조)
+  - 역참조(외래키가 없는데 참조 - 참조할 N에 대한 데이터가 없음) - 따라서 새로운 모델 매니저를 만들어줌
+  - comment_set
+  - django에서는 역참조시 모델이름_set 형식의 manager를 생성
+  - 어떤 댓글이 달렸는지 확인할 때 사용
+
+<hr>
+
+#### 1. 댓글 모델 구현
+
+- articles app - models.py
+
+- Article 모델 DB에는 댓글에 관련된 것은 들어가 있지 않음
+
+- 클래스에 대한 동작은 메서드가 아닌 인스턴스가 함
+
+- 댓글에 저장을 할 때에는 댓글내용(comment)과 몇번 게시이글에 작성(article_id)이 되는지 2가지가 필요함
+
+- 참조
+
+  ```shell
+  In [1]: comment = Comment()
+  
+  In [2]: comment
+  Out[2]: <Comment: >
+  
+  In [3]: comment.content = '댓글 1'
+  
+  In [4]: comment.save()  
+  # 오류 -> article_id가 없기 때문, 게시글이 없음
+  
+  In [5]: Article.objects.create(title='제목1', content='내용1')
+  Out[5]: <Article: Article object (1)>
+  
+  In [7]: Article.objects.all()
+  Out[7]: <QuerySet [<Article: Article object (1)>]>
+  
+  In [8]: comment.content
+  Out[8]: '댓글 1'
+  
+  In [9]: article = Article.objects.get(pk=1)
+  
+  In [10]: article
+  Out[10]: <Article: Article object (1)>
+  
+  In [11]: comment.article = article
+  
+  In [12]: comment.article
+  Out[12]: <Article: Article object (1)>
+  
+  In [13]: comment.save()
+  
+  In [14]: comment.pk
+  Out[14]: 1
+  
+  In [15]: comment
+  Out[15]: <Comment: 댓글 1>
+  
+  In [16]: comment.pk
+  Out[16]: 1
+  
+  In [17]: comment.content
+  Out[17]: '댓글 1'
+  
+  In [18]: comment.article
+  Out[18]: <Article: Article object (1)>
+  
+  In [19]: comment.article_id
+  Out[19]: 1
+  
+  In [20]: comment.article.pk
+  Out[20]: 1
+  
+  In [22]: comment = Comment(content='댓글2', article=article)
+  
+  In [24]: comment.save()
+  
+  In [25]: comment.content
+  Out[25]: '댓글2'
+  
+  In [26]: comment.article
+  Out[26]: <Article: Article object (1)>
+  
+  In [27]: comment.article_id
+  Out[27]: 1
+  
+  In [28]: comment.article.pk
+  Out[28]: 1
+  ```
+
+- 모델을 만들고 admin을 해주면 crud를 빠르게 해줄 수 있음(데이터 확인이 쉬움)
+
+- 역참조
+
+  ```shell
+  In [2]: article = Article.objects.get(pk=1)
+  
+  In [3]: article
+  Out[3]: <Article: Article object (1)>
+  
+  In [4]: article.comment_set.all()
+  Out[4]: <QuerySet [<Comment: 댓글 1>, <Comment: 댓글2>]>
+  ```
+
+  - 쿼리 셋이 나오면 템플릿에 넘겨줘서 반복(for)해서 출력할 수 있다!
+
+  ```shell
+  In [5]: comments = article.comment_set.all()
+  
+  In [6]: comments
+  Out[6]: <QuerySet [<Comment: 댓글 1>, <Comment: 댓글2>]>
+  ```
+
+#### 2. forms.py에서 ModelForm을 만듬
+
+- 만든 후 views - detail에 CommentForm을 넣어주고 context로 가져옴
+
+- detail.html에 추가, form에서 원하는 것들만 field로
+
+  ```django
+  <form action="{% url 'articles:comment_create' article.pk %}" method="POST">
+    {% csrf_token %}
+    {{ comment_form }}
+    <input type="submit">
+    </form>
+  ```
+
+#### 3. 댓글 crud
+
+- url 작성(댓글이 몇번 글의 댓글인지를 받음-url, 댓글 내용은 form으로 받음)
+
+- **CREATE** - views.py
+
+  ```python
+  @require_POST # 데코레이터를 붙이면 if문을 안써도 됨
+  def comments_create(request, pk):  # 댓글 작성을 위한 문서를 처리할 필요가 없음 -> detail이 해주고 있음 -> GET을 처리할 필요없이 POST만 처리하면 됨
+      article = get_object_or_404(Article, pk=pk)
+      comment_form = CommentForm(request.POST)
+      if comment_form.is_valid():  # 여기서는 외래키의 유효성 검사를 판단하지 않음
+          comment = comment_form.save(commit=False)  # 인스턴스는 만들어주는데 DB에는 저장하지 않은 상태로 대기(원래는 DB에 입력하고 return값을 줌) (default=True)--> 추가적으로 작성할 시간을 줌
+          # 댓글이 저장되려면 외래키가 필요! 그렇기 때문에 commit=False를 해주는 것)
+          comment.article = article  # 외래키를 넣어주는 부분
+          comment.save()
+          return redirect('articles:detail', article.pk)
+      context = {
+          'comments_form': comments_form,
+          'article': article,
+      }
+      return render(request, 'articles/detail.html', context)
+  ```
+
+  - 참고(django model form - save)
+    - https://docs.djangoproject.com/en/3.1/topics/forms/modelforms/#the-save-method
+
+- **READ**
+
+  ```django
+  <h4>댓글 목록</h4>
+    <ul>
+    {% for comment in comments %}
+      <li>
+        {{ comment }}
+      </li>
+    {% endfor %}
+    </ul>
+  ```
+
+- **DELETE**
+
+  ```django
+  <h4>댓글 목록</h4>
+    <ul>
+    {% for comment in comments %}
+      <li>
+        {{ comment }}
+        <form action="{% url 'articles:comments_delete' article.pk comment.pk %}" method="POST">
+          {% csrf_token %}
+          <input type="submit" value="DELETE">
+        </form>
+      </li>
+    {% endfor %}
+    </ul>
+  ```
+
+- **DELETE** - views.py
+
+  ```python
+  @require_POST
+  def comments_delete(request, article_pk, comment_pk):  # pk를 둘다 받는 이유 : REST API 참고 --> 하나만 받아도 되는데 2개를 받는 것이 좋음
+      comment = get_object_or_404(Comment, pk=comment_pk)
+      comment.delete()
+      return redirect('articles:detail', article_pk)
+  ```
+
+- **UPDATE**
+
+  - 지금 배운 것으로는 힘들기 때문에 나중에!
+
 <br>
 
 `03.08`
