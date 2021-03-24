@@ -1095,8 +1095,6 @@ Ctrl shift r : 강력 새로고침(캐시를 지우고 불러옴)
     - OnetoOneField()
 
 <hr>
-
-
 ### A many-to-one relationship in RDBMS
 
 #### Foreign Key(외래 키)
@@ -1350,6 +1348,193 @@ Ctrl shift r : 강력 새로고침(캐시를 지우고 불러옴)
 - **UPDATE**
 
   - 지금 배운 것으로는 힘들기 때문에 나중에!
+
+<br>
+
+### Subsituting a custom User model(커스텀 유저 모델로 대체하기)
+
+- 프로젝트마다 상황이 달라서 일부 프로젝트는 built-in User model이 제공하는 인증 요구사항이 적절하지 않을 수 있음
+
+  - 인증에서 기본으로 user_name을 쓰는 곳, email을 쓰는 곳 등으로 다를 수 있음
+
+- django는 custom model을 참조하는 AUTH_USER_MODEL 설정을 제공하여 기본 user model을 재정의(override)할 수 있도록 함
+
+- 새 프로젝트를 시작하는 경우 기본 사용자 모델이 충분하더라도, 커스텀 유저 모델을 설정하는 것을 강력하게 권장
+
+- 커스텀 유저 모델은 기본 사용자 모델과 동일하게 작동하면서도 필요한 경우 나중에 맞춤 설정할 수 있기 때문
+
+- 단, 프로젝트의 모든 migrations 혹은 첫 migrate를 실행하기 전에 이 작업을 마쳐야함
+
+  - 프로젝트 시작과 동시에 대체하고 시작 ! (프로그램 전체의 시작전에!!)
+  - 이미 진행이 되고 있는 와중에는 못함(model 전부다 바꿔줘야하고 등등 시작부터 해라.)
+  - https://docs.djangoproject.com/en/3.1/topics/auth/customizing/#substituting-a-custom-user-model django custom authentication
+
+- 대체 순서
+
+  - ```python
+    AUTH_USER_MODEL = 'myapp.MyUser'
+    ```
+
+  - ```python
+    from django.contrib.auth.models import AbstractUser
+    
+    class User(AbstractUser):
+        pass
+    ```
+
+  - ```python
+    from django.contrib import admin
+    from django.contrib.auth.admin import UserAdmin
+    from .models import User
+    
+    admin.site.register(User, UserAdmin)
+    ```
+
+- settings - accounts(admin)
+
+  - settings 
+
+    ```python
+    AUTH_USER_MODEL = 'accounts.User'
+    ```
+
+<br>
+
+### AUTH_USER_MODEL
+
+- User를 나타내는데 사용하는 모델
+- 기본 값은 'auth_User' : 우리는 기본 built-in model을 사용하고 있었음
+- 주의사항
+  - 프로젝트가 진행되는 동안 변경할 수 없음(변경하기 위해서는 많은 노력이 필요) (종속된 모델을 만들고 마이그레이션 된 후)
+  - 프로젝트 시작 시 설정하기 위한 것이며, 참조하는 모델은 첫번째 마이그레이션에서 사용할 수 있어야함 - 첫 마이그레이션 할 때 해야한다는 것!
+
+<br>
+
+### AbstracBaseUser & AbstracBaseUser 
+
+#### AbstracBaseUser
+
+- 기본적으로 password와 last_login만 제고
+- 자유도는 높지만 필요한 다른 필드는 모두 직접 작성해야 함
+- 더 상위 모델이지만 사용 안함
+
+#### AbstracBaseUser 
+
+- 관리자 권한과 함께 완전한 기능을 갖춘 사용자 모델을 구현하는 기본 클래스 --> 사용
+
+#### Abstract base classes(추가 내용)
+
+- 몇 가지 공통 정보를 여러 다른 모델에 넣을 때 사용하는 클래스
+  - ex) class Meta
+- 데이터베이스 테이블을 만드는 데 사용되지 않으며, 대신 다른 모델의 기본 클래스로 사용되는 경우 해당 필드가 하위 클래스의 필드에 사용됨
+- 직접 사용하지않고 상속받아서 사용함
+- 모델이지만 테이블이 만들어지지 않음, 대신 서브 클래스한테 만들어줌
+  - ex 위의 AbstracBaseUser는 테이블은 없지만 서브 클래스(AbstracBaseUser)에게 pw와 last_login을 넘겨줌
+- Abstract class 들은 테이블을 만들지 않고 하위 클래스에 기능만 제공
+  - meta class에 `Abstract = True`로 되어있음
+  - 따라서 직접사용하지 않고 상속을 통해서만 사용
+
+<br>
+
+### 추가 설정해줘야 할 것
+
+- 여기까지 진행하고 실행시켜보면
+- `AttributeError` 발생
+  - `Manager isn't available; 'auth.User' has been swapped for 'accounts.User'`
+
+- `UserCreationForm`, `UserChangeForm`이 기본적으로 `auth.User`에 묶여있다.
+- 따라서 이 두개의 form을 재정의 해야한다.
+
+<br>
+
+### 초기화
+
+- 모든 설계도 파일을 지움(폴더을 지우면 안됨) - 번호 붙은 것을 지우기
+- 설계도로 만들어진 DB도 지움(SQLite)
+- 다시 처음부터 migrations
+
+> - 모델을 만들면 objects라는 manager가 만들어진다!
+
+- 정상 작동하는지 알아보려면 회원가입이 가장 간단!
+- 유저를 대체하면 다 바뀌면 좋겠지만 안바뀌고 ModelForm 안에 있었던 User는 auth.User이기 때문에 작동을 안함
+- https://docs.djangoproject.com/en/3.1/topics/auth/customizing/#custom-users-and-the-built-in-auth-forms
+  - Finally, the following forms are tied to [`User`](https://docs.djangoproject.com/en/3.1/ref/contrib/auth/#django.contrib.auth.models.User) and need to be rewritten or extended to work with a custom user model: User로 작성되어 있기 때문에 어쩔수 없이 커스텀을 해야함!
+    - [`UserCreationForm`](https://docs.djangoproject.com/en/3.1/topics/auth/default/#django.contrib.auth.forms.UserCreationForm)
+    - [`UserChangeForm`](https://docs.djangoproject.com/en/3.1/topics/auth/default/#django.contrib.auth.forms.UserChangeForm)
+- ex) 대체만 하고 articles 앱을 진행해도 됨
+
+> - https://docs.djangoproject.com/en/3.1/topics/auth/default/ 유저에 관한 내용
+
+<br>
+
+### 하나의 유저는 여러개의 article을 가질 수 있다 1:N
+
+- articles - model.py -
+
+#### 유저 참조 방법 2가지
+
+- get_user_model()  -->  model에서는 사용 안됨
+
+- articles - models.py
+
+  ```python
+  from djaong.conf import from django.conf import settings
+  
+  class Article(models.Model):
+      user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+      ...
+  ```
+
+### Referencing the User model (유저 모델 참조하기) - 2가지
+
+- 이유 : return값이 다름 - settings / get : 문자열(accounts 앱이 구동 안했어도 settings에 있는 경로를 따라서 구동) / 객체  --> 내부적인 구동순서 때문에 
+- INSTALLED APPS 순서에 따라 accounts앱의 구동이 끝나야 articles앱의 model이 구동(순서를 정하는 것은 맘대로지만 이러한 순서에 관계없이 작동하려면 문자열(settings)을 가져와야함) - 꼬일 가능성이 없게 함
+- installed app 리스트의 최상단에 accounts 앱을 등록한다면 작동하긴 함, But 이렇게 안씀
+- https://docs.djangoproject.com/en/3.1/topics/auth/customizing/#referencing-the-user-model
+
+#### settings.AUTH_USER_MODEL
+
+- **딱 한군데, models.py에서만 이렇게 씀**
+- 유저 모델에 대한 외래 키 또는 M:N 관계를 정의할 때 사용
+
+#### get_user_model()
+
+- **models.py가 아닌 다른 모든 곳에서 참조할 때는 무조건 이것!!**
+- django는 User 모델을 직접 참조하는 대신 get_user_model()을 사용하여 사용자 모델을 참조하라고 권장
+- 현재 활성화(active)된 유저 모델(지정된 커스텀 유저 모델, 그렇지 않은 경우 User)을 반환
+- **유저모델을이 대체가 되었을 때 자동으로 활성화 해주기 때문에 get_user_model을 쓰라는 것!**
+- 현재 활성화(activate)된 유저 모델을 반환
+  - 활성화된 유저 모델 = 지정된 커스텀 유저 모델
+  - 없는 경우 User
+
+<br>
+
+### ✔ 참고
+
+> - 모델이 변경 되었을 때
+>
+> > 1. 모델 변경
+> >
+> > 2. 설계도
+> >
+> > 3. migrate
+>
+> - views - detail에서 @login_required 과 @require_POST는 같이 못씀(무조건은 아니라 아래 뷰함에 따라 다름!) ! GET method 처리할 수가 없어서
+>   - 비로그인 사용자가 삭제를 하려하면 login_required에 걸려서 login페이지로 감 + next 부분에 그 다음에 실행할 부분(delete)을 넣어서 보냄
+>   - 로그인을 하고 next를 타고 들어가면 GET 요청으로 들어가기 때문에 require_POST에서 막힘 405error
+> - 외래키 : 데이터베이스에서 쓰는 말
+> - 오늘 하려는 것은 댓글을 구현하려고 했음!
+> - 게시글에 속해있고 게시글 하나에 댓글이 여러개인 구조
+>
+> - comment.article.title 처럼 django에서 comment로도 article에 접근할 수 있게 해줌
+>
+> - 게시글 : 댓글 = 1: N --> 댓글에 외래키 작성
+> - 게시글 : 작성자 = N : 1 --> 게시글에 외래키 작성 (댓글 : 작성자도 같음)
+> - redirect하지않고 render한 이유
+>   - 유효성 검사를 통과하지 못하는 경우 에러메세지를 같이 넘겨줘야하기 때문에
+>   - redirect는 다시 새로운 폼을 전달해서 에러메세지가 없음
+
+<br>
 
 <br>
 
