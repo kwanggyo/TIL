@@ -616,7 +616,7 @@ Article.objects.create(title=title, content=content)
 
 - 필수요소들을 알려주는 파일을 만들거임
 
-  - pip freeze > requirements.tx
+  - pip freeze > requirements.txt
     - 왼쪽의 실행 결과물을 오른쪽에 넣어달라는 명령어
 
 - requirements에 있는 라이브러리를 설치하는 방법
@@ -1535,6 +1535,20 @@ Ctrl shift r : 강력 새로고침(캐시를 지우고 불러옴)
 >   - redirect는 다시 새로운 폼을 전달해서 에러메세지가 없음
 
 <br>
+
+## SQL & ORM
+
+- SQL(StructuredQueryLanguage)는 관계형 데이터베이스 관리시스템(RDBMS)의데이터를 관리하기 위해 설계된 특수 목적의 프로그래밍 언어이다.
+
+### RDBMS(관계형 데이터 베이스 관리 시스템)
+
+- 관계형 모델을 기반으로하는 데이터베이스 관리 시스템이다.
+- MySQL, SQLite, PosergreSQL, ORACLE, MS SQL 등
+  - SQLite는 개발단에서 많이 사용
+
+## 주말에 추가 정리 필요!!!
+
+<hr>
 
 <br>
 
