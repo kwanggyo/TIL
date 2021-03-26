@@ -1548,8 +1548,20 @@ Ctrl shift r : 강력 새로고침(캐시를 지우고 불러옴)
 
 ## 주말에 추가 정리 필요!!!
 
-<hr>
+<br>
 
+`03.26`
+
+## ERD
+
+- *Entity Relationship Diagram*
+
+- 객체 관계를 표시해주는 다이어그램
+  - 어떤 데이터를 받아와야하는지 어떤 형식이어야하는지
+  - 그리는 페이지 참고 : drawio
+    - Enitity Relation
+
+<hr>
 <br>
 
 `03.08`
