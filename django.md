@@ -1561,7 +1561,71 @@ Ctrl shift r : 강력 새로고침(캐시를 지우고 불러옴)
   - 그리는 페이지 참고 : drawio
     - Enitity Relation
 
+<br>
+
+`03.29`
+
+## ForeginKey()
+
+- 새로운 매니저가 생성이 됨(역참조시 생성)
+- 외래키는 N쪽에 작성되기 때문에 1에는 물리적인 키가 존재하지 않음
+- 1쪽에서는 N에 대한 정보를 물리적으로 가지고 있지 않기 때문에 1에서 N을 참조할 때 model_set.all() 사용
+
+- 매니저를 objects로만 사용했었는데 model_set이라는 매니저를 사용해본 것!
+
+## Customizing Authentication
+
+- 빌트인 유저모델을 대체해야한다.
+- 똑같은 모양으로 사용하더라도 대체!  →  나중에 재정의(override)를 할 수 있게 하려고
+
+### AUTH_USER_MODEL
+
+- 기본 값은 'auth.User'  →  'accounts.User'로 변경
+
+#### `abstract = True`
+
+- 테이블을 만드는데 사용되지 않음 
+- 자기 자신을 상속시켜줌으로써 하위 클래스의 필드에 추가 됨
+
+## User 대체
+
+
+- https://docs.djangoproject.com/en/3.1/topics/auth/customizing/#substituting-a-custom-user-model : django custom authentication - substituting a custom user mode
+- settings.py, models.py, admin.py, forms.py(Custom)
+
+## Referencing the User model (유저 모델 참조하기)
+
+- settings.AUTH_USER_MODEL : models에서 참조할 때 사용
+  - return : 문자열
+- get_user_model() : models가 아닌 경우 사용
+  - retrurn : 객체
+
+## Human touch
+
+#### django humanize - 시간 출력 때 유용하게 쓰일 수 있음
+
+- https://docs.djangoproject.com/en/3.1/ref/contrib/humanize/
+
+- 화폐 단위, 뒤쪽에 단위 붙여주기, 날짜, 시간 등 
+
+
+## M:N (Many To Many Field)
+
+- 대표적으로 2개 구현할 예정
+  - like → Article - user
+  - follow → user - user
+- 재귀적 관계
+  - 1:N의 대댓글
+  - user - user(follow)
+- 누구한테 필드를 주든 상광 없음
+  - 필드가 있는 쪽이 참조 - through='reservation'
+  - 없는 쪽이 역 참조 - related_name='model'
+- 기존 모델에 만들어지지 않고 새로운  중개모델이 만들어짐
+  - 컬럼이 기존 모델에 추가 X, 참조하는 방식 차이
+  - 중개 테이블은 관여하지않을거임, 명령어만 잘 쓰면 됨!
+
 <hr>
+
 <br>
 
 `03.08`
