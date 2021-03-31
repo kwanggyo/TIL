@@ -1691,7 +1691,161 @@ class CustomUserCreationForm(UserCreationForm):
 
 <br>
 
-# 백준 특강
+`03.31`
+
+## ManyToManyField
+
+모델링 : 우리 일상에 가까운 예시를 통해 DB를 설계하고 내부에서 일어나는 데이터의 흐름을 어떻게 제어할 수 있을지 고민해보는 것
+
+- 게시글 - 유저 : 어떤 유저가 어떤 게시글을 좋아했다!
+
+- 1:N 관계에서는 게시글 정보가 있었어야한다. - 댓글 만들때, NOT NULL
+
+- like_users라는 필드를 생성할때 초기설정을 해줘야하는가? - 상관없다!!
+  - 실제로 Article 테이블에는 필드가 생성되지 않기 때문에
+  - articles_article_user에 기록됨
+  - articles_comment 안에
+    - user, comment가 생성됨
+
+### 중개모델
+
+- 2, 1 은 integer가 아니라서 들어갈 수 없다.
+- 병원 모델링은 1:N으로 안된다.
+- ----> 중개모델 작성
+- 1:N 관계를 가지고 있는 중개테이블로 M:N으로
+
+### ManyToManyField
+
+- 참조하는 모델의 복수형으로 작성(생각하기 편한쪽에)
+
+- db를 보면 중개모델을 만들었을때와 똑같은 구조로 생성된다.
+
+- 중개테이블을 자동으로 만들어줌
+
+  - 앱이름 - MTMF가 작성된 클래스 - 클래스 인스턴스 이름
+
+- patient1이 doctor1에게 예약하는 것
+
+- 중간의 모델매니저가 MTMF의 클래스 인스턴스 이름으로 바뀜
+
+  ```shell
+  $ patient1.doctors.add(doctor1)
+  ```
+
+- 환자가 예약 확인 - 물리적으로 필드가 Patient에 존재
+
+  ```shell
+  $ patient1.doctors.all()
+  ```
+
+- 의사가 예약 확인 - 역참조
+
+  - 자신을 참조하고 있는 필드를 가진애를 참조하는게 역참조!! 
+  - 1이 N을 참조하는게 역참조라고 이해하지말기!!
+
+- 1번 의사가 2번 환자 등록
+
+  ```shell
+  $ doctor1.patient_set.add(patient2)
+  ```
+
+- 객체와의 관계를 끊는 것(사실상 삭제)
+
+  ```shell
+  $ doctor1.patient_set.remove(patient1) # 의사가 취소
+  $ patient2.doctors.remove(doctor1) # 환자가 취소
+  ```
+
+- 외래키 말고 추가적인 데이터를 사용해야하는 중개테이블 경우에는 직접 중개테이블을 작성해야함
+
+  - ex) 시간, 날짜 등 추가할때
+  - https://docs.djangoproject.com/en/3.1/topics/db/models/#intermediary-manytomany
+
+- 역참조 모델 매니저의 이름을 바꿀 때 : related_name
+
+  - 기존의 patient_set 은 사용 불가
+
+- 메인 테이블은 변하는 것이 없음
+
+- 1:N은 종속된 관계지만 M:N은 종속된 관계가 아님
+
+## ManyToManyField()
+
+- M:N 관계를 나타내기 위해 사용하는 필드
+- 하나의 필수 위치 인자(M:N 관계로 설정할 모델 클래스)가 필요
+- 필드의 RelatedManager를 사용하여 관련 개체를 추가, 제거 또는 만들 수 있음
+
+### Related manager
+
+- 1:N 또는 M:N관련 컨텍스트에서 사용되는 매니저
+  - doctors, patient_set 등
+- method
+  - 같은 이름의 메서드여서 각 관계(1:N, M:N)에 따라 다르게 동작
+  - 1:N에서는 target 모델 객체만 사용 가능 - 1쪽에서만 사용 가능(Article)
+    - Article과 Comment가 있을 때 Article : tartget model(참조하고 있는 모델), Comment(FK) : source model
+    - target model이 source model을 참조하는 것이 역참조
+  - M:N에서는 관련된 두 객체에서 모두 사용 가능
+  - **add()**, **remove()**, create(). clear(), set()
+
+#### methods
+
+- add()
+
+  - 지정된 객체를 관련 객체 집합에 추가
+  - 이미 존재하는 관계에 다시 사용하면 관계가 복제되지 않음
+
+- remove()
+
+  - 관련 객체 집합에서 지정된 모델 객체를 제거
+
+  - 관계를 끊는다!
+
+### ManyToManyField's Arguments
+
+- 모두 optional하며 관계가 작동하는 방식을 제어
+- related_name
+- symmetrical
+- through : 중계 모델을 직접 만들 때
+
+#### related_name
+
+- target model이 source model을 참조할 때 사용할 manager name
+- ForeignKey의 related_name과 동일
+- source model(instance)
+  - 관계 필드를 가진 모델
+- target model(instance)
+  - source model이 관계 필드를 통해 참조하는 모델
+- 상황에 따라서 필수적으로 사용해야할 수 있다!
+  - 1:N, M:N 둘다 사용할때
+
+#### symmetrical(self)
+
+- 재귀적으로 참조할 때 사용
+  - ex) follow
+- 동일한 모델을 가리키는 정의의 경우 클래스에 model_set 매니저를 추가하지 않음
+- 대신 대칭적이라고 간주하며, source 인스턴스가 target 인스턴스도 source 인스턴스를 참조하게 됨
+  - 반대에서도 생김, ex) 1번이 2번한테 친구 신청하면 2번도 1번을 친구로 신청함
+  - 한쪽에서 생성하면 반대쪽에도 레코드가 생기는 것
+- self와의 M:N 관계에서 대칭을 원하지 않는 경우 symmetrical를 False로 설정
+- db가 from_user_id, to_user_id 식으로 생성됨
+
+#### through
+
+- django는 다대다 관계를 관리하는 중개 테이블을 자동으로 생성함
+- 하지만, 중개 테이블을 직접 지정하려면 through 옵션을 사용하여 중개 테이블을 나타내는 Django model을 지정할 수 있음
+
+- 추가 데이터를 다대다 관계와 연결하려는 경우에 사용
+- 만약에 좋아요를 누른 날짜도 같이 저장하고 싶다면 따로 클래스를 만들어야 한다!
+
+### DB Representation(데이터베이스에서의 표현)
+
+- django는 M:N 관계를 나타내는 중개 테이블(intermediary join table)을 만듦
+- 테이블 이름은 MTMF의 이름과 이를 포함하는 모델의 이름을 조합하여 생성됨
+- 앱이름 - 모델이름 - 변수 이름
+
+<br>
+
+# :heavy_check_mark: 백준 특강
 
 ## 디버깅
 
