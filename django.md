@@ -1095,7 +1095,9 @@ Ctrl shift r : 강력 새로고침(캐시를 지우고 불러옴)
     - OnetoOneField()
 
 <hr>
+
 ### A many-to-one relationship in RDBMS
+
 
 #### Foreign Key(외래 키)
 
@@ -1842,6 +1844,123 @@ class CustomUserCreationForm(UserCreationForm):
 - django는 M:N 관계를 나타내는 중개 테이블(intermediary join table)을 만듦
 - 테이블 이름은 MTMF의 이름과 이를 포함하는 모델의 이름을 조합하여 생성됨
 - 앱이름 - 모델이름 - 변수 이름
+
+<br>
+
+## 참고 - "하지마라"
+
+쿼리셋을 보다보면 lazy(게으르다)고 나와있음
+
+- 실제 쿼리셋을 만드는 작업에는 DB 작업이 포함되지 않음
+
+- https://docs.djangoproject.com/en/3.1/topics/db/queries/ django queryset lazy
+- https://docs.djangoproject.com/en/3.1/topics/db/queries/#caching-and-querysets
+
+```python
+# LIKE 코드를 반영한 예시
+like_set = article.like_users.filter(pk=request.user.pk) # 아직 평가되지않음, DB 놀고 있음
+if like_set:  # 평가
+    # 쿼리셋의 전체 결과가 필요하지 않은 상황임에도 ORM은 전체 결과를 가져옴
+    # 없어도 전체 평가
+    article.like_user.remove(request.user)
+
+# 개선 1
+# exists() : 쿼리셋 캐시를 만들지 않으면서 특정 레코드가 있는지 검사
+if like_set.exists():
+    # DB에서 가져온 레코드가 없다면 메모리를 절약할 수 있다.
+    article.like_user.remove(request.user)
+
+
+# 만약 if 문안에서 반복문이 있다면?
+# if에서 평가 후 캐싱
+if like_set:
+    # 순회할때는 위에서 캐싱된 쿼리셋을 사용  --> 평가가 한번 이루어짐
+    for user in like_set:
+        print(user.username)
+
+
+# 만약 쿼리셋 자체가 너무 크다면?
+# iterator()
+# 데이터를 작은 덩어리로 쪼개서 가져오고, 이미 사용한 레코드는 메모리에서 지운다.
+# 전체 레코드의 일부씩만 DB에서 가져오므로 메모리를 절약
+if like_set:
+    for user in like_set.iterator():
+        pass
+
+
+# 그런데 쿼리셋이 너무 크다면 if 평가에서도 버거움
+if like_set.exists(): # exists는 캐싱되지않음 --> 만약에 아래에서 반복이 되면 안일한 최적화가 될 수 있음 - 도널드 커누스
+    for user in like_set.iterator():
+        pass
+
+
+# 데이터베이스에 쿼리를 최소한으로 보내기위해서 이러한 구조를 만듬
+# 쿼리를 보내는게 웹어플리케이션의 시간을 잡아먹음
+
+
+# 실제 쿼리셋을 만드는 작업에는 DB 작업이 포함되지 않음
+q = Entry.objects.filter(title__startswith="What")
+# filter를 걸때마다 쿼리를 날리면 너무 많이 날림 ex)filter().filter().filter()... --> filter가 많아도 상관 없음
+q = q.filter(created_at=datetime.date.today())
+q = q.exclude(context__icontains="food")
+# 위의 작업이 이루어지는 동안 DB는 아무것도 하지않는다.
+# 평가를 할 때 보냄!
+print(q)  # 이때 평가 또는 조건문 --> 실제 DB 요청은 한번만 이루어진 것!!
+
+# Iteration
+# 쿼리셋은 반복 가능하며 처음 반복할 때 데이터베이스 쿼리를 실행(평가)
+for e in Entry.objects.all():
+    pass
+# 평가 이후
+# 쿼리셋의 내장 캐시에 저장 --> 우리가 다시 순회할 때 다시 평가를 하는게 아니라 이미 평가된 내장 캐시에 있는 데이터를 씀
+# 캐시는 평가될 때 만들어짐! 평가를 한다 -> 캐싱이 됨
+
+# Bool()
+if Entry.objects.filter(title__'test'):
+    pass
+
+
+# 나쁜 예
+print([e.headline for e in Entry.objects.all()]) # 평가
+print([e.pub_date for e in Entry.objects.all()]) # 평가
+# 동일 한 쿼리를 두번 보내는 것
+
+# 좋은 예 --> 최적화에 신경을 쓴다고 하면,
+# 최적화 : 보다 적은 쿼리로 원하는 데이터를 얻는 과정!
+queryset = Entry.objects.all()  # 미리 변수화를 시켜놓음
+print([p.headline for p in queryset]) # Evaluate the query set. (평가)
+print([p.pub_date for p in queryset]) # Re-use the cache from the evaluation. (캐시에서 재사용)
+# 평가가 이루어지는 시점을 잘 알아야함!
+
+
+# 캐시 되지않는 경우 - 집약적인 인덱스에 대해서는 쿼리를 보내지 않음
+queryset = Entry.objects.all()
+print(queryset[5]) # Queries the database
+print(queryset[5]) # Queries the database again
+
+# 위의 상황을 방지하고 싶을 때 --> 애초에 전체를 평가해야함
+>>> queryset = Entry.objects.all()
+>>> [entry for entry in queryset] # Queries the database  (전체 쿼리셋을 평가 시킴)
+>>> print(queryset[5]) # Uses cache
+>>> print(queryset[5]) # Uses cache
+
+
+
+# 평가
+# 1. 쿼리를 DB로 날린다. --> 웹 어플리케이션이 느려지는 원인!
+# 2. 쿼리셋 캐시를 만든다. --> 나중에 다시 사용
+
+# 평가가 되어야 3:33분
+
+# 언제 평가가 되는가 !! (시점)
+# 1. iteration 반복될때 평가 !!
+# 2. Slicing
+# 3. Pick
+# 4. repr 객체 표현할때(print) !! 
+# 5. len()
+# 6. list()
+# 7. bool() if문일때 !!
+```
 
 <br>
 
