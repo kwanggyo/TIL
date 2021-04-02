@@ -1964,6 +1964,73 @@ print(queryset[5]) # Queries the database again
 
 <br>
 
+`04.02`
+
+## 추가 기능 구현
+
+## 소셜로그인
+
+- django allauth 검색
+  - https://django-allauth.readthedocs.io/en/latest/installation.html
+- 설치
+- django social login 검색해서 찾아보고 적용해보기
+- 어드민 - 소셜어플리케이션 - 작성해야함
+- API  요청을 보내서 받아올거임
+  - google cloud platform(gcp 가입 필요) - 프로젝트 생성
+  - 생성한 프로젝트로 들어가서 API 및 서비스 - OAuth 동의 외부 - 만들기(앱이름, 이메일)
+  - 사용자 인증 정보 - OAuth 수정
+- django allauth providers에 설명이 있음
+  - https://django-allauth.readthedocs.io/en/latest/providers.html
+- OAuth 2.0 클라이언트 ID 생성
+  - ID랑 비밀번호 저장
+
+- 승인된 리디렉션에서 http://127.0.0.1:8000/accounts/google/login/callback/ 붙임(설명에 나와있음)
+- 어드민 - 소셜 어플리케이션에 아이디 비밀번호를 넣어줌
+
+#### → 우리가 만들어놓은 django site와 google이 통신할 수 있게 해줌
+
+- templates에서 우리가 만든 기능을 templates에서 어떻게 쓸지 나와있음
+  - https://django-allauth.readthedocs.io/en/latest/templates.html
+  - Social Account Tags
+  - next 인자 : 로그인을 성공하면 어디로 보내줄지
+
+<br>
+
+## django pagination
+
+- Paginator
+
+  - https://docs.djangoproject.com/en/3.1/topics/pagination/
+
+- views.py - index - index.html
+
+  - ```python
+    articles = Article.objects.order_by('-pk')
+    paginator = Paginator(articles, 3) # Show 25 contacts per page.
+    
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    ```
+
+- 한 페이지에 몇개의 게시글이 나올지, 다음 페이지로도 갈 수 있게
+
+- django bootstrap pagination 을 통해 꾸며줄 수 있다
+
+  - 라이브러리 설치
+  - https://pypi.org/project/django-bootstrap-pagination/
+
+<br>
+
+### index에 좋아요 구현하기!
+
+```python
+- pos_url = request.POST.get('pos_url')를 사용하여 views.like에서 값을 받아왔고 if를 통한 조건을 판별하여 return redirect(pos_url) 받았던 url로 값을 돌려주었다.
+- <input type="hidden" name="pos_url" value= {{ request.path }}> html에서 input의 hidden type를 이용하여 안보이게 넘겨주었고 이때 넘겨주는 url은 `request.path`에 들어있다.
+- id 값이 아닌 name으로 넘겨주어야한다!
+```
+
+<br>
+
 # :heavy_check_mark: 백준 특강
 
 ## 디버깅
