@@ -2031,6 +2031,132 @@ print(queryset[5]) # Queries the database again
 
 <br>
 
+`04.04`
+
+## SQL 
+
+- 코드
+
+  ```python
+  -- 시작할 때 DB 이름 설정
+  -- sqlite3 db.sqlite3
+  
+  -- TABLE 생성
+  CREATE TABLE Classmates (
+    id INTEGER PRIMARY KEY,
+    name TEXT
+  );
+  
+  -- TABLE 삭제
+  DROP TABLE Classmates
+  
+  -- 다시 생성
+  CREATE TABLE classmates (
+    name TEXT,
+    age INT,
+    address TEXT
+  );
+  
+  ----------------------------------------------------------------------
+  
+  -- < 데이터 생성 INSERT >
+  
+  -- 레코드 생성
+  INSERT INTO classmates (name, age) VALUES ('이광교', 27);
+  INSERT INTO classmates (name, age, address) VALUES ('이광교', 27, '대전');
+  
+  -- 한번에 여러개 레코드 생성
+  INSERT INTO classmates VALUES ('김서울', 20, '서울'), ('이대전', 21, '대전'), ('박대구', 22, '대구'), ('홍길동', 23, '부산');
+  
+  ----------------------------------------------------------------------
+  
+  -- ALTER
+  -- 테이블 이름 바꾸기
+  ALTER TABLE classmates RENAME TO cm
+  -- 특정 테이블에 새로운 컬럼 추가
+  ALTER TABLE cm ADD COLUMN created_at TEXT
+  -- NOT NULL default 값 주기
+  ALTER TABLE cm ADD COLUMN gender TEXT NOT NULL DEFULT male;
+  
+  INSERT INTO cm VALUES ('김이박', 25, '대전', datetimm('now')); 
+  
+  ----------------------------------------------------------------------
+  
+  -- < 데이터 조회 SELECT >
+  
+  -- rowid 같이 출력하기
+  SELECT rowid, * FROM classmates;
+  
+  -- 특정한 table에서 원하는 column 개수만큼 가져오기
+  SELECT rowid, name FROM classmates LIMIT 1;
+  
+  -- OFFSET 이후에 1개를 가져옴
+  SELECT rowid, name FROM classmates LIMIT 1 OFFSET 2;
+  
+  -- 특정한 값만 가져오기
+  SELECT rowid, name FROM classmates WHERE address='대전';
+  
+  -- 오류는 뜨지 않지만 아무값도 가져오지 않음 (아무값도 없는 레코드를 가져오지않음, NONE을 적으면 오류)
+  SELECT rowid, name FROM classmates WHERE address='';
+  
+  -- 특정 column 값을 중복없이 가져오기
+  SELECT DISTINCT address FROM classmates;
+  
+  ---------------------------------------------------------------------
+  
+  -- < 데이터 삭제 DELETE >
+  
+  -- 특정 table에서 특정 레코드 삭제
+  DELETE FROM classmates WHERE rowid=1;
+  -- 삭제 후 rowid=1을 가져오면 오류는 뜨지 않지만 아무 값도 가져오지 않음
+  
+  ----------------------------------------------------------------------
+  
+  -- < 데이터 수정 UPDATE >
+  UPDATE classmates SET name='홍길동', address='제주도' WHERE rowid=7;
+  
+  ----------------------------------------------------------------------
+  
+  -- 조건에 따라 불러오기
+  SELECT * FROM users_user WHERE id>=980;
+  SELECT first_name FROM users_user WHERE age>=40;
+  SELECT id, age FROM users_user WHERE age>=30 and last_name='김';
+  
+  -- 레코드의 개수
+  SELECT COUNT(*) FROM users_user;
+  SELECT COUNT(age) FROM users_user WHERE age>=40;
+  
+  -- AVG, SUM, MIN, MAX > 숫자일 때만 가능
+  SELECT AVG(age) FROM users_user;
+  SELECT AVG(age) FROM users_user WHERE age>=40;
+  SELECT AVG(balance) FROM users_user WHERE age>=40;
+  SELECT first_name, MAX(balance) FROM users_user;
+  
+  -- LIKE(_, %)
+  -- Users 에서 20대 이상인 사람 구하기
+  SELECT * FROM users_user WHERE age LIKE '2_';
+  -- Users 에서 2로 끝나는 나이인 사람 구하기
+  SELECT * FROM users_user WHERE age LIKE '%2';
+  -- 지역번호가 02인 사람만, 준으로 끝나는 사람, 중간번호가 5114
+  SELECT * FROM users_user WHERE phone LIKE '02-%';
+  SELECT * FROM users_user WHERE first_name LIKE '%준';
+  SELECT * FROM users_user WHERE phone LIKE '%-5114-%';
+  
+  -- 정렬(ORDER BY) : 오름차순 / 내림차순 (ASC(defalut) / DESC)
+  -- user에서 나이순으로 오름차순 정렬하여 상위 10개만 뽑기
+  SELECT * FROM users_user ORDER BY age ASC LIMIT 10;
+  -- user에서 나이순, 성 순으로 오름차순 정렬하여 상위 10개만 뽑기(id순이 아님) --> 나이로 먼저 뽑은 후에 성 순으로 정렬하는 것!
+  SELECT * FROM users_user ORDER BY age, last_name LIMIT 10;
+  -- 계좌잔액순으로 내림차순 정령하여 해당하는 사람의 성과 이름을 10개 뽑기
+  SELECT last_name, first_name FROM users_user ORDER BY balance DESC LIMIT 10;
+  
+  -- GROUP BY : 지정된 기준에 따라 행 세트를 그룹으로 결합
+  -- 각 성씨가 몇명씩 있는지 조회
+  SELECT last_name, COUNT(*) AS name_count FROM users_user GROUP BY last_name;
+  ```
+
+<br>
+
 # :heavy_check_mark: 백준 특강
 
 ## 디버깅
