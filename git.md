@@ -8,7 +8,7 @@
 
    TIL 안에 new 폴더를 만들어도 git이 관리함(하위폴더이기때문)
 
-   mater 가 뒤에 있으면 init 하지말기
+   **mater 가 뒤에 있으면 init 하지말기**
 
    혹시 했으면 그 폴더안의 .git 삭제하기
 
@@ -47,6 +47,8 @@
   ```shell
   $ git log --oneline(옵션)
   ```
+
+<br>
 
 ## 원격(remote) 저장소
 
@@ -111,5 +113,22 @@ $pwd
 
 users/다음에 띄어쓰기나 한글 있으면 안됨
 
+<br>
 
+## 과제 제출할 때
 
+```python
+git init(초기 한번만, 이미 master가 떠있는지 아닌지 확인)
+git remote add origin 주소
+git add .
+git commit -m '메세지'
+git push origin master
+```
+
+<br>
+
+## 협업할 때
+
+1. git clone A
+2. git remote add myorigin B
+3. git push myorigin master
