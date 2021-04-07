@@ -75,7 +75,7 @@
 
 > - 정확한 명제식으로 표현할 수 있는 것이어야 함
 > - 보통은 정확한 명제식까지 쓰지는 않으나 근본적으로 명제식으로 바꿀 수 있음
-> - 증명에 대한 수많은 오해가 p → q를 p↔ q와 혼동하는 것에서 일어남
+> - 증명에 대한 수많은 오해가 p → q를 p ↔ q와 혼동하는 것에서 일어남
 >
 > #### Trivial Proof
 >
@@ -152,13 +152,13 @@
 
 > - nCr
 >
->   ![조합](Computing Thinking.assets/조합.jpg)
+>   ![조합](Computing_Thinking.assets/조합.jpg)
 
 ### 예시 문제
 
 > - 예시
 >
->   ![조합_4](Computing Thinking.assets/조합_4.jpg)
+>   ![조합_4](Computing_Thinking.assets/조합_4.jpg)
 
 <br>
 
@@ -170,19 +170,19 @@
 
 > - ex. 1
 >
->   ![기초수식_1](Computing Thinking.assets/기초수식_1.jpg)
+>   ![기초수식_1](Computing_Thinking.assets/기초수식_1.jpg)
 >
 > - ex. 2
 >
->   ![기초수식_3](Computing Thinking.assets/기초수식_3.jpg)
+>   ![기초수식_3](Computing_Thinking.assets/기초수식_3.jpg)
 >
 > - ex. 3
 >
->   ![기초수식_5](Computing Thinking.assets/기초수식_5.jpg)
+>   ![기초수식_5](Computing_Thinking.assets/기초수식_5.jpg)
 >
 > - ex. 4
 >
->   ![기초수식_7](Computing Thinking.assets/기초수식_7.jpg)
+>   ![기초수식_7](Computing_Thinking.assets/기초수식_7.jpg)
 
 <br>
 
@@ -201,7 +201,7 @@
 
 > - ex. 1 → n = k-1이 들어가는 것이 맞는듯..?
 >
->   ![재귀](Computing Thinking.assets/재귀.jpg)
+>   ![재귀](Computing_Thinking.assets/재귀.jpg)
 
 <br>
 
