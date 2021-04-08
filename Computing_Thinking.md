@@ -1,5 +1,7 @@
 # Computing Thinking
 
+`04.07`
+
 ## 명제
 
 - 참이나 거짓을 알 수 있는 식이나 선언적 문장
@@ -222,3 +224,99 @@
 
 - 알고리즘 A → 시간함수 → f(n)
 - A의 최악의 시간복잡도 : O(n^2)라고 하면 f(n) ∈ O(n^2)
+
+<br>
+
+`04.08`
+
+## 병합 정렬(Merge Sort)
+
+- 여러 개의 정렬된 자료의 집합을 병합하여 한 개의 정렬된 집합으로 만드는 방식
+
+  - 두 개를 합쳐서 하나로 만듦
+  - n/2
+
+- 분할 정복 알고리즘 활용
+
+  - 자료를 최소 단위의 문제까지 나눈 후에 차례대로 정렬하여 최종 결과를 얻어냄
+  - top-down 방식
+
+- 시간 복잡도 : O(nlogn)
+
+- 2개의 부분 집합을 정렬하면서 하나의 집합으로 병함
+
+  - n개의 부분 집합이 1개로 병합될 때까지 반복함
+
+- Python 스타일
+
+  ```python
+  def mergeSort(lst):
+      if len(lst) <= 1: return lst  # 길이가 1이면 더이상 분할해 줄 필요가 없음
+  
+      # 분할 하기
+      mid = len(lst) // 2
+      l = mergeSort(lst[:mid])
+      r = mergeSort(lst[mid:])  # 이렇게 하면 안좋지만 개념을 이해하려고 씀
+  
+      # 병합 하기
+      result = []  # 하나씩 비교해서 작은 것을 집어 넣을거임!
+      while len(l) and len(r):
+          if l[0] < r[0]:
+              result.append(l.pop(0))
+          else:
+              result.append(r.pop(0))
+  
+      if len(l): result.extend(l)
+      else: result.extend(r)
+  
+      return result
+  
+  
+  
+  arr = [69, 10, 30, 2, 16, 8, 31, 22]
+  
+  sorted_lst = mergeSort(arr)
+  print(sorted_lst)
+  ```
+
+- C 스타일
+
+  ```python
+  arr = [69, 10, 30, 2, 16, 8, 31, 22]
+  tmp = [0] * len(arr) # 원본 크기와 같은 공간을 만듬
+  
+  def mergeSort(s, e):
+      if s == e: return  # 범위에 해당하는 자료가 한개밖에 없을 때
+  
+      # 분할 하기
+      mid = (s + e) // 2
+      mergeSort(s, mid)
+      mergeSort(mid + 1, e)  # 이렇게 하면 안좋지만 개념을 이해하려고 씀
+  
+      # 병합 하기
+      i, j, k = s, mid + 1, s  # 임시변수를 설정 / s, e 값이 하는 도중에 변하면 안되니까 / k는 tmp의 인덱스 변수
+  
+      while i <= mid and j <= e:
+          if arr[i] < arr[j]:
+              tmp[k] = arr[i]
+              i, k = i + 1, k + 1
+          else:
+              tmp[k] = arr[j]
+              j, k = j + 1, k + 1
+  
+      while i <= mid:
+          tmp[k] = arr[i]
+          i, k = i + 1, k + 1
+      while j <= e:
+          tmp[k] = arr[i]
+          j, k = j + 1, k + 1
+  
+      for i in range(s, e + 1):
+          arr[i] = tmp[i]
+          # 지금은 전역변수로 잡았는데 원래는 내부에서 만들어서 사용 / C언어 같은 경우는 배열도 같이 함수로 넘겨주고 마지막에 정렬된 배열을 돌려줌
+  
+  
+  mergeSort(0, len(arr) - 1)
+  print(arr)
+  ```
+
