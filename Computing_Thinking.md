@@ -247,6 +247,10 @@
 
   - n개의 부분 집합이 1개로 병합될 때까지 반복함
 
+- 예시 문제
+
+  ![4_8](Computing_Thinking.assets/4_8.jpg)
+
 - Python 스타일
 
   ```python
