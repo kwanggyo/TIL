@@ -559,3 +559,309 @@
 >     - 주소창에 치면 80port로 전송됨(default)
 >     - 주소창 뒤에 :80
 
+<br>
+
+# `04.14`
+
+## 반복
+
+### 반복 구조
+
+> - 초기화
+>   - 반복되는 명령문을 실행하기 전에 (한번만) 조건 검사에 사용할 변수의 초기값 설정
+> - 조건검사
+> - 반복할 명령문 실행
+> - 업데이트
+>   - 무한루프가 되지 않게 조건이 거짓이 되게 한다.
+
+### 반복을 이용한 선택 정렬
+
+> - ```python
+>   def selectionSort(A):
+>   	n = len(A)
+>   	for i in range(0, n-1):
+>   		min = i
+>   		for j in range(i + 1, n):
+>   			if A[j] < A[min]
+>   				min = j
+>   		A[min], A[i] = A[i], A[min]
+>   ```
+
+<br>
+
+## 재귀
+
+### 재귀적 알고리즘
+
+> - 하나 또는 그 이상의 기본 경우(base case)
+>   - 집합에 포함되어 있는 원소로 induction을 생성하기 위한 시드(seed)역할
+> - 하나 또는 그 이상의 유도된 경우(inductive case)
+>   - 새로운 집합의 원소를 생성하기 위해 결합 되어지는 방법
+
+### 재귀 함수(Recursive function)
+
+> - 함수 내부에서 직접 혹은 간접적으로 자기 자신을 호출하는 함수
+> - 일반적으로 재귀적 정의를 이용해서 구현하고 기본 부분과 유도 파트로 구성된다.
+> - 재귀로 작성한느 것은 반복 구조에 비해 간결하고 이해하기 쉽다.
+> - 함수 호출은 프로그램 메모리 구조에서 스택을 사용한다. 따라서 재귀호출은 반복적인 스택의 사용을 의미하며 메모리 및 속도에서 성능저하가 발생한다.
+> - 스택 안에 다음 재귀의 정보 뿐만 아니라 끝나고 어디로 돌아갈지 등 생각보다 많은 정보를 저장하기 때문에 스택이 부족한 경우가 나타날 수 있다.
+
+<br>
+
+## 반복 vs 재귀
+
+- 해결할 문제를 고려하여 선택
+- 재귀는 문제 해결을 위한 알고리즘 설계가 간단하고 자연스럽다.
+  - 추상 자료형(list, tree 등)의 알고리즘은 재귀적 구현이 간단하고 자연스러운 경우가 많다.
+- 일반적으로, 재귀적 알고리즘은 반복(Iterative) 알고리즘보다 더 많은 메모리와 연산을 필요로 한다.
+- 입력 값 n이 커질수록 재귀 알고리즘은 반복에 비해 비효율적일 수 있다.
+
+- ```python
+  # 반복에 비해 비효율적일 수 있지만 아래 예제와 같이 알고리즘을 이용하여 시간복잡도를 줄일 수 있다.
+  
+  # 반복문을 이용한 선형시간 O(n)
+  
+  def Iterative_Power(x, n):
+      result = 1
+  
+      for i in range(1, n + 1):
+          result *= x
+  
+      return result
+  
+  # 분할 정복을 이용한 거듭제곱 O(LogN)
+  
+  def Recursive_Power(x, n):
+      if n == 1: return x
+      if n % 2 == 0:
+          y = Recursive_Power(x, n // 2)
+          return y * y
+      else:
+          y = Recursive_Power(x, (n - 1) //2 )
+          return  y * y * x
+  ```
+
+### 반복
+
+> - ```python
+>   for i in range(k):
+>   	B[i] = A[i]
+>   
+>   # 시간 복잡도
+>   O(n)
+>   ```
+
+### 재귀
+
+> - ```python
+>   f(i, k)   # i : 복사할 자리, k : 크기
+>   if i = k:
+>   	print(B)
+>   else:
+>   	B[i] = A[i]
+>   	f(i+1, k)
+>   
+>   # 시간 복잡도
+>   T(n) = T(n-1) + 1
+>   -> O(n)
+>   ```
+>
+> - 짧은 함수는 함수 처리하는 시간보다 호출/복귀 시간이 더 걸릴 수 있다.
+>
+>   - → 똑같은 O(n)이더라도 재귀가 더 걸릴 수 있다.
+
+<br>
+
+## 완전 검색
+
+- 모든 경우의 수를 생성하고 테스트하기 때문에 수행 속도는 느리지만, 해답을 찾아내지 못할 확률이 작다.
+- 이를 기반으로 그리디 기법이나 동적 계획법을 이용해서 효율적인 알고리즘을 찾을 수 있다.
+- 많은 종류의 문제들이 특정 조건을 만족하는 경우나 요소를 찾는 것이다.
+- 전형적으로 순열(permutation), 조합(combination), 부분집합(subsets)과 같은 조합적 문제들과 연관된다. ( 조합적 문제에 대한 brute-force 방법)
+
+### Brute-force(고지식한 방법)
+
+> - 문제를 해결하기 위한 간단하고 쉬운 접근법
+> - 대부분의 문제에 적용 가능
+> - 상대적으로 빠른 시간에 문제해결(알고리즘 설계)을 할 수 있다.
+> - 문제에 포함된 자료(요소, 인스턴스)의 크기가 작다면 유용하다.
+> - 알고리즘의 효율성을 판단하기 위한 척도로 사용
+
+<br>
+
+## 순열
+
+### 순열 계산
+
+> - ```python
+>   N = 4
+>   cnt = 0
+>   
+>   def perm(idx):
+>       global cnt
+>       if idx == N:
+>           cnt += 1
+>       else:
+>           for i in range(N - idx):
+>               perm(idx + 1)
+>   
+>   perm(0)
+>   print(cnt)
+>   ```
+
+### for
+
+> - ```python
+>   P = ['A', 'B', 'C', 'D']
+>   N = len(P)
+>   ans = [0] * N
+>   
+>   for i in range(N):
+>       ans[0] = (P[i])
+>   
+>       for j in range(N):
+>           if j == i: continue
+>           ans[1] = (P[j])
+>   
+>           for k in range(N):
+>               if k == i or k == j: continue
+>               ans[2] = (P[k])
+>   
+>               for l in range(N):
+>                   if l == i or l == j or l == k: continue
+>                   ans[3] = (P[l])
+>   
+>                   print(*ans)
+>   
+>       #             ans[3] =''
+>       #         ans[2] = ''
+>       #     ans[1] = ''
+>       # ans[0] = ''
+>   ```
+
+### 재귀 - for
+
+> - ```python
+>   P = ['A', 'B', 'C', 'D']
+>   N = len(P)
+>   ans = [0] * N
+>   check = [0] * N
+>   
+>   def perm(idx):
+>       if idx == N:
+>           print(*ans)
+>       else:
+>           for i in range(N):
+>               if check[i] == 0:   # 해당 원소가 사용됐는지 체크
+>                   ans[idx] = P[i]
+>                   check[i] = 1    # 사용했는지 표시
+>                   perm(idx+1)
+>                   check[i] = 0    # 다음 반복을 위한 원상복구
+>   
+>   perm(0)
+>   ```
+
+### 재귀 - 비트
+
+> - ```python
+>   P = ['A', 'B', 'C']
+>   N = len(P)
+>   ans = [0] * N
+>   
+>   def perm(idx, check):
+>       if idx == N:
+>           print(*ans)
+>   
+>       for j in range(N):
+>           if check & (1 << j): continue
+>   
+>           ans[idx] = P[j]
+>           perm(idx+1, check | (1 << j))
+>   
+>   perm(0, 0)
+>   ```
+
+### 재귀 - 스왑
+
+> - ```python
+>   P = ['A', 'B', 'C']
+>   N = len(P)
+>   
+>   def perm(idx):
+>       if idx == N:
+>           print(*P)
+>       else:
+>           for i in range(idx, N):
+>               P[idx], P[i] = P[i], P[idx]
+>               perm(idx + 1)
+>               P[idx], P[i] = P[i], P[idx]
+>   
+>   perm(0)
+>   ```
+
+<br>
+
+## 부분집합
+
+### for
+
+> - ```python
+>   arr = ['A', 'B', 'C']
+>   N = len(arr)
+>   bits = [0] * N
+>   
+>   for i in range(2):
+>       bits[0] = i
+>   
+>       for j in range(2):
+>           bits[1] = j
+>   
+>           for k in range(2):
+>               bits[2] = k
+>   
+>               print(bits)
+>   ```
+
+### 재귀 - for
+
+> - ```python
+>   arr = ['A', 'B', 'C']
+>   N = len(arr)
+>   bits = [0] * N
+>   
+>   def powerset(idx):
+>       if idx == N:
+>           print(bits, ":", end=' ')
+>           for j in range(N):
+>               if bits[j] == 1:
+>                   print(arr[j], end=' ')
+>           print()
+>       else:
+>           for i in range(2):
+>               bits[idx] = i
+>               powerset(idx+1)
+>   
+>   powerset(0)
+>   ```
+>
+> - ```python
+>   arr = ['A', 'B', 'C']
+>   N = len(arr)
+>   bits = [0] * N
+>   
+>   def powerset(idx):
+>       if idx == N:
+>           print(bits, ":", end=' ')
+>           for j in range(N):
+>               if bits[j] == 1:
+>                   print(arr[j], end=' ')
+>           print()
+>           return 
+>   
+>       bits[idx] = 1
+>       powerset(idx + 1)
+>       bits[idx] = 0
+>       powerset(idx + 1)
+>   
+>   powerset(0)
+>   ```
