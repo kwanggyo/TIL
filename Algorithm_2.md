@@ -612,6 +612,7 @@
 
 - 해결할 문제를 고려하여 선택
 - 재귀는 문제 해결을 위한 알고리즘 설계가 간단하고 자연스럽다.
+  
   - 추상 자료형(list, tree 등)의 알고리즘은 재귀적 구현이 간단하고 자연스러운 경우가 많다.
 - 일반적으로, 재귀적 알고리즘은 반복(Iterative) 알고리즘보다 더 많은 메모리와 연산을 필요로 한다.
 - 입력 값 n이 커질수록 재귀 알고리즘은 반복에 비해 비효율적일 수 있다.
@@ -865,3 +866,45 @@
 >   
 >   powerset(0)
 >   ```
+
+<br>
+
+## 조합
+
+### for
+
+> - 특정 상황에서만 가능하다 !
+>
+>   - 골라야하는 개수가 변하지 않는 경우는 for문으로 가능 (nCr에서 r이 변하는 상황이 아닌 경우 !)
+>   - But tc마다 구해야되는 개수가 변할 수 있으면 불가능
+>
+> - ```python
+>   arr = ['A', 'B', 'C', 'D', 'E']
+>   n = len(arr)
+>   r = 3
+>   
+>   for i in range(0, n-3 +1):
+>       for j in range(i+1, n-2 +1):
+>           for k in range(j+1, n-1 +1):
+>               print('인덱스:', i, j, k)
+>   ```
+
+### 재귀
+
+> - ```python
+>   arr = ['A', 'B', 'C', 'D', 'E']
+>   n = len(arr)
+>   r = 3
+>   
+>   def combination(i, j, n, r):    # i : C에 사용되는 인덱스, j : 선택구간의 시작
+>       if i == r:
+>           print(ans)
+>       else:
+>           for k in range(j, n-r +i + 1):
+>               ans[i] = arr[k]
+>               combination(i+1, k+1, n, r)
+>   
+>   ans = [0] * r
+>   combination(0, 0, n, r)
+>   ```
+
