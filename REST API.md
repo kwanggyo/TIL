@@ -225,3 +225,183 @@
 >
 >   - https://docs.djangoproject.com/en/3.2/topics/serialization/
 >   - https://www.django-rest-framework.org/tutorial/2-requests-and-responses/
+
+<br>
+
+<br>
+
+# `04.27`
+
+## :memo: Django 순서
+
+> 1. python -m venv venv : 가상환경 설치
+>
+> 2. source venv/Scripts/activate : 가상환경 활성화
+>
+> 3. pip install django : 장고 설치
+>
+> 4. django-admin —version : 3.2가 뜨는데 상관없음(최근에 3.1에서 3.2로 바뀜)
+>
+> 5. django-admin startproject api . : 현재 폴더에 프로젝트 생성
+>
+> 6. pip install django-seed djangorestframework django-extensions ipython 
+>
+>    : extensions, ipython은 shell plus를 쓰기 위한 것
+>
+>    - shell plus : 라인을 한줄씩 접근해서 데이터를 뽑아내기 좋은 인터페이스
+>
+> 7. settings.py의 INSTALLED_APPS에 'django_seed', 'django_extensions', 'rest_framwork', 추가
+>
+> 8. python manage.py startapp articles : 앱 생성, 후 등록
+>
+> 9. urls.py → models.py → serializers.py
+>
+> 10. makemigrations, migrate : model을 생성하면 해준다 !
+>
+> 11. python manage.py seed articles --number=20
+>
+>     : articles - model의 database에 랜덤한 20개의 값을 넣어줌
+>
+>     - makemigrations, migrate 이후에 해야한다!
+>
+>     - python manage.py shell_plus ------------------------------- 여기부터는 shell을 이용해서 값을 확인
+>
+>       1. Article.objects.all() : 20개가 출력되는지 확인
+>
+>          : 여기서는 serializer를 확인해볼거임
+>
+>       2. from articles.serializers import ArticleSerializer
+>
+>       3. serializer = ArticleSerializer()
+>
+>       4. serializer : 어떻게 생겼는지 나옴
+>
+>          read_only=True : 수정할 수 있는 타입이 아니다.
+>
+>       5. article = Article.objects.get(pk=1)
+>
+>       6. article
+>
+>       7. serializer = ArticleSerializer(article)
+>
+>       8. serializer
+>
+>       9. serializer.data
+>
+>          {'id': 1, 'title': 'Ask create manager create follow model such.'}
+>
+>          : 모델인스턴스인 article이 dict형태로 변환되었다는 것을 보기 위해서 진행한 것
+>
+>       10. type(serializer.data)
+>
+>           rest_framework.utils.serializer_helpers.ReturnDict
+>
+>           : dict은 아님
+>
+>       11. serializer.data.get('id')
+>
+>           1
+
+<br>
+
+## :heavy_check_mark: 참고
+
+> - API서버가 RESTful하다는 것은 이사람이 만든 서버를 다른 사람도 잘 이해할 수 있다.
+>
+> - 가이드일 뿐 무조건 지켜야하는 것은 아니고 적당히 알아볼 수 있게(규약) 만들면 된다.
+>
+>   - ex) url은 자원만을 나타내고 동작은 포함하지 않는다.
+>
+> - crud에 해당하는 동작을 get, post, put, delete를 통해 구현한다.
+>
+> - serializer 역할
+>
+>   - model instance를 우리가 사용하기 좋게끔 바꿔준다.
+>   - 유효성 검사를 해준다.
+>   - 사용시 url은 건들지 않고 방법만 바꿔준다.
+>
+> - Djaongo를 통해서 값을 넣어줄 때(Django DRF Form)
+>
+>   ```python
+>   {
+>       "title": "hello world",
+>       "content": "good bye"
+>   }
+>   ```
+>
+>   - 큰 따옴표, 반점 주의 ! 이렇게 쓰지 않으면 에러 발생
+>
+> - PUT과 PATCH 차이
+>
+>   - PUT : 수정을 하더라도 기존의 내용을 똑같이 입력해서 보내줘야한다.
+>     - ex) PUT(title, content)
+>   - PATCH : title만 보내줘도 나머지값은 알아서 이전값을 사용한다.
+>
+> - Django / 에 관하여..
+>
+>   - 장고에서 /가 포함되지않는 데이터를 받게되면 /를 붙여서 redirect를 한다. → GET 방식 
+>   - 즉, DELETE에서 /를 안붙이고 하면 /를 붙여서 보내는데 GET방식이기 때문에 동작하지 않는다
+>
+> - Serializer class 부분
+>
+>   - commentSerializer에서 article, content 두가지 모두 다 받으면 둘다 검사를 한다.
+>
+>     - 에러가 발생할 수 있기 때문에 serializers.py 에서 read_only 옵션을 통해 해결 !
+>     - ex) article_title = serializers.CharField(source='article.title', read_only=True)
+>
+>   - serializer 클래스에서 만든 필드는 read_only_fields(Meta부분)에는 못넣는다 !
+>
+>     Meta 위에서 넣어야한다 !
+
+<br>
+
+### Postman
+
+> - 다운 : https://www.postman.com/downloads/
+> - 사용법
+>   - 회원, 비회원 둘 다 사용 가능
+>   - Workspace - MyWorkspace
+>   - request를 생성해서 url을 넣어주고 원하는 방식을 설정
+>     - ex) http://127.0.0.1:8000/api/v1/articles/
+>   - Body의 form-data에서 값 입력
+>   - send를 통해서 결과를 확인
+>   - body - raw - text를 json으로 바꾸고 텍스트로 써도 된다. {"text" ...
+
+<br>
+
+### Swagger → 이런게 있다 정도,,
+
+> #### mtv - 최종결과 : 화면 → 일반 사용자를 타겟
+>
+> > UI에서 사용법이 어느정도 드러남
+>
+> #### json 데이터 - api 서버 : 프로그램을 위한 데이터를 제공
+>
+> >  json데이터는 어떻게 쓰는 부분인지 명시해 놓아야 쓸 수 있다.
+> >
+> > ex) 서버에서 article을 조회하려면? comment를 조회하려면?
+> >
+> > ​	api/v1/comments/GET 우리는 개발자니까 알고 있지만 사람들은 모르기 때문에 알려줘야한다.
+> >
+> > 이런걸 정의해 놓은 것을 api 문서(Documents)라고 한다.
+> >
+> > → 우리가 서버를 만들면 이러한 문서를 만들 필요가 있다
+> >
+> > 직접 다 만들 수 있지만 우리 서버를 통해서 만들어 주는 녀석이 있음 → Swagger
+> >
+> > pip install drf-yasg 설치 후 INSTALLED_APPS에 'drf_yasg'
+> >
+> > app 밑에 있는 urls.py에 작성할거임
+> >
+> > 지금 만드는 것은 어렵다.. 이런게 있구나정도?
+
+### 댓글 추가할 때
+
+> #### CREATE 하는 방법 2가지
+>
+> 1. articles/4/comments
+> 2. comments / POST
+
+<br>
+
+<br>
