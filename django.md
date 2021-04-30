@@ -2157,6 +2157,30 @@ print(queryset[5]) # Queries the database again
 
 <br>
 
+<hr>
+
+`04.30`
+
+# CBV(class-based views)
+
+https://docs.djangoproject.com/en/3.2/topics/class-based-views/
+
+view - function 단위로 만들었던 것을 class로 만드는 것
+
+- [Introduction to class-based views](https://docs.djangoproject.com/en/3.2/topics/class-based-views/intro/)
+- [Built-in class-based generic views](https://docs.djangoproject.com/en/3.2/topics/class-based-views/generic-display/)
+- [Form handling with class-based views](https://docs.djangoproject.com/en/3.2/topics/class-based-views/generic-editing/)
+- [Using mixins with class-based views](https://docs.djangoproject.com/en/3.2/topics/class-based-views/mixins/)
+
+## 참고
+
+> - FBV와 CBV 중에 뭐가 더 좋은지는 말할 수 없다.
+>   - 상황에 따라 다르기 때문에
+>   - CBV는 오버라이딩 부분을 써야하기 때문에 세부적으로 동작하는 코드가 많으면 FBV가 좋다.
+>   - 저장되어 있는 데이터를 보여주는 기능(기본 CRUD)만 빠르게 만들거면 CBV !
+
+<br>
+
 # :heavy_check_mark: 백준 특강
 
 ## 디버깅
