@@ -19,6 +19,62 @@
 
 <br>
 
+## History of JavaScript
+
+### 핵심 인물
+
+> 1. 팀 버너스리(Sir Tim Berners-Lee)
+>    - WWW, URL, HTTP, HTML 최초 설계자
+>    - 웹의 아버지
+> 2. 브랜던 아이크(Brendan Eich)
+>    - JavaScript 최초 설계자
+>    - 모질라 재단 공동 설립자
+>    - 코드네임 피닉스 프로젝트 진행
+>      - 파이어폭스의 전신
+
+### 간단 정리
+
+> - 브라우저 전쟁 → 파편화 & 표준화 투쟁
+>
+> - 구글 크롬 승리 → 압도적인 속도와 웹 표준을 가장 잘 지켰음!
+>
+> - 브라우저 전쟁의 여파
+>
+>   - Cross Browsing Issue
+>   - 표준화(통합)을 위한 노력
+>   - Vanilla JavaScript
+>
+> - 공식명칭은 ES2015지만 ES6라고 부름
+>
+> - ES6+는 ES2015 이후를 말함
+>
+> - 2009 → 2015 에서 가장 큰 대격변이 일어남(ES5 → ES6)
+>
+> - +
+>
+>   ```
+>   두번의 브라우저 전쟁
+>   
+>   브라우저 전쟁으로 파편화가 되었고 
+>   
+>   그 여파로 크로스 브라우징 이슈(cross Browsing Issue) 발생
+>   
+>   파편화 투쟁 그 중심에는 모질라와 크롬이 있었다.
+>   
+>   크로스 브라우징
+>   
+>   - W3C에서 채택된 표준 웹 기술을 채택해 서로 다른 브라우저에서 다르게 구현되는 기술을 비슷하게 만들며 웹 페이지를 제작하는 방법론(동등성)
+>   - 브라우저마다 렌더링에 사용하는 엔진이 다르기 때문에
+>   
+>   Vanilla JavaScript, jQuery 등 많은 라이브러리 등장
+>   
+>   - 순수한 언어 그 자체 : Vanila, 순수한 자바스크립트 그 자체로 사용
+>   ```
+
+<br>
+
+## DOM vs BOM
+
 ### DOM
 
 > - 문서(HTML) 조작
@@ -64,9 +120,9 @@ HTML, XML 등과 같은 문서를 다루기 위한 언어 독립적인 문서 �
 >   1. 선택(select)
 >   2. 변경(manipulation)
 
+<br>
 
-
-# BOM
+## BOM
 
 - Browser Object Model
 
@@ -94,13 +150,205 @@ HTML, XML 등과 같은 문서를 다루기 위한 언어 독립적인 문서 �
   window.document
   ```
 
-  
 
-<hr>
+<br>
 
-# 주말에 추가 정리 예정
+## DOM 선택 - 선택 관련 메서드
 
+- DOM 조작은 선택 후 조작 !!
+- 연습 사이트 : https://flukeout.github.io/
+- 선택자를 통해 태그를 설정하고 우클릭 copy selector로 원하는 부분의 태그를 알 수도 있다.
 
+### Document.querySelector()
+
+> - () 안에 인자가 들어갈 건데 제공한 선택자(div)와 일치하는 `element 하나 선택`
+> - 제공한 CSS selector를 만족하는 `첫번째 element 객체`를 반환(없다면 null)
+
+### Document.querySelectorAll()
+
+> - 제공한 선택자와 일치하는 `여러 element를 선택`
+> - 매칭할 하나 이상의 셀렉터를 포함하는 유효한 CSS selector를 인자(문자열)로 받음
+> - 지정된 셀렉터에 일치하는 NodeList를 반환
+>
+> - 
+>
+> - getElementById(), getElementByTagName(), getElementByClassName()은 각각에 해당하는 것만 사용 가능 → querySelector(), querySelectorAll()을 사용하는 이유
+> - id, class 그리고 tag 선택자 등을 모두 사용하기 때문에 더 구체적이고 유연하게 선택 가능
+
+<br>
+
+## DOM 선택 - 메서드별 반환 타입
+
+### 단일 element
+
+> - getElementById()
+> - querySelector()
+
+### HTMLCollection(live collection)
+
+> - getElementByTagName()
+> - getElementByClassName()
+
+### NodeList(static collection)
+
+> - querySelectorAll()
+
+### HTMLCollection & NodeList
+
+> - 쿼리딕트, 오더딕트 → 배열과 유사하게 사용 : 유사 배열
+> - 둘 다 배열과 같이 각 항목을 접근하기 위한 인덱스를 제공(유사 배열)
+> - 둘 다 `Live Collection`으로 DOM의 변경사항을 실시간으로 반영하지만, querySelectorAll()의 의해 반환되는 NodeList는 Static Collection
+>
+> #### HTML Collection
+>
+> - name, id, 인덱스 속성으로 각 항목들에 접근 가능
+>
+> #### NodeList
+>
+> - 인덱스 번호로만 각 항목들에 접근 가능
+> - 단, HTMLCollection과 달리 배열에서 사용하는 for each 함수 및 다양한 메서드 사용가능
+
+### Collection
+
+> #### Live Collection
+>
+> - 문서가 바뀔 때 실시간으로 업데이트
+> - DOM의 변경사항을 실시간으로 collection에 반영
+> - ex) HTMLCollection, NodeList
+>
+> #### Static Collection
+>
+> - DOM이 변경되어도 collection 내용에는 영향을 주지 않음
+> - querySelectorAll()의 반환 NodeList만 static
+
+<br>
+
+## DOM - 변경 관련 메서드
+
+### Document.createElement()
+
+> - 주어진 태그명을 사용해 HTML 요소를 만들어 반환
+
+### ParentNode.append()
+
+> - 특정 부모 노드의 자식 노드 리스트 중 마지막 자식 다음에 Node객체나 DOMString을 삽입(반환값 없음)
+> - 여러개의 Node 객체, DOMString을 추가 할 수 있음
+
+### Node.appendChild()
+
+> - 한 노드를 특정 부모 노드의 자식 노드 리스트 중 마지막 자식으로 삽입(Node만 추가 가능)
+> - 만약 주어진 노드가 이미 문서에 존재하는 다른 노드를 참조한다면 새로운 위치로 이동
+
+### ChildNode.remove()
+
+> - 이를 포함하는 트리로부터 특정 객체를 제거
+
+### Node.removeChild()
+
+> - DOM에서 자식 노드를 제거하고 제거 된 노드를 반환
+> - Node는 인자로 들어가는 자식 노드의 부모 노드
+
+<br>
+
+## DOM 변경 - 변경 관련 속성(property) - 괄호 없음
+
+### Node.innerText
+
+> - 노드와 그 자손의 텍스트 컨텐츠(DOMString : 문자열로 생각)를 표현(해당 요소 내부의 raw text) (사람이 읽을 수 있는 요소만 남김)
+> - 즉, 줄 바꿈을 인식하고 숨겨진 내용을 무시하는 등 최종적으로 스타일링이 적용된 모습으로 표현
+> - `<h1>Hi</h1>` 에서 Hi를 의미
+
+### Element.innerHTML
+
+> - 요소(element) 내에 포함된 HTML 마크업을 반환
+> - XSS 공격에 취약점이 있으므로 사용시 주의
+
+### XSS
+
+> - 공격자가 웹 사이트 클라이언트 측 코드에 악성 스크립트를 삽입해 공격하는 방법
+> - 이 코드의 실행은 피해자가 하며 공격자가 엑세스 제어를 우회하고 사용자를 가장할 수 있도록 함(csrf 공격과 유사)
+> - ex)
+>   - 게시판이나 메일 등 악성 자바스크립트 코드를 삽입해 개발자가 고려하지 않은 기능이나 공격이 작동
+>   - 공격에 성공하면 사용자의 쿠키나 세션 등 민감한 정보를 탈취
+
+<br>
+
+## 변경 관련 메서드
+
+### Element.setAttribute(name, value)
+
+> - 지정된 요소의 값을 설정
+> - 속성이 이미 존재하면 값을 업데이트, 그렇지 않으면 지정된 이름과 값으로 새 속성 추가
+> - <h1_____  > ~~~ </h1> : _____이 부분을 넣어준다.
+
+### Element.getAttribute()
+
+> - 해당 요소의 지정된 값(문자열)을 반환
+> - 인자는 값을 얻고자 하는 속성의 이름
+
+<br>
+
+# Event
+
+- 네트워크 활동 혹은 사용자와의 상호작용 같은 사건(특정한 사건)의 발생을 알리기 위한 객체
+- 이벤트는 마우스를 클릭하거나 키보드를 누르는 등 사용자 행동에 의해 발생할 수도 있고, 특정 메서드를 호출하여 프로그래밍적으로도 만들어낼 수 있음
+- ex) ~ 하면 ... 한다 → ~ : Event
+  - 클릭하면 경고 창을 띄운다.
+  - 이벤트가 발생하면 할 일을 등록한다.
+- 이벤트 처리기(Event-handlers)
+  - EventTarget.addEventListener()를 통해 다양한 요소에서 이벤트를 붙일 수 있다.
+  - removeEventListener()를 통해 이벤트를 제거 가능
+
+<br>
+
+## Event 기반 인터페이스
+
+- Animation, ClipborardEvent, DragEvent 등
+
+- 그 중에서도 
+
+  ```
+  UIEvent
+  ```
+
+  - 간단한 사용자 인터페이스 이벤트
+  - Event(최상위 객체)의 상속을 받음
+  - MouseEvent, KeyboardEvent, InputEvent, FocusEvent 등의 부모 객체 역할을 함
+
+- https://developer.mozilla.org/ko/docs/Web/Events : 이벤트 이름
+
+<br>
+
+## Event handler
+
+- 특정 이벤트가 발생하면 할 일을 등록한다.
+- EventTarget.addEventListener()
+- 지정한 이벤트가 대상에 전달될 때마다 호출할 함수를 설정
+- 이벤트를 지원하는 모든 객체(Element, Document, Window 등)를 대상으로 지정 가능
+- target.addEventListener(type, listener[, options])
+  - type : 반응 할 이벤트 유형(대소문자 구분 문자열)
+  - listener : 지정된 타입의 이벤트가 발생했을 때 알림을 받는 객체
+  - EventListener 인터페이스 혹은 JS function 객체(콜백 함수)여야 한다.
+
+<br>
+
+## addEventListner
+
+- 특정 이벤트가 발생하면, 할 일을 등록하자
+- EventTarget.addEventListener(type, listener)
+  - ex) EventTarget: 버튼, type: 클릭, listener: 새로운 그림을 보여준다.
+  - listener에는 앞에서 발생한 event가 기본 인자로 넘어온다.
+- 어디선가 함수를 실행하게 되면 반드시 브라우저는 event 객체를 넣어준다. 쓰지 않는다면 function 후에 (event)를 안넣어줘도 됨 → django에서는 안쓰더라도 url에 pk가 있으면 넣어줬어야 함
+
+### preventDefault()
+
+> - 현재 이벤트의 기본 동작을 중단
+> - 태그의 기본 동작(a 태그는 클릭시 페이지 이동, form 태그는 폼 데이터를 전송)
+> - 이벤트의 전파를 막지 않고 이벤트의 기본동작만 중단시킴
+> - ex) a태그를 클릭했다는 이벤트는 남기고 페이지 이동은 x(기본 동작을 막음)
+> - `발생하는 이벤트는 사용할 수 있다!
+
+<br>
 
 <br>
 
@@ -362,7 +610,7 @@ HTML, XML 등과 같은 문서를 다루기 위한 언어 독립적인 문서 �
 >
 >   ```python
 >   # 파이썬 조건표현식
->   
+>     
 >   x = 10
 >   hello = 'world' if 4 > x else 'hello'
 >   ```
@@ -618,7 +866,7 @@ HTML, XML 등과 같은 문서를 다루기 위한 언어 독립적인 문서 �
 >       return number%2 === 1
 >   })
 >   // [1, 3, 5]
->   
+>     
 >   arr.filter((number) => {
 >       return number%2 === 0
 >   })
@@ -702,4 +950,8 @@ HTML, XML 등과 같은 문서를 다루기 위한 언어 독립적인 문서 �
 - 자바스크립트에서는 JSON을 조작하기 위한 두 가지 내장 메서드 제공
   - JSON.parse() : JSON → 자바스크립트 객체
   - JSON.stringify() : 자바스크립트 객체 → JSON
+
+<br>
+
+<br>
 
