@@ -29,6 +29,120 @@
 
 <br>
 
+## 쿼리가 어떻게 이동되고 속도체크
+
+- django model - database access optimization 문서
+
+- django orm을 통해 QuerySet을 다룸
+
+- evaluated할 때를 통해 속도 개선을 할거임
+
+- https://github.com/jazzband/django-debug-toolbar/
+
+- https://django-debug-toolbar.readthedocs.io/en/latest/
+
+  - $ python -m pip install django-debug-toolbar
+
+  ```python
+  INSTALLED_APPS = [
+      # ...
+      'django.contrib.staticfiles',
+      # ...
+      'debug_toolbar',
+  ]
+  
+  STATIC_URL = '/static/'
+  
+  import debug_toolbar
+  from django.conf import settings
+  from django.urls import include, path
+  
+  urlpatterns = [
+      ...
+      path('__debug__/', include(debug_toolbar.urls)),
+  ]
+  
+  MIDDLEWARE = [
+      # ...
+      'debug_toolbar.middleware.DebugToolbarMiddleware',
+      # ...
+  ]
+  
+  INTERNAL_IPS = [
+      # ...
+      '127.0.0.1',
+      # ...
+  ]
+  ```
+
+- 설치를 하면 오른쪽에 툴바가 생김
+
+  - python → ORM → SQL
+  - 실제로 SQL로 어떻게 전달되는지 툴바의 SQL에서 볼 수 있다.
+  - 얼마만큼 반복되는지 나와있음(similar, duplicated) → 이것을 수정해 볼거임
+
+### query_index를 만들어서 test
+
+- annotate 사용
+
+  - Review라는 테이블에 하나의 컬럼을 추가해서 보는 역할
+
+  - ex) Review에 comment_count 컬럼을 추가해서 사용 → 이렇게 하면 comment에 추가 요청을 보낼 필요없음(댓글 수를 출력할 때)
+
+    ```python
+    from .django.db.models import Count
+    
+    reviews = Review.object.annotate(Count('comment')).order_by('-pk')
+    																	# model을 가르킴
+    # -> 쿼리 개선 부분
+    ```
+
+    ```html
+    <p>댓글수: {{review.comment__count}}</p> // -> 위의 코드를 통해 이렇게 바꿈
+    
+    // -> 하나로 나오게 하여 N+1 문제 해결
+    ```
+
+- sql join: table을 foreignkey 기준으로 묶어줌(하나로 합침)
+
+  - select_related()
+
+    ```html
+    <p>작성자: {{review.user.username}}</p> 
+    
+    // -> 이렇게 하면 또 10번의 데이터를 보냄 각각의 테이블에
+    ```
+
+    ```python
+    # select_related => FK 정참조할 때 사용
+    
+    reviews = Review.objects.select_related('user')  # 이것을 통해 해결
+    ```
+
+    Foreignkey가 설정되어 있는 곳이 정참조, innerjoin한 것
+
+    테이블을 합쳐서 하나의 테이블에서 불러오기 때문에 하나의 테이블에서 해결 가능
+
+    새로운 테이블이 생기는게 아니라 단순한 조회를 위해서 만들어지는 것(자리를 차지하는 것이 아님)
+
+  - Review → Comment 역참조
+
+    ```python
+    {% for comment in review.comment_set.all %}
+    <li> {{ comment.content }}</li>
+    {% endfor %}
+    ```
+
+    ```python
+    # prefetch_related => MTM 정참조, FK 역참조에서 사용
+    
+    reviews = Reviwew.object.prefetch_related('comment_set').order_by('-pk')
+    ```
+
+⇒ 이런 것들은 DB에 데이터가 많이 쌓여 속도저하가 느껴질때 사용
+
+- prefetch, select
+
 <br>
 
 # `05.10`
