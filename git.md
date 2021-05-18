@@ -87,7 +87,7 @@ final 프로젝트 전까지는 다루지 않을 예정
 
 <br>
 
-## 참고 지식
+## :heavy_check_mark: 참고
 
 - 처음에 git init을 하면 기본적으로 이름이 master라고 정해짐
 
@@ -201,9 +201,9 @@ git push origin master
 >
 > <hr>
 >
-> - rm -rf .git : git init 지우기
+> - `rm -rf .git` : git init 지우기
 >
-> - origin : 원격 저장소 주소 의미
+> - `origin` : 원격 저장소 주소 의미
 >
 > - main이 되는 줄기를 master라고 하고 있음
 >
@@ -211,9 +211,9 @@ git push origin master
 >
 > - git 이라는 프로그램이 기본적으로 master라는 이름을 들고 있기 때문에 master를 사용했음
 >
-> - git log --oneline - HEAD :  내가 보고 있는 데이터를 의미
+> - `git log --oneline - HEAD` :  내가 보고 있는 데이터를 의미
 >
-> - switch는 HEAD의 위치를 바꾸어줌
+> - `switch`는 HEAD의 위치를 바꾸어줌
 >
 > - [guide github](https://guides.github.com/introduction/flow/)
 >
@@ -239,7 +239,7 @@ git push origin master
 
 ### master에 수정이 없었을 때
 
-> - git switch master 합치고자 하는 것중에 더 메인인 것으로
+> - git switch master 합치고자 하는 것중에 더 메인인 것으로 (change는 brunch 이름을 말함)
 > - git merge change 병합후
 > - git branch -d change
 
@@ -272,7 +272,7 @@ git push origin master
 
 <br>
 
-## Brach 설정
+## Branch 설정
 
 - clone 받을 때 폴더 이름을 바꾸고 싶으면 맨 뒤에 폴더이름 써주면 됨
   - git2라는 폴더 : `git clone 주소 ---.git git2`
@@ -290,8 +290,8 @@ git push origin master
 
 ### merge(gitlab에서)
 
-> - 데이터 최신화는 그 브랜치에 가서 가져와야함
-> - 다른 브랜치에서 가져오려고 하면 합치려고 함
+> - **데이터 최신화는 그 브랜치에 가서 가져와야함**
+> - **다른 브랜치에서 가져오려고 하면 합치려고 함**
 > - Gitlab에서 merge할 때 충돌이 일어나면 로컬에서 수정하는 것이 좋음!
 >
 >   - 합치려고 한 부분을 pull 받아서 최신화한 후
