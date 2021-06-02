@@ -830,3 +830,5 @@
 - 둘 다 유효기간을 가지고 있다.
   - [JWT 유효기간](https://jpadilla.github.io/django-rest-framework-jwt/) - Django에서 install, url 설정, settings.py(유효시간 설정)
 
+- [jwt decoded](https://github.com/auth0/jwt-decode) : user_id, username, password 등을 알 수 있다.(vue에서 사용)
+
