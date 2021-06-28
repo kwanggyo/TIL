@@ -260,7 +260,7 @@ git push origin master
 >
 > - ex)
 >   - account / article을 각각 만들 때
->   - settings.py -> develop으로 공통
+>   - settings.py → develop으로 공통
 >   - 각각 만들고 병합
 > - git log --oneline --graph
 >   - 초록색 : 로컬 저장소의 브랜치 이름
