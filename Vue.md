@@ -832,3 +832,173 @@
 
 - [jwt decoded](https://github.com/auth0/jwt-decode) : user_id, username, password 등을 알 수 있다.(vue에서 사용)
 
+<br>
+
+# `07.16`
+
+## Vue3 변화
+
+- Element UI Plus : Vue3를 위한 UI Component 라이브러리
+
+#### 주요 변화
+
+1. 어플리케이션 인스턴스 생성
+
+   기존 new를 통해 인스턴스를 생성하던 방식에서 createApp 함수를 통해 인스턴스를 생성하는 방식으로 변경
+
+   - Vue2
+
+     ```vue
+     import Vue from 'vue';
+     import App from './App.vue';
+     
+     new Vue({
+     	render: h => h(App),
+     }).$mount('#app');
+     ```
+
+   - Vue3
+
+     ```vue
+     import {createApp} from 'vue';
+     import App from './App.vue';
+     createApp(App).mount('#app');
+     ```
+
+2. Fragments
+
+   기존의 template 정의 시, 단일 루트 요소가 존재하지 않으면 template을 정의할 수 없었는데 단일 루트 요소가 없어도(여러 개여도) 아래와 같이 template의 선언이 가능하다.
+
+   ```vue
+   <template>
+   	<div>
+           <h2>제목</h2>
+       </div>
+   	<div>
+           <p>내용</p>
+       </div>
+   </template>
+   ```
+
+3. Composition API
+
+   - 더 논리적 관심사로 코드를 구성하고 코드 가독성과 유지보수의 용이성, 재사용성을 높이기 위해 도입되었다. → 기존의 data, method 등의 작성 방식이 변화했다.
+
+   - Vue2에서는 props, data, method가 같은 레벨(depth)에서 선언이 가능하고 data를 Object로 선언 가능했지만 Vue3에서는 Composition API인 setup()을 활용하여 선언한다.
+
+   - 기존의 data, methods의 사용이 가능하나 data는 함수로만 선언 가능하다.
+
+     - Vue2
+
+       ```vue
+       export default {
+         date () {
+           return {
+             viewType: 'map',
+             selectAllFloor: false,
+             ...
+           }
+         }
+         mehtods: {
+           const _changeViewType (type) {
+           ...
+         }
+         const _bodyLoading (isLoading) {
+           ...
+         }
+         }
+       }
+       ```
+
+     - Vue3
+
+       ```vue
+       export default {
+         setup () {
+           const state = reactive({
+             viewType: 'map',
+             selectAllFloor: false,
+             ...
+           })
+           const _changeViewType (type) {
+             ...
+           }
+           const _bodyLoading (isLoading) {
+             ...
+           }
+           return {
+             state, _changeViewType, _bodyLoading
+           }
+         }
+       }
+       ```
+
+4. Composition API 내 Vue3 라이프사이클 훅 접근
+
+   - "on"을 추가하여 컴포넌트의 라이플사이클에 접근할 수 있다.
+
+     ```vue
+     export default {
+       setup () {
+         onBeforeMount (() => {
+           ...
+         })
+         onUpdated(() => {
+           ...
+         })
+         return {
+           ...
+         }
+       }
+     }
+     ```
+
+5. this에서 props와 emit을 분리
+
+   - this로 가독성이 떨어지는 것을 방지하기 위해 props와 emit을 this로 접근하지 않는다.
+
+   - Composition API의 setup()에서 props와 emit을 명식적으로 전달 인자로 선언해야만 한다.
+
+     - Vue2
+
+       ```vue
+       props: ['initialCounter'],
+       data: function () {
+         return {
+           counter.this.initialCounter
+         }
+       }
+       
+       _show() {
+         this.$emit('update:title', newTitle)
+       }
+       ```
+
+     - Vue3
+
+       ```vue
+       export default {
+         props: {
+           title:String
+         },
+         setup(props) {
+           console.log(pops.title)
+         }
+       }
+       
+       export default {
+         setup(props, { emit }) {
+           ...
+         }
+       }
+       ```
+
+6. Element Plus
+
+   - 기존의 Element가 Element Plus로 새롭게 릴리즈 되었다.
+
+7. Vuex
+
+   - Vue3가 대응 되는 Vuex4
+   - 여러 컴포넌트들의 상태 관리를 중앙 집중식으로 (공통으로) 처리하기 위한 상태 관리 패턴 라이브러리입니다.
+   - 주로 대규모 SPA을 구축하는 일에 사용
