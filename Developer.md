@@ -300,3 +300,87 @@ MSA(Micro Service Architecture)의 근간이 된다.
   - 예를 들어 데이터를 연속적으로 가져갈 때(ex. 3초에 한번씩)의 경우 트래픽 높아질 확률이 높기 때문에, 불법적인 예시 중 하나로 IP를 바꿔가며 스크래핑하는 경우가 있다.
   - 대체로 부하를 분산시키는 방법으로 처리한다.
 
+<br>
+
+<br>
+
+# `07.30`
+
+# 코드품질
+
+## 코딩 규칙(Coding Convention)
+
+- 프로그래밍 스타일
+
+- 관행 및 방법
+
+- 소스 코드의 가독성을 개선
+
+- 유지보수를 용이
+
+- 공식화 할 수 있고 비공식적으로 할 수도 있다.
+
+- 컴파일로 잡아주는 것은 아님
+
+- 규칙을 정해주는 것들
+  - 파일구성(file organization)
+  - 들여쓰기(indention)
+  - 주석(comments)
+  - 선언(declarations)
+  - 명령문(statements)
+  - 공백(white space)
+  - 명명규칙(naming convention)
+  - 프래그래밍 관행(programming practices)
+  - 프로그래밍 원칙(programing principles)
+  - 아키텍쳐 모범 사례
+
+## Case Type
+
+- UPPER_SNAKE
+
+- kebab-case
+
+- lower_snake
+
+- UpperCamelCase
+
+- lowerCamelCase
+
+- PascalCase
+
+## 또 다른
+
+- 들여쓰기(indent)
+  - Space vs Tabs
+  - 2칸, 3칸, 4칸, ...
+
+- 중괄호(Brace)
+  - 옆 vs 밑
+
+### 코드 확인할 때
+
+- White space changes 체크
+
+- 잘 맞춰줘야 확인할 때 좋음
+
+<br>
+
+# AWS 설정 팁
+
+## SSH 접속
+
+- Putty
+- MobaXterm
+  - 한번 서버에 접속하게 되면 다시 켰을때 저장 되어있음
+
+## DB 설정
+
+- MySQL
+  - AWS 호스트에 설치가 됨 → 도커 컨테이너에 접속할 필요 없이 host에서 MySQL 접속, 이용 가능
+  - 외부에서 접속하기 위해서는 설정 필요(net tools)
+  - - 권한 부여를 해줘야 접근 가능
+  - SSH tunneling : SSH 포트를 통한 접근
+- Docker MySQL
+  - 컨테이너에 접속해야한다.
+  - 다른 설정 없이 외부에서 바로 접속 가능
+
