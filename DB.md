@@ -27,3 +27,39 @@
    고정된 값을 사용할 거면 CHAR가 좋음
 
    ex) 핸드폰 번호, 주민등록번호, 우편번호 등
+
+<br>
+
+<br>
+
+# `08.11`
+
+## DATABASE
+
+의미 있게 구조화하여 저장된 정보
+
+### Relational Database
+
+Atomicity, Consistency, Isolation, Durability
+
+Normalization - 1NF, 2NF, 3NF
+
+Scalability(Scale-up, not scale out)
+
+ANSI SQL문법, JOIN 기능
+
+모델링 경직, 비 효율적인 공간활용, 빅데이터에 비효율적
+
+- PostgreSQL, MySQL, SQL Server, ORACLE
+
+### NewSQL
+
+RDB와 NoSQL의 장점을 합침
+
+Partitioning/ShardingConcurrency Control
+
+Replication
+
+Crash Recovery
+
+- nuoDB, CockroachDB
