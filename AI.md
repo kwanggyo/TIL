@@ -54,3 +54,27 @@ AI의 측면 : 학습자료(Big Data), 학습방법(Machine Learning Techniques)
 2. 비용 효율성 : 여러 사람이 해야할일을 기계가 처리, 24시간 365일 업무를 진행
 3. 객관성 유지 : 항상 같은 기준으로 분석/판단을 수행
 4. 진화 : 인간이 미처 발견하지 못한 데이터의 특성을 인지
+
+<br>
+
+# `09.07`
+
+# 인공지능 PJT
+
+## 딥러닝
+
+데이터 셋 → 트레이닝 → 모델 → 추론
+
+중요한 것은 트레이닝, 추론
+
+## Techable Machine
+
+- 만들어진 모델을 가지고 주어진 인풋을 통해 모델을 만들 수 있다.
+- https://teachablemachine.withgoogle.com/
+  - 이미지 프로젝트
+  - 오디오 프로젝트
+  - 포즈 프로젝트
+
+## Tensorflow.js
+
+https://www.tensorflow.org/js?hl=ko
