@@ -833,3 +833,23 @@ Django, Flask, FastAPI
 |      | 내장된 ORM         | SQLAlchemy, PonyORM | SQAlchemy                     |
 |      | 지원하지 않음      | Flask-PyMong        | Pydantic                      |
 
+<br>
+
+<br>
+
+# `09.13`
+
+## 암호화의 핵심
+
+- 안에 있는 내용을 가져가거나 봤을 때에도 사용할 수 없도록 하는 것
+
+- 일반적인 네트워크 통신은 안전하지 않다라고 생각(네트워크 스니핑)
+
+- 단순 token으로 인증을 수행하는 구조에서는 클라이언트(브라우저)와 웹서버 구간을 암호화 하는 건 필수 → `HTTPS 통신은 필수` → SSL 인증서 작업은 이런 이유로 진행이 필요하다.
+
+- Fiddler, Wireshark : http 네트워크 요청 내용을 모니터링 할 수 있다.
+
+- Postman : http 요청을 쉽게 생성하여 보낼 수 있다.
+
+  → 여러번 네트워크 요청을 보내서 합쳐보면 토큰을 알 수 있고 이를 이용하여 Postman으로 호출 시 private한 정보가 그대로 보인다.
+
