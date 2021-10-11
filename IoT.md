@@ -79,3 +79,17 @@ TPU ↔ 클라우드
 
 - TESLA → AI Day
 - D1 칩 공개
+
+<br>
+
+# `10.11`
+
+# lIoT
+
+- Industrial IoT(lloT, 산업 사물 인터넷)
+- 제조, 에너지, 기타 산업용으로 사용되는 IoT 기술
+
+## SW 개발 주도  lIoT
+
+- SAMSUNG SDS : Brightics IoT
+- LG : INFioT
