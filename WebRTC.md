@@ -80,3 +80,19 @@ WebRTC를 예로 들면 미디어 데이터를 1:1로 보내준다고 했을 때
 ## Kurento 미디어 서버
 
 WebRTC의 사양이 모두 구현된 WebRTC 미디어 서버와 클라이언트 API를 제공하는 패키지로 WebRTC 화상 어플리케이션의 개발을 가능하게 하는 오픈 소스이다.
+
+<br>
+
+### RTSP
+
+**Real Time Streaming Protocol** : 실시간 멀티미디어 스트림을 제어하기 위한 프로토콜
+
+### VLC
+
+미디어 플레이어
+
+### WSL
+
+**Windows Subsystem for Linux** : Linux용 Windows 하위 시스템
+
+개발자가 기존 가상 머신의 오버헤드 또는 듀얼 부팅 설정 없이 대부분의 명령줄 도구, 유틸리티 및 애플리케이션을 비롯한 GNU/Linux 환경을 수정하지 않고 Windows에서 직접 실행할 수 있다.
