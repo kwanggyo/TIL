@@ -96,3 +96,11 @@ WebRTC의 사양이 모두 구현된 WebRTC 미디어 서버와 클라이언트 
 **Windows Subsystem for Linux** : Linux용 Windows 하위 시스템
 
 개발자가 기존 가상 머신의 오버헤드 또는 듀얼 부팅 설정 없이 대부분의 명령줄 도구, 유틸리티 및 애플리케이션을 비롯한 GNU/Linux 환경을 수정하지 않고 Windows에서 직접 실행할 수 있다.
+
+<br>
+
+# OpenVidu 연결
+
+공식 문서 : https://docs.openvidu.io/en/2.20.0/deployment/ce/on-premises/
+
+공식 문서를 참고하여 설치 + SSL 인증서 발급(https://certbot.eff.org/)
