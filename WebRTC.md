@@ -104,3 +104,101 @@ WebRTC의 사양이 모두 구현된 WebRTC 미디어 서버와 클라이언트 
 공식 문서 : https://docs.openvidu.io/en/2.20.0/deployment/ce/on-premises/
 
 공식 문서를 참고하여 설치 + SSL 인증서 발급(https://certbot.eff.org/)
+
+### 채팅 구현
+
+**joinSession()**
+
+```javascript
+// 메세지를 받는 부분(채팅)
+      this.session.on('signal:chat', (event) => {
+        const eventData = JSON.parse(event.data)
+        this.messages.push(eventData)
+        console.log('메세지 내용 출력', this.messages)
+        if (!this.chatOpen) {
+          this.message = 0
+          this.messageLength++
+        }
+        // 스크롤이 자동으로 맞춰서 내려가게 한다
+        setTimeout(() => {
+          const chatDiv = document.getElementById('chat-div')
+          chatDiv.scrollTo({
+            top: chatDiv.scrollHeight,
+            behavior: 'smooth'
+          })
+        }, 50)
+      })
+```
+
+**함수 추가**
+
+```javascript
+// 메세지 보내는 함수(채팅)
+    sendMessage () {
+      const messageData = {
+        content: this.message,
+        from: this.myUserName
+      }
+      this.message = ''
+      this.session.signal({
+        data: JSON.stringify(messageData), // Any string (optional)
+        to: [], // Array of Connection objects (optional. Broadcast to everyone if empty)
+        type: 'chat' // The type of message (optional)
+      })
+    },
+		// 메세지 알림(숫자)
+    CountMessage () {
+      this.chatOpen = !this.chatOpen
+      if (this.chatOpen === true) {
+        this.messageLength = '0'
+      }
+      console.log(this.chatOpen)
+    },
+```
+
+**Template**
+
+```html
+<div id="chat-div" style="height:300px; overflow:scroll;">
+          <v-expansion-panels>
+          <v-expansion-panel>
+            <v-expansion-panel-header class="font-weight-bold" style="font-size: 20px; height: 60px" @click="CountMessage">
+              채팅
+              <template v-slot:actions>
+                <v-badge
+                  color="green"
+                  :content="messageLength"
+                >
+                  <v-icon color="#FFB4B4">
+                    fas fa-comment
+                  </v-icon>
+                </v-badge>
+              </template>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content v-for="(message, i) in messages" :key="i">
+              <div v-if="message.from == myUserName" class="my-massage">
+                <v-avatar color="brown" size="32">
+                  <span class="white--text text-h5">KG</span>
+                </v-avatar>
+                <span class="font-weight-bold" style="margin: 0px 3px">{{ message.from }}</span>
+                <span>{{ message.content }}</span>
+              </div>
+              <div v-else class="your-massage">
+                <v-avatar color="pink" size="32">
+                  <span class="white--text text-h5">WH</span>
+                </v-avatar>
+                <span class="font-weight-bold" style="margin: 0px 3px">{{ message.from }}</span>
+                <span>{{ message.content }}</span>
+              </div>
+            </v-expansion-panel-content>
+            <v-expansion-panel-content>
+              <div>
+                <input style="width: 528px" v-model="message" type="text" placeholder="내용을 입력해주세요.." @keydown.enter="sendMessage">
+                <v-icon style="width: 24px">fas fa-location-arrow</v-icon>
+              </div>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
+        </div>
+```
+
