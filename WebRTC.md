@@ -211,6 +211,8 @@ kms를 따로 설치할 필요 없이 공식문서를 따라가면 알아서 설
 
 ## Face-api
 
+### OvVideo에서 구현
+
 ```vue
 <template>
   <div class="test_video">
@@ -300,3 +302,114 @@ export default ({
 
 - 얼굴 인식 후 랜드마크를 찍어서 보여주는 코드
 - 하나에 템플릿이 아니라 자식에 작성하다보니 absolute 관련해서 원하는 대로 움직이지 않는다..
+
+### UserVideo로 합치기
+
+```vue
+<template>
+  <div v-if="streamManager" id="video-div">
+    <!-- <ov-video :stream-manager="streamManager"/> -->
+      <div id="canvas"></div>
+      <video id="user_video" autoplay :width="videoWidth" :height="videoHeight"/>
+    <div><p>{{ clientData }}</p></div>
+  </div>
+</template>
+
+<script>
+import OvVideo from './OvVideo'
+import * as faceapi from 'face-api.js'
+import { resizeResults } from 'face-api.js';
+// import * as faceapi from 'face-api.js'
+export default {
+  name: 'UserVideo',
+
+  components: {
+    OvVideo
+  },
+  data: () => ({
+    videoWidth: '100%',
+    videoHeight: '100%',
+    canvasWidth: 600,
+    canvasHeight: 400,
+  }),
+
+  props: {
+    streamManager: Object
+  },
+  watch: {
+    streamManager () {
+      this.streamManager.addVideoElement(document.querySelector("#user_video"))
+      // this.streamManager.addVideoElement(this.$el)
+    }
+  },
+  mounted () {
+    this.videoWidthSelect()
+    // this.streamManager.addVideoElement(this.$el)
+    const video = document.querySelector("#user_video")
+    Promise.all([
+      faceapi.nets.ssdMobilenetv1.loadFromUri('/weights'),
+      faceapi.nets.faceLandmark68Net.loadFromUri('/weights'),
+      faceapi.nets.faceRecognitionNet.loadFromUri('/weights'),
+      // faceapi.nets.tinyFaceDetectory.loadFromUri('/weights')
+    ]).then(()=>{
+      this.streamManager.addVideoElement(video)
+    })
+    if (document.querySelector("canvas")) {
+        document.querySelector("canvas").remove()};
+
+    video.addEventListener('play', () => {
+      const canvas = faceapi.createCanvasFromMedia(video)
+      document.querySelector('#canvas').append(canvas)
+      const displaySize = { width: this.canvasWidth, height: this.canvasHeight }
+      faceapi.matchDimensions(canvas, displaySize)
+      setInterval(async () => {
+        const detections = await faceapi.detectAllFaces(video)
+        // console.log(detections)
+        const resizeDetections = faceapi.resizeResults(detections, displaySize)
+        canvas.getContext('2d').clearRect(0, 0, canvas.width , canvas.height)
+        // console.log(canvas)
+        faceapi.draw.drawDetections(canvas, resizeDetections)
+        // faceapi.draw.drawFaceLandmarks(canvas, resizeDetections)
+      })
+    }, 100)
+  },
+  methods: {
+    videoWidthSelect () {
+      if (this.streamManager.stream.connection.role === 'SUBSCRIBER') {
+        this.videoWidth = '30%'
+        this.videoHeight = '30%'
+        this.canvasWidth = 180
+        this.canvasHeight = 120
+      }
+    },
+    getConnectionData () {
+      const { connection } = this.streamManager.stream
+      return JSON.parse(connection.data)
+    }
+  },
+  computed: {
+    clientData () {
+      const { clientData } = this.getConnectionData()
+      return clientData
+    },
+  },
+}
+</script>
+
+<style scoped>
+  #video-div {
+    position: relative;
+  }
+  #canvas {
+    position: absolute;
+    top: 0;
+  }
+  /* #user_video {
+    position: relative;
+  } */
+</style>
+```
+
+- 앱솔루트를 통해서 영상 위에 인식이 되도록 띄웠지만 한명의 영상은 안나오는 문제 발생
+- 얼굴 인식이 영상 위와 밑에 div를 만들어서 2개가 되는 문제 발생
+
