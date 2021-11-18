@@ -413,3 +413,66 @@ export default {
 - 앱솔루트를 통해서 영상 위에 인식이 되도록 띄웠지만 한명의 영상은 안나오는 문제 발생
 - 얼굴 인식이 영상 위와 밑에 div를 만들어서 2개가 되는 문제 발생
 
+## Openvidu Filter
+
+```js
+createToken (sessionId) {
+      console.log('createToken함수 실행 시 들어가는 sessionId: ', sessionId) // 삭제 예정
+      return new Promise((resolve, reject) => {
+        axios
+          .post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}/connection`, JSON.stringify({
+            session: sessionId,
+            type: 'WEBRTC',
+            role: 'PUBLISHER',
+            kurentoOptions: {
+              allowedFilters: ['GStreamerFilter', 'FaceOverlayFilter']
+            }
+          }),
+          {
+            auth: {
+              username: 'OPENVIDUAPP',
+              password: OPENVIDU_SERVER_SECRET
+            }
+          })
+          .then(response => response.data)
+          .then(data => resolve(data.token))
+          .catch(error => reject(error.response))
+      })
+    },
+```
+
+- 토큰 발급에 필터 허용 추가
+
+```js
+ApplyFilter () {
+      this.publisher.stream.applyFilter('FaceOverlayFilter')
+        .then(filter => {
+          filter.execMethod(
+            'setOverlayedImage',
+            {
+              uri: 'https://blog.kakaocdn.net/dn/bTEhUV/btqECug9iOs/mxgZUk4MLJVCK3xtcNe6NK/img.jpg',
+              offsetXPercent: '0F',
+              offsetYPercent: '0F',
+              widthPercent: '1.3F',
+              heightPercent: '1.3F'
+            })
+        })
+    },
+    RemoveFilter () {
+      this.publisher.stream.removeFilter()
+        .then(() => {
+          console.log('Filter removed')
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    }
+```
+
+- 필터 적용 / 삭제
+
+### 문제점
+
+1. 필터가 적용되는 화면을 나 자신한테는 보이지 않고 상대방한테만 보인다.
+2. 얼굴을 인식하는 것이 자주 끊긴다 → 사용하기 힘들듯(쿠렌토 이용해서 인식하는 것을 이용해서 인식률을 높이려면 어떻게 해야할지 모르겠다..)
+
